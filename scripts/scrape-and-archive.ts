@@ -19,6 +19,7 @@ const DIRS = {
   logos: path.join(ASSETS_DIR, "logos"),
   banners: path.join(ASSETS_DIR, "banners"),
   news: path.join(ASSETS_DIR, "news"),
+  documents: path.join(ASSETS_DIR, "documents"),
   faculty: path.join(ASSETS_DIR, "faculty"),
   facilities: path.join(ASSETS_DIR, "facilities"),
   data: DATA_DIR,
@@ -53,7 +54,7 @@ async function pMap<T, R>(
 }
 
 // Fetch helper with timeout and User-Agent
-async function fetchWithRetry(url: string, retries = 1): Promise<Response | null> {
+async function fetchWithRetry(url: string, retries = 1, timeoutMs = 15000): Promise<Response | null> {
   const fullUrl = url.startsWith("http") ? url : `${BASE_URL}/${url.replace(/^\/+/, "")}`;
   for (let i = 0; i <= retries; i++) {
     try {
@@ -62,7 +63,7 @@ async function fetchWithRetry(url: string, retries = 1): Promise<Response | null
           "User-Agent":
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         },
-        signal: AbortSignal.timeout(8000),
+        signal: AbortSignal.timeout(timeoutMs),
       });
       if (res.ok) return res;
     } catch {
@@ -97,7 +98,7 @@ async function downloadAsset(
     return fallback;
   }
 
-  const cleanRemote = remoteUrl.trim().replace(/^\\+/, "").replace(/\\/g, "/");
+  const cleanRemote = remoteUrl.trim().replace(/^\/+/, "").replace(/\\/g, "/");
   const parsedFilename = path.basename(cleanRemote).split("?")[0] || "asset.png";
   const finalFilename = preferredName
     ? `${preferredName}${path.extname(parsedFilename) || ".png"}`
@@ -128,6 +129,59 @@ async function downloadAsset(
 
   // Ensure we never return a path to a non-existent file
   return fallback;
+}
+
+// Helper to download document/PDF files and save to disk
+async function downloadDocument(
+  remoteUrl: string,
+  targetDir: string,
+  preferredName?: string
+): Promise<string | undefined> {
+  if (!remoteUrl || remoteUrl.trim() === "" || remoteUrl.startsWith("data:")) {
+    return undefined;
+  }
+
+  const cleanRemote = remoteUrl.trim().replace(/^\/+/, "").replace(/\\/g, "/");
+  const fullUrl = cleanRemote.startsWith("http")
+    ? cleanRemote
+    : `${BASE_URL}/${cleanRemote.replace(/^\/+/, "")}`;
+
+  let parsedFilename = path.basename(cleanRemote).split("?")[0] || "document.pdf";
+  if (!parsedFilename.toLowerCase().endsWith(".pdf")) {
+    parsedFilename = `${parsedFilename}.pdf`;
+  }
+
+  const finalFilename = preferredName
+    ? `${preferredName}${path.extname(parsedFilename) || ".pdf"}`
+    : parsedFilename;
+  const targetPath = path.join(targetDir, finalFilename);
+
+  // Return public asset path relative to /public
+  const relativePublicPath = targetPath.replace(PUBLIC_DIR, "").replace(/\\/g, "/");
+
+  if (fs.existsSync(targetPath)) {
+    const stat = fs.statSync(targetPath);
+    if (stat.size > 0) {
+      return relativePublicPath;
+    }
+  }
+
+  try {
+    const res = await fetchWithRetry(fullUrl, 2, 25000);
+    if (res && res.ok) {
+      const buffer = await res.arrayBuffer();
+      if (buffer.byteLength > 0) {
+        fs.writeFileSync(targetPath, Buffer.from(buffer));
+        if (fs.existsSync(targetPath)) {
+          return relativePublicPath;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn(`  ⚠️ Failed to download document ${fullUrl}:`, err);
+  }
+
+  return undefined;
 }
 
 // Phone parsing helper avoiding duplicate full numbers as extensions
@@ -415,9 +469,15 @@ async function scrapeNews(): Promise<{ news: NewsItem[]; categories: { id: strin
             if (dMatch) item.date = dMatch[0];
           }
 
-          const pdfHref = $("#cont_file_pbn a").attr("href");
+          const pdfHref =
+            $("#cont_file_pbn a").attr("href") ||
+            $("a[href*='.pdf']").attr("href") ||
+            $("a[href*='/document/']").attr("href");
           if (pdfHref) {
-            item.pdfUrl = pdfHref.startsWith("http") ? pdfHref : `${BASE_URL}/${pdfHref.replace(/^\/+/, "")}`;
+            const localDoc = await downloadDocument(pdfHref, DIRS.documents);
+            if (localDoc) {
+              item.pdfUrl = localDoc;
+            }
           }
 
           const imgSrc = $("#cont_img_pbn img").attr("src") || item.thumbnail;

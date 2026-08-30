@@ -57,3 +57,27 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 107, 0, 0.6);
 }
+
+/* Swiper custom bullet styles */
+.hero-bullet {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hero-bullet:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-bullet-active {
+  width: 28px;
+  border-radius: 9999px;
+  background-color: #FF6B00;
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);
+}
+

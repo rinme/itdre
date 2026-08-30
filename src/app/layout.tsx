@@ -14,6 +14,7 @@ const mitr = Mitr({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://itd.kmutnb.ac.th"),
   title: "คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มจพ. | ITD KMUTNB",
   description: "Faculty of Information Technology and Digital Innovation, King Mongkut's University of Technology North Bangkok",
   icons: {

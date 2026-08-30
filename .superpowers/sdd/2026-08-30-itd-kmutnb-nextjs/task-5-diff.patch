@@ -1,0 +1,12 @@
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index 39e0ee4..ca7d93e 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -14,6 +14,7 @@ const mitr = Mitr({
+ });
+ 
+ export const metadata: Metadata = {
++  metadataBase: new URL("https://itd.kmutnb.ac.th"),
+   title: "คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มจพ. | ITD KMUTNB",
+   description: "Faculty of Information Technology and Digital Innovation, King Mongkut's University of Technology North Bangkok",
+   icons: {

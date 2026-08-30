@@ -1,0 +1,1251 @@
+diff --git a/.superpowers/sdd/2026-08-30-itd-kmutnb-nextjs/progress.md b/.superpowers/sdd/2026-08-30-itd-kmutnb-nextjs/progress.md
+index 659313e..e05e31c 100644
+--- a/.superpowers/sdd/2026-08-30-itd-kmutnb-nextjs/progress.md
++++ b/.superpowers/sdd/2026-08-30-itd-kmutnb-nextjs/progress.md
+@@ -12,4 +12,4 @@
+ 
+ ## Execution Progress
+ - Task 1: complete (commits f1859d4..9eec5c8, review clean)
+-- Task 2: complete (commits 9eec5c8..94cd579, review clean)
++- Task 2: complete (commits 9eec5c8..8db54ac, review clean after fix round 1)
+diff --git a/.superpowers/sdd/2026-08-30-itd-kmutnb-nextjs/task-3-brief.md b/.superpowers/sdd/2026-08-30-itd-kmutnb-nextjs/task-3-brief.md
+new file mode 100644
+index 0000000..3fbc67c
+--- /dev/null
++++ b/.superpowers/sdd/2026-08-30-itd-kmutnb-nextjs/task-3-brief.md
+@@ -0,0 +1,38 @@
++# Task 3: Shared Layout Components (TopHeader, MainNavbar, Footer)
++
++**Files:**
++- Create: `src/components/layout/TopHeader.tsx`
++- Create: `src/components/layout/MainNavbar.tsx`
++- Create: `src/components/layout/Footer.tsx`
++- Modify: `src/app/layout.tsx`
++- Modify: `src/app/globals.css` (if needed for animations / navbar styling)
++- Test: `bun run build`
++
++**Global Constraints:**
++- Must use Bun as the package manager and runtime.
++- Must use local assets from `public/assets/` without external hotlinks.
++- Brand colors: Primary Orange (`#FF6B00` / `#E8501E`), Deep Dark (`#222222`), Clean Light Surface (`#F8F9FA`).
++- Typography: Google Font `Mitr` + `sans-serif`.
++- Zero TypeScript and lint errors on `bun run build`.
++
++**Instructions:**
++1. Implement `TopHeader.tsx` (Client component or Server component with Client interactivity):
++   - ITD KMUTNB Logo Header (`/assets/logos/Logo-Header.png`) linking to `/`.
++   - Bilingual language selector toggle (TH / EN) with active indicator.
++   - Social channels: Facebook, Line OA, Contact button.
++   - Quick access button bar (E-services, Downloads, MTD).
++2. Implement `MainNavbar.tsx`:
++   - Sticky navbar styled with brand colors (Primary Orange accents, deep dark dropdown backgrounds).
++   - Desktop dropdown menus reading navigation structure from `src/data/navigation.ts` (Home, News categories, Personnel, Programs, About & Facilities, Services).
++   - Responsive mobile navigation bar with hamburger menu toggle and animated slide-in drawer.
++   - Mobile accordion navigation allowing expanding/collapsing category links.
++   - Search trigger button with expandable search bar or modal.
++3. Implement `Footer.tsx`:
++   - Official faculty footer with KMUTNB & ITD branding, address, phone directory, and email.
++   - Quick navigation links grouped by academic levels, e-services, and university portals.
++   - Social media links and copyright notice.
++4. Update `src/app/layout.tsx`:
++   - Wrap the main page content inside `<TopHeader />`, `<MainNavbar />`, `<main className="flex-1">`, and `<Footer />`.
++5. Run `bun run build` to verify 0 errors.
++6. Commit your work with `git add . && git commit -m "feat: implement TopHeader, MainNavbar, and Footer layout components"`.
++7. Write your report to `/home/rinme/project/itdre/.superpowers/sdd/2026-08-30-itd-kmutnb-nextjs/task-3-report.md`.
+diff --git a/src/app/globals.css b/src/app/globals.css
+index 3bf6c62..db0f516 100644
+--- a/src/app/globals.css
++++ b/src/app/globals.css
+@@ -11,3 +11,49 @@ body {
+   color: var(--foreground);
+   background: var(--background);
+ }
++
++@keyframes fadeIn {
++  from {
++    opacity: 0;
++  }
++  to {
++    opacity: 1;
++  }
++}
++
++@keyframes scaleIn {
++  from {
++    opacity: 0;
++    transform: scale(0.97);
++  }
++  to {
++    opacity: 1;
++    transform: scale(1);
++  }
++}
++
++.animate-fade-in {
++  animation: fadeIn 0.2s ease-out forwards;
++}
++
++.animate-scale-in {
++  animation: scaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
++}
++
++/* Custom subtle scrollbar */
++.custom-scrollbar::-webkit-scrollbar {
++  width: 5px;
++}
++
++.custom-scrollbar::-webkit-scrollbar-track {
++  background: rgba(0, 0, 0, 0.2);
++}
++
++.custom-scrollbar::-webkit-scrollbar-thumb {
++  background: rgba(255, 255, 255, 0.2);
++  border-radius: 4px;
++}
++
++.custom-scrollbar::-webkit-scrollbar-thumb:hover {
++  background: rgba(255, 107, 0, 0.6);
++}
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index aff90b0..39e0ee4 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -1,6 +1,10 @@
+ import type { Metadata } from "next";
+ import { Mitr } from "next/font/google";
+ import "./globals.css";
++import { LanguageProvider } from "@/context/LanguageContext";
++import TopHeader from "@/components/layout/TopHeader";
++import MainNavbar from "@/components/layout/MainNavbar";
++import Footer from "@/components/layout/Footer";
+ 
+ const mitr = Mitr({
+   weight: ["200", "300", "400", "500", "600", "700"],
+@@ -10,7 +14,7 @@ const mitr = Mitr({
+ });
+ 
+ export const metadata: Metadata = {
+-  title: "ITD - Faculty of Information Technology and Digital Innovation, KMUTNB",
++  title: "คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มจพ. | ITD KMUTNB",
+   description: "Faculty of Information Technology and Digital Innovation, King Mongkut's University of Technology North Bangkok",
+   icons: {
+     icon: "/assets/logos/logo-favicon.png",
+@@ -24,8 +28,15 @@ export default function RootLayout({
+ }>) {
+   return (
+     <html lang="th" className={mitr.variable}>
+-      <body className="font-sans antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col">
+-        {children}
++      <body className="font-sans antialiased bg-[#F8F9FA] text-gray-900 min-h-screen flex flex-col selection:bg-brand-orange selection:text-white">
++        <LanguageProvider>
++          <TopHeader />
++          <MainNavbar />
++          <main className="flex-1 flex flex-col">
++            {children}
++          </main>
++          <Footer />
++        </LanguageProvider>
+       </body>
+     </html>
+   );
+diff --git a/src/app/page.tsx b/src/app/page.tsx
+index 6fc0a7a..841cc8f 100644
+--- a/src/app/page.tsx
++++ b/src/app/page.tsx
+@@ -1,8 +1,10 @@
++import React from "react";
++
+ export default function HomePage() {
+   return (
+-    <main className="flex-1 flex flex-col items-center justify-center p-8 text-center">
++    <div className="flex-1 flex flex-col items-center justify-center p-8 sm:p-16 text-center">
+       <div className="max-w-2xl mx-auto space-y-6">
+-        <div className="inline-block px-4 py-1.5 rounded-full bg-orange-100 text-brand-orange text-sm font-semibold tracking-wide">
++        <div className="inline-block px-4 py-1.5 rounded-full bg-orange-100 text-brand-orange text-sm font-semibold tracking-wide shadow-xs">
+           คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มจพ.
+         </div>
+         <h1 className="text-4xl sm:text-5xl font-bold text-brand-dark tracking-tight">
+@@ -26,6 +28,6 @@ export default function HomePage() {
+           </a>
+         </div>
+       </div>
+-    </main>
++    </div>
+   );
+ }
+diff --git a/src/components/layout/Footer.tsx b/src/components/layout/Footer.tsx
+new file mode 100644
+index 0000000..848d162
+--- /dev/null
++++ b/src/components/layout/Footer.tsx
+@@ -0,0 +1,237 @@
++"use client";
++
++import React from "react";
++import Link from "next/link";
++import Image from "next/image";
++import { footerNav } from "@/data/navigation";
++import { useLanguage } from "@/context/LanguageContext";
++import {
++  MapPin,
++  Phone,
++  Mail,
++  ExternalLink,
++  ChevronRight,
++  ArrowUp,
++  Globe,
++  ShieldCheck,
++  FileCheck
++} from "lucide-react";
++
++export default function Footer() {
++  const { language, t } = useLanguage();
++
++  const scrollToTop = () => {
++    window.scrollTo({
++      top: 0,
++      behavior: "smooth",
++    });
++  };
++
++  const currentYear = new Date().getFullYear();
++
++  return (
++    <footer className="w-full bg-[#161616] text-gray-300 border-t-4 border-brand-orange mt-auto relative z-30">
++      {/* Top Bar / Quick Accent Bar */}
++      <div className="border-b border-neutral-800 bg-[#121212]">
++        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
++          <div className="flex items-center gap-3 text-center sm:text-left">
++            <span className="w-2.5 h-2.5 rounded-full bg-brand-orange animate-pulse" />
++            <span className="text-xs sm:text-sm text-gray-300 font-medium">
++              {t(
++                "คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ",
++                "Faculty of Information Technology and Digital Innovation, KMUTNB"
++              )}
++            </span>
++          </div>
++
++          <button
++            type="button"
++            onClick={scrollToTop}
++            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-gray-300 hover:text-white text-xs font-medium transition-colors border border-neutral-700 shadow-sm"
++            aria-label="Scroll back to top"
++          >
++            <ArrowUp className="w-3.5 h-3.5 text-brand-orange" />
++            <span>{t("กลับขึ้นด้านบน", "Back to top")}</span>
++          </button>
++        </div>
++      </div>
++
++      {/* Main Footer Directory */}
++      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
++        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
++          {/* Column 1: Faculty Info & Contact (Span 5 cols on desktop) */}
++          <div className="lg:col-span-4 space-y-6">
++            <Link href="/" className="inline-block group">
++              <div className="relative h-12 w-48 sm:w-56">
++                <Image
++                  src="/assets/logos/Logo-Footer.png"
++                  alt="Faculty of Information Technology and Digital Innovation, KMUTNB"
++                  fill
++                  sizes="(max-width: 640px) 192px, 224px"
++                  className="object-contain object-left invert brightness-200 contrast-200"
++                />
++              </div>
++            </Link>
++
++            <p className="text-xs text-gray-400 leading-relaxed">
++              {t(
++                "มุ่งมั่นผลิตบัณฑิต วิจัย และพัฒนานวัตกรรมด้านเทคโนโลยีสารสนเทศและดิจิทัลที่มีคุณภาพสูง สอดคล้องกับความต้องการของสังคมและภาคอุตสาหกรรมในระดับสากล",
++                "Dedicated to cultivating high-caliber graduates, research, and innovation in information technology and digital innovation meeting international standards and industry demands."
++              )}
++            </p>
++
++            <div className="space-y-2.5 text-xs text-gray-300">
++              <div className="flex items-start gap-2.5">
++                <MapPin className="w-4 h-4 text-brand-orange shrink-0 mt-0.5" />
++                <span className="leading-relaxed">
++                  {t(
++                    "1518 ถนนประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800",
++                    "1518 Pracharat 1 Rd., Wongsawang, Bangsue, Bangkok 10800, Thailand"
++                  )}
++                </span>
++              </div>
++              <div className="flex items-center gap-2.5">
++                <Phone className="w-4 h-4 text-brand-orange shrink-0" />
++                <a
++                  href="tel:025552000"
++                  className="hover:text-white hover:underline transition-colors"
++                >
++                  {t("โทรศัพท์: 02-555-2000 ต่อ 2701 - 2708", "Tel: +66 2 555 2000 Ext. 2701 - 2708")}
++                </a>
++              </div>
++              <div className="flex items-center gap-2.5">
++                <Mail className="w-4 h-4 text-brand-orange shrink-0" />
++                <a
++                  href="mailto:itd@itd.kmutnb.ac.th"
++                  className="hover:text-white hover:underline transition-colors"
++                >
++                  itd@itd.kmutnb.ac.th
++                </a>
++              </div>
++            </div>
++
++            {/* Social Channels */}
++            <div className="pt-2">
++              <span className="block text-xs font-semibold text-gray-400 mb-2.5 uppercase tracking-wider">
++                {t("ช่องทางการติดตาม", "Follow Us")}
++              </span>
++              <div className="flex items-center gap-3">
++                <a
++                  href="https://www.facebook.com/IT.KMUTNB"
++                  target="_blank"
++                  rel="noopener noreferrer"
++                  className="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-[#1877F2] flex items-center justify-center p-1.5 transition-colors group"
++                  aria-label="Facebook Fanpage"
++                >
++                  <Image
++                    src="/assets/logos/footer-facebook.png"
++                    alt="Facebook"
++                    width={20}
++                    height={20}
++                    className="w-5 h-5 object-contain"
++                  />
++                </a>
++
++                <a
++                  href="https://line.me/ti/p/~@it.kmutnb"
++                  target="_blank"
++                  rel="noopener noreferrer"
++                  className="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-[#00B900] flex items-center justify-center p-1.5 transition-colors group"
++                  aria-label="Line Official Account"
++                >
++                  <Image
++                    src="/assets/logos/footer-line.png"
++                    alt="Line OA"
++                    width={20}
++                    height={20}
++                    className="w-5 h-5 object-contain"
++                  />
++                </a>
++
++                <a
++                  href="https://www.youtube.com/@ITKMUTNB"
++                  target="_blank"
++                  rel="noopener noreferrer"
++                  className="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-[#FF0000] flex items-center justify-center p-1.5 transition-colors group"
++                  aria-label="YouTube Channel"
++                >
++                  <Image
++                    src="/assets/logos/footer-youtube.png"
++                    alt="YouTube"
++                    width={20}
++                    height={20}
++                    className="w-5 h-5 object-contain"
++                  />
++                </a>
++              </div>
++            </div>
++          </div>
++
++          {/* Column 2, 3, 4: Structured Footer Navigation Groups */}
++          <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
++            {footerNav.map((group) => (
++              <div key={group.titleTh} className="space-y-4">
++                <h3 className="text-sm font-semibold text-white tracking-wide border-l-2 border-brand-orange pl-2.5">
++                  {t(group.titleTh, group.titleEn)}
++                </h3>
++                <ul className="space-y-2.5 text-xs text-gray-400">
++                  {group.items.map((item) => {
++                    if (item.external) {
++                      return (
++                        <li key={item.href + item.titleTh}>
++                          <a
++                            href={item.href}
++                            target="_blank"
++                            rel="noopener noreferrer"
++                            className="inline-flex items-center gap-1 hover:text-brand-orange hover:translate-x-0.5 transition-all"
++                          >
++                            <span>{t(item.titleTh, item.titleEn)}</span>
++                            <ExternalLink className="w-3 h-3 opacity-60 shrink-0 ml-0.5" />
++                          </a>
++                        </li>
++                      );
++                    }
++
++                    return (
++                      <li key={item.href + item.titleTh}>
++                        <Link
++                          href={item.href}
++                          className="inline-flex items-center gap-1 hover:text-brand-orange hover:translate-x-0.5 transition-all"
++                        >
++                          <ChevronRight className="w-3 h-3 opacity-40 shrink-0" />
++                          <span>{t(item.titleTh, item.titleEn)}</span>
++                        </Link>
++                      </li>
++                    );
++                  })}
++                </ul>
++              </div>
++            ))}
++          </div>
++        </div>
++      </div>
++
++      {/* Copyright & Secondary Legal Bar */}
++      <div className="border-t border-neutral-800 bg-[#0E0E0E]">
++        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
++          <p className="text-center sm:text-left">
++            © {currentYear} Faculty of Information Technology and Digital Innovation, KMUTNB. All rights reserved.
++          </p>
++          <div className="flex flex-wrap items-center justify-center gap-4 text-gray-400">
++            <Link href="/about" className="hover:text-brand-orange transition-colors">
++              {t("เกี่ยวกับคณะ", "About Us")}
++            </Link>
++            <span>•</span>
++            <Link href="/services#downloads" className="hover:text-brand-orange transition-colors">
++              {t("แบบฟอร์มคำร้อง", "Downloads")}
++            </Link>
++            <span>•</span>
++            <Link href="/contact" className="hover:text-brand-orange transition-colors">
++              {t("ติดต่อเรา", "Contact")}
++            </Link>
++          </div>
++        </div>
++      </div>
++    </footer>
++  );
++}
+diff --git a/src/components/layout/MainNavbar.tsx b/src/components/layout/MainNavbar.tsx
+new file mode 100644
+index 0000000..2273b32
+--- /dev/null
++++ b/src/components/layout/MainNavbar.tsx
+@@ -0,0 +1,595 @@
++"use client";
++
++import React, { useState, useEffect, useRef } from "react";
++import Link from "next/link";
++import { usePathname, useRouter } from "next/navigation";
++import Image from "next/image";
++import { mainNav, quickLinks } from "@/data/navigation";
++import { useLanguage } from "@/context/LanguageContext";
++import { NavItem } from "@/types";
++import {
++  Menu,
++  X,
++  ChevronDown,
++  ChevronRight,
++  Search,
++  ExternalLink,
++  Phone,
++  Mail,
++  GraduationCap,
++  Sparkles,
++  ArrowRight,
++  BookOpen,
++  Users,
++  Info,
++  Layers,
++  FileText
++} from "lucide-react";
++
++export default function MainNavbar() {
++  const pathname = usePathname();
++  const router = useRouter();
++  const { language, setLanguage, t } = useLanguage();
++
++  // State
++  const [mobileOpen, setMobileOpen] = useState(false);
++  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
++  const [mobileExpanded, setMobileExpanded] = useState<{ [key: string]: boolean }>({});
++  const [searchModalOpen, setSearchModalOpen] = useState(false);
++  const [searchQuery, setSearchQuery] = useState("");
++  const searchInputRef = useRef<HTMLInputElement>(null);
++
++  // Close mobile menu and dropdowns on route change
++  useEffect(() => {
++    setMobileOpen(false);
++    setOpenDropdown(null);
++  }, [pathname]);
++
++  // Lock body scroll when mobile drawer or search modal is open
++  useEffect(() => {
++    if (mobileOpen || searchModalOpen) {
++      document.body.style.overflow = "hidden";
++    } else {
++      document.body.style.overflow = "unset";
++    }
++    return () => {
++      document.body.style.overflow = "unset";
++    };
++  }, [mobileOpen, searchModalOpen]);
++
++  // Focus input when search modal opens
++  useEffect(() => {
++    if (searchModalOpen) {
++      const timer = setTimeout(() => {
++        searchInputRef.current?.focus();
++      }, 100);
++      return () => clearTimeout(timer);
++    }
++  }, [searchModalOpen]);
++
++  // Keyboard shortcut: Escape to close modal/drawer, / or Cmd+K to open search
++  useEffect(() => {
++    const handleKeyDown = (e: KeyboardEvent) => {
++      if (e.key === "Escape") {
++        setSearchModalOpen(false);
++        setMobileOpen(false);
++        setOpenDropdown(null);
++      } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
++        e.preventDefault();
++        setSearchModalOpen((prev) => !prev);
++      }
++    };
++    window.addEventListener("keydown", handleKeyDown);
++    return () => window.removeEventListener("keydown", handleKeyDown);
++  }, []);
++
++  const toggleMobileAccordion = (title: string) => {
++    setMobileExpanded((prev) => ({
++      ...prev,
++      [title]: !prev[title],
++    }));
++  };
++
++  const handleSearchSubmit = (e: React.FormEvent) => {
++    e.preventDefault();
++    if (!searchQuery.trim()) return;
++    const query = encodeURIComponent(searchQuery.trim());
++    setSearchModalOpen(false);
++    setSearchQuery("");
++    router.push(`/news?q=${query}`);
++  };
++
++  // Helper to determine if a nav item is active
++  const isItemActive = (item: NavItem) => {
++    if (item.href === "/" && pathname === "/") return true;
++    if (item.href !== "/" && pathname.startsWith(item.href.split("?")[0].split("#")[0])) {
++      return true;
++    }
++    if (item.children) {
++      return item.children.some((child) =>
++        child.href.startsWith("/") && pathname.startsWith(child.href.split("?")[0].split("#")[0])
++      );
++    }
++    return false;
++  };
++
++  const quickSearchSuggestions = [
++    { titleTh: "รับสมัครนักศึกษาใหม่", titleEn: "New Admissions", href: "https://www.admission.kmutnb.ac.th", external: true },
++    { titleTh: "ปฏิทินการศึกษา", titleEn: "Academic Calendar", href: "http://acdserv.kmutnb.ac.th/academic-calendar", external: true },
++    { titleTh: "คณาจารย์และบุคลากร", titleEn: "Faculty & Staff", href: "/personnel" },
++    { titleTh: "ห้องเรียนและห้องปฏิบัติการ", titleEn: "Labs & Facilities", href: "/facilities" },
++    { titleTh: "แบบฟอร์มและดาวน์โหลด", titleEn: "Forms & Downloads", href: "/services#downloads" },
++    { titleTh: "ข่าวกิจกรรมและผลงาน", titleEn: "Events & News", href: "/news" },
++  ];
++
++  return (
++    <>
++      {/* Sticky Main Navigation Bar */}
++      <nav
++        className="sticky top-0 z-40 w-full bg-[#1E1E1E] text-white shadow-lg border-b border-brand-orange/30 transition-all"
++        aria-label="Main Navigation"
++      >
++        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
++          <div className="flex items-center justify-between h-14">
++            {/* Desktop Navigation Links */}
++            <div className="hidden lg:flex items-center gap-1 xl:gap-2">
++              {mainNav.map((item) => {
++                const hasChildren = item.children && item.children.length > 0;
++                const active = isItemActive(item);
++                const isDropdownOpen = openDropdown === item.titleTh;
++
++                if (!hasChildren) {
++                  return (
++                    <Link
++                      key={item.href + item.titleTh}
++                      href={item.href}
++                      className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all relative ${
++                        active
++                          ? "text-brand-orange bg-white/10 font-semibold"
++                          : "text-gray-200 hover:text-white hover:bg-white/5"
++                      }`}
++                    >
++                      <span>{t(item.titleTh, item.titleEn)}</span>
++                      {active && (
++                        <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-brand-orange rounded-full" />
++                      )}
++                    </Link>
++                  );
++                }
++
++                return (
++                  <div
++                    key={item.titleTh}
++                    className="relative group"
++                    onMouseEnter={() => setOpenDropdown(item.titleTh)}
++                    onMouseLeave={() => setOpenDropdown(null)}
++                  >
++                    <button
++                      type="button"
++                      onClick={() => setOpenDropdown(isDropdownOpen ? null : item.titleTh)}
++                      className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-all ${
++                        active || isDropdownOpen
++                          ? "text-brand-orange bg-white/10 font-semibold"
++                          : "text-gray-200 hover:text-white hover:bg-white/5"
++                      }`}
++                      aria-expanded={isDropdownOpen}
++                    >
++                      <span>{t(item.titleTh, item.titleEn)}</span>
++                      <ChevronDown
++                        className={`w-4 h-4 transition-transform duration-200 opacity-80 group-hover:opacity-100 ${
++                          isDropdownOpen ? "rotate-180 text-brand-orange" : ""
++                        }`}
++                      />
++                    </button>
++
++                    {/* Desktop Dropdown Menu */}
++                    <div
++                      className={`absolute left-0 top-full pt-1.5 w-64 transition-all duration-200 ${
++                        isDropdownOpen
++                          ? "opacity-100 visible translate-y-0"
++                          : "opacity-0 invisible -translate-y-1 pointer-events-none"
++                      }`}
++                    >
++                      <div className="bg-[#242424] border border-neutral-700/80 rounded-xl shadow-2xl p-2 backdrop-blur-xl ring-1 ring-white/10 divide-y divide-neutral-800">
++                        <div className="space-y-1">
++                          {item.children?.map((child) => {
++                            if (child.external) {
++                              return (
++                                <a
++                                  key={child.href + child.titleTh}
++                                  href={child.href}
++                                  target="_blank"
++                                  rel="noopener noreferrer"
++                                  className="group/item flex items-center justify-between px-3 py-2 text-xs sm:text-sm text-gray-300 hover:text-white hover:bg-brand-orange/20 rounded-lg transition-colors"
++                                >
++                                  <span>{t(child.titleTh, child.titleEn)}</span>
++                                  <ExternalLink className="w-3.5 h-3.5 text-gray-500 group-hover/item:text-brand-orange transition-colors" />
++                                </a>
++                              );
++                            }
++
++                            return (
++                              <Link
++                                key={child.href + child.titleTh}
++                                href={child.href}
++                                className="group/item flex items-center justify-between px-3 py-2 text-xs sm:text-sm text-gray-300 hover:text-white hover:bg-brand-orange/20 rounded-lg transition-colors"
++                              >
++                                <span>{t(child.titleTh, child.titleEn)}</span>
++                                <ChevronRight className="w-3.5 h-3.5 text-gray-500 group-hover/item:text-brand-orange group-hover/item:translate-x-0.5 transition-all" />
++                              </Link>
++                            );
++                          })}
++                        </div>
++                      </div>
++                    </div>
++                  </div>
++                );
++              })}
++            </div>
++
++            {/* Mobile Brand / Title Indicator */}
++            <div className="lg:hidden flex items-center gap-2">
++              <Link href="/" className="flex items-center gap-2 text-left">
++                <div className="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center font-bold text-white shadow-sm">
++                  IT
++                </div>
++                <div className="flex flex-col">
++                  <span className="text-xs font-semibold text-white leading-tight">
++                    {t("คณะเทคโนโลยีสารสนเทศฯ", "Faculty of IT & DI")}
++                  </span>
++                  <span className="text-[10px] text-gray-400 leading-tight">
++                    KMUTNB
++                  </span>
++                </div>
++              </Link>
++            </div>
++
++            {/* Right Side Actions: Search Trigger & Mobile Menu Toggle */}
++            <div className="flex items-center gap-2 sm:gap-3">
++              {/* Search Trigger Button */}
++              <button
++                type="button"
++                onClick={() => setSearchModalOpen(true)}
++                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-gray-300 hover:text-white text-xs sm:text-sm transition-colors border border-white/10 focus:outline-none focus:ring-2 focus:ring-brand-orange"
++                title={t("ค้นหาข้อมูล (Ctrl+K)", "Search (Ctrl+K)")}
++                aria-label="Search"
++              >
++                <Search className="w-4 h-4 text-brand-orange" />
++                <span className="hidden sm:inline text-xs text-gray-400">
++                  {t("ค้นหา...", "Search...")}
++                </span>
++                <kbd className="hidden md:inline-block px-1.5 py-0.5 text-[10px] bg-black/40 border border-white/10 rounded text-gray-400">
++                  ⌘K
++                </kbd>
++              </button>
++
++              {/* Mobile Hamburger Toggle Button */}
++              <button
++                type="button"
++                onClick={() => setMobileOpen(!mobileOpen)}
++                className="lg:hidden p-2 rounded-lg bg-white/10 hover:bg-white/20 text-gray-200 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-brand-orange"
++                aria-label={mobileOpen ? "Close menu" : "Open menu"}
++                aria-expanded={mobileOpen}
++              >
++                {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
++              </button>
++            </div>
++          </div>
++        </div>
++      </nav>
++
++      {/* Mobile Drawer Overlay & Slide-in Sidebar */}
++      <div
++        className={`fixed inset-0 z-50 lg:hidden transition-all duration-300 ${
++          mobileOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
++        }`}
++      >
++        {/* Backdrop */}
++        <div
++          className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity"
++          onClick={() => setMobileOpen(false)}
++        />
++
++        {/* Slide-in Drawer Container */}
++        <div
++          className={`fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-[#1A1A1A] text-white shadow-2xl flex flex-col z-10 transform transition-transform duration-300 ease-out border-l border-neutral-800 ${
++            mobileOpen ? "translate-x-0" : "translate-x-full"
++          }`}
++        >
++          {/* Drawer Header */}
++          <div className="p-4 border-b border-neutral-800 flex items-center justify-between bg-[#222222]">
++            <div className="flex items-center gap-2.5">
++              <div className="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center font-bold text-white shadow-sm">
++                IT
++              </div>
++              <div className="flex flex-col">
++                <span className="text-xs font-semibold text-white">ITD KMUTNB</span>
++                <span className="text-[10px] text-gray-400">
++                  {t("คณะเทคโนโลยีสารสนเทศฯ", "Faculty of IT & DI")}
++                </span>
++              </div>
++            </div>
++            <button
++              type="button"
++              onClick={() => setMobileOpen(false)}
++              className="p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
++              aria-label="Close drawer"
++            >
++              <X className="w-5 h-5" />
++            </button>
++          </div>
++
++          {/* Quick Language Toggle in Mobile Drawer */}
++          <div className="px-4 py-2.5 bg-neutral-900 border-b border-neutral-800 flex items-center justify-between">
++            <span className="text-xs text-gray-400 font-medium">{t("ภาษา / Language", "Language")}</span>
++            <div className="flex items-center bg-black/40 p-0.5 rounded-full border border-neutral-700">
++              <button
++                type="button"
++                onClick={() => setLanguage("th")}
++                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
++                  language === "th"
++                    ? "bg-brand-orange text-white"
++                    : "text-gray-400 hover:text-gray-200"
++                }`}
++              >
++                <Image
++                  src="/assets/logos/th-flag.png"
++                  alt="TH"
++                  width={12}
++                  height={12}
++                  className="w-3 h-3 rounded-full object-cover"
++                />
++                <span>TH</span>
++              </button>
++              <button
++                type="button"
++                onClick={() => setLanguage("en")}
++                className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
++                  language === "en"
++                    ? "bg-brand-orange text-white"
++                    : "text-gray-400 hover:text-gray-200"
++                }`}
++              >
++                <Image
++                  src="/assets/logos/uk-flag.png"
++                  alt="EN"
++                  width={12}
++                  height={12}
++                  className="w-3 h-3 rounded-full object-cover"
++                />
++                <span>EN</span>
++              </button>
++            </div>
++          </div>
++
++          {/* Mobile Accordion Nav List */}
++          <div className="flex-1 overflow-y-auto p-4 space-y-1.5 custom-scrollbar">
++            {mainNav.map((item) => {
++              const hasChildren = item.children && item.children.length > 0;
++              const isExpanded = !!mobileExpanded[item.titleTh];
++              const active = isItemActive(item);
++
++              if (!hasChildren) {
++                return (
++                  <Link
++                    key={item.href + item.titleTh}
++                    href={item.href}
++                    onClick={() => setMobileOpen(false)}
++                    className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors ${
++                      active
++                        ? "bg-brand-orange text-white font-semibold"
++                        : "text-gray-200 hover:bg-neutral-800 hover:text-white"
++                    }`}
++                  >
++                    <span>{t(item.titleTh, item.titleEn)}</span>
++                    <ChevronRight className="w-4 h-4 opacity-50" />
++                  </Link>
++                );
++              }
++
++              return (
++                <div key={item.titleTh} className="rounded-xl overflow-hidden bg-neutral-900/50 border border-neutral-800/60">
++                  <button
++                    type="button"
++                    onClick={() => toggleMobileAccordion(item.titleTh)}
++                    className={`w-full flex items-center justify-between px-3.5 py-2.5 text-sm font-medium transition-colors ${
++                      active ? "text-brand-orange font-semibold" : "text-gray-200 hover:text-white"
++                    }`}
++                  >
++                    <span>{t(item.titleTh, item.titleEn)}</span>
++                    <ChevronDown
++                      className={`w-4 h-4 transition-transform duration-200 text-gray-400 ${
++                        isExpanded ? "rotate-180 text-brand-orange" : ""
++                      }`}
++                    />
++                  </button>
++
++                  {/* Accordion Submenu */}
++                  {isExpanded && (
++                    <div className="pl-3 pr-2 pb-2 pt-1 space-y-1 border-t border-neutral-800/50 bg-neutral-950/40">
++                      {item.children?.map((child) => {
++                        if (child.external) {
++                          return (
++                            <a
++                              key={child.href + child.titleTh}
++                              href={child.href}
++                              target="_blank"
++                              rel="noopener noreferrer"
++                              onClick={() => setMobileOpen(false)}
++                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm text-gray-300 hover:text-white hover:bg-brand-orange/20 transition-colors"
++                            >
++                              <span>{t(child.titleTh, child.titleEn)}</span>
++                              <ExternalLink className="w-3.5 h-3.5 text-gray-500" />
++                            </a>
++                          );
++                        }
++
++                        return (
++                          <Link
++                            key={child.href + child.titleTh}
++                            href={child.href}
++                            onClick={() => setMobileOpen(false)}
++                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm text-gray-300 hover:text-white hover:bg-brand-orange/20 transition-colors"
++                          >
++                            <span>{t(child.titleTh, child.titleEn)}</span>
++                            <ChevronRight className="w-3.5 h-3.5 text-gray-500" />
++                          </Link>
++                        );
++                      })}
++                    </div>
++                  )}
++                </div>
++              );
++            })}
++
++            {/* Quick Access Section in Mobile Drawer */}
++            <div className="pt-4 mt-4 border-t border-neutral-800 space-y-2">
++              <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 px-1">
++                {t("บริการด่วน", "Quick Services")}
++              </span>
++              <a
++                href="https://www.admission.kmutnb.ac.th"
++                target="_blank"
++                rel="noopener noreferrer"
++                className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-orange-600/20 hover:bg-orange-600/30 border border-orange-500/40 text-orange-300 text-xs font-medium transition-colors"
++              >
++                <div className="flex items-center gap-2">
++                  <GraduationCap className="w-4 h-4 text-brand-orange" />
++                  <span>{t("สมัครเรียนออนไลน์", "Admissions")}</span>
++                </div>
++                <ExternalLink className="w-3.5 h-3.5" />
++              </a>
++
++              <Link
++                href="/services#e-services"
++                onClick={() => setMobileOpen(false)}
++                className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-neutral-800/60 hover:bg-neutral-800 text-gray-300 text-xs font-medium transition-colors"
++              >
++                <span>{t("Student e-Services", "Student e-Services")}</span>
++                <ChevronRight className="w-3.5 h-3.5 text-gray-500" />
++              </Link>
++
++              <Link
++                href="/services#downloads"
++                onClick={() => setMobileOpen(false)}
++                className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-neutral-800/60 hover:bg-neutral-800 text-gray-300 text-xs font-medium transition-colors"
++              >
++                <span>{t("ดาวน์โหลดแบบฟอร์ม", "Document Downloads")}</span>
++                <ChevronRight className="w-3.5 h-3.5 text-gray-500" />
++              </Link>
++            </div>
++          </div>
++
++          {/* Mobile Drawer Footer */}
++          <div className="p-4 bg-neutral-950 border-t border-neutral-800 text-xs text-gray-400 space-y-2">
++            <div className="flex items-center gap-2">
++              <Phone className="w-3.5 h-3.5 text-brand-orange" />
++              <span>02-555-2000 ต่อ 2701-2708</span>
++            </div>
++            <div className="flex items-center gap-2">
++              <Mail className="w-3.5 h-3.5 text-brand-orange" />
++              <span>itd@itd.kmutnb.ac.th</span>
++            </div>
++          </div>
++        </div>
++      </div>
++
++      {/* Interactive Search Modal / Overlay */}
++      {searchModalOpen && (
++        <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4">
++          {/* Backdrop */}
++          <div
++            className="fixed inset-0 bg-black/70 backdrop-blur-md animate-fade-in"
++            onClick={() => setSearchModalOpen(false)}
++          />
++
++          {/* Search Box Card */}
++          <div className="relative w-full max-w-2xl bg-[#1F1F1F] border border-neutral-700 rounded-2xl shadow-2xl overflow-hidden z-10 animate-scale-in">
++            {/* Input Header */}
++            <form onSubmit={handleSearchSubmit} className="p-4 sm:p-5 border-b border-neutral-700 flex items-center gap-3">
++              <Search className="w-5 h-5 text-brand-orange shrink-0" />
++              <input
++                ref={searchInputRef}
++                type="text"
++                value={searchQuery}
++                onChange={(e) => setSearchQuery(e.target.value)}
++                placeholder={t(
++                  "ค้นหาข่าวสาร, หลักสูตร, บุคลากร, บริการ...",
++                  "Search news, curriculum, staff, services..."
++                )}
++                className="flex-1 bg-transparent text-white placeholder-gray-400 text-sm sm:text-base focus:outline-none"
++              />
++              {searchQuery && (
++                <button
++                  type="button"
++                  onClick={() => setSearchQuery("")}
++                  className="p-1 text-gray-400 hover:text-white rounded"
++                >
++                  <X className="w-4 h-4" />
++                </button>
++              )}
++              <button
++                type="submit"
++                className="px-3.5 py-1.5 rounded-lg bg-brand-orange hover:bg-brand-darkOrange text-white text-xs font-semibold shadow-xs transition-colors shrink-0"
++              >
++                {t("ค้นหา", "Search")}
++              </button>
++              <button
++                type="button"
++                onClick={() => setSearchModalOpen(false)}
++                className="p-1 text-gray-400 hover:text-white rounded"
++                aria-label="Close search"
++              >
++                <X className="w-5 h-5" />
++              </button>
++            </form>
++
++            {/* Quick Suggestions & Shortcuts */}
++            <div className="p-4 sm:p-5 bg-[#181818] space-y-3 max-h-[60vh] overflow-y-auto">
++              <div className="flex items-center justify-between text-xs text-gray-400">
++                <span className="font-semibold uppercase tracking-wider">
++                  {t("คำค้นหายอดนิยม / ทางลัด", "Popular Suggestions / Shortcuts")}
++                </span>
++                <span className="hidden sm:inline text-neutral-500">
++                  {t("กด Enter เพื่อค้นหา", "Press Enter to search")}
++                </span>
++              </div>
++
++              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
++                {quickSearchSuggestions.map((item) => {
++                  if (item.external) {
++                    return (
++                      <a
++                        key={item.href + item.titleTh}
++                        href={item.href}
++                        target="_blank"
++                        rel="noopener noreferrer"
++                        onClick={() => setSearchModalOpen(false)}
++                        className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-800/60 hover:bg-neutral-700/80 border border-neutral-700/50 text-xs sm:text-sm text-gray-200 hover:text-white group transition-all"
++                      >
++                        <span className="truncate">{t(item.titleTh, item.titleEn)}</span>
++                        <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-brand-orange shrink-0 ml-2" />
++                      </a>
++                    );
++                  }
++
++                  return (
++                    <Link
++                      key={item.href + item.titleTh}
++                      href={item.href}
++                      onClick={() => setSearchModalOpen(false)}
++                      className="flex items-center justify-between p-2.5 rounded-xl bg-neutral-800/60 hover:bg-neutral-700/80 border border-neutral-700/50 text-xs sm:text-sm text-gray-200 hover:text-white group transition-all"
++                    >
++                      <span className="truncate">{t(item.titleTh, item.titleEn)}</span>
++                      <ArrowRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-brand-orange group-hover:translate-x-0.5 shrink-0 ml-2 transition-all" />
++                    </Link>
++                  );
++                })}
++              </div>
++            </div>
++          </div>
++        </div>
++      )}
++    </>
++  );
++}
+diff --git a/src/components/layout/TopHeader.tsx b/src/components/layout/TopHeader.tsx
+new file mode 100644
+index 0000000..77ecb51
+--- /dev/null
++++ b/src/components/layout/TopHeader.tsx
+@@ -0,0 +1,165 @@
++"use client";
++
++import React from "react";
++import Link from "next/link";
++import Image from "next/image";
++import { useLanguage } from "@/context/LanguageContext";
++import { quickLinks } from "@/data/navigation";
++import { 
++  Phone, 
++  GraduationCap, 
++  FileText, 
++  ExternalLink,
++  Laptop,
++  HelpCircle
++} from "lucide-react";
++
++export default function TopHeader() {
++  const { language, setLanguage, t } = useLanguage();
++
++  return (
++    <header className="w-full bg-white border-b border-gray-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.03)] relative z-40">
++      {/* Top Bar on larger screens / container */}
++      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-3 sm:gap-6">
++        {/* Faculty Brand Logo */}
++        <Link 
++          href="/" 
++          className="flex items-center gap-3 shrink-0 group focus:outline-none focus:ring-2 focus:ring-brand-orange focus:ring-offset-2 rounded-lg"
++          title="คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ"
++        >
++          <div className="relative h-10 sm:h-12 w-[180px] sm:w-[260px]">
++            <Image
++              src="/assets/logos/Logo-Header.png"
++              alt="Faculty of Information Technology and Digital Innovation, KMUTNB"
++              fill
++              priority
++              sizes="(max-width: 640px) 180px, 260px"
++              className="object-contain object-left transition-transform duration-200 group-hover:scale-[1.01]"
++            />
++          </div>
++        </Link>
++
++        {/* Right Controls */}
++        <div className="flex items-center gap-3 sm:gap-5">
++          {/* Quick Access Action Bar - Desktop & Large Tablets */}
++          <div className="hidden xl:flex items-center gap-2 text-xs">
++            <a
++              href="https://www.admission.kmutnb.ac.th"
++              target="_blank"
++              rel="noopener noreferrer"
++              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-50 hover:bg-orange-100 text-brand-orange font-medium border border-orange-200 transition-colors shadow-xs"
++            >
++              <GraduationCap className="w-3.5 h-3.5" />
++              <span>{t("สมัครเรียนออนไลน์", "Admissions")}</span>
++              <ExternalLink className="w-2.5 h-2.5 opacity-70" />
++            </a>
++
++            <Link
++              href="/services#e-services"
++              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-700 hover:text-brand-orange hover:bg-gray-50 border border-transparent hover:border-gray-200 transition-all"
++            >
++              <Laptop className="w-3.5 h-3.5 text-gray-500" />
++              <span>{t("Student e-Services", "e-Services")}</span>
++            </Link>
++
++            <Link
++              href="/services#downloads"
++              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-gray-700 hover:text-brand-orange hover:bg-gray-50 border border-transparent hover:border-gray-200 transition-all"
++            >
++              <FileText className="w-3.5 h-3.5 text-gray-500" />
++              <span>{t("ดาวน์โหลดเอกสาร", "Downloads")}</span>
++            </Link>
++          </div>
++
++          {/* Social Channels & Contact - Tablet/Desktop */}
++          <div className="hidden sm:flex items-center gap-2 border-l border-gray-200 pl-3 sm:pl-4">
++            <a
++              href="https://www.facebook.com/IT.KMUTNB"
++              target="_blank"
++              rel="noopener noreferrer"
++              className="w-7 h-7 rounded-full flex items-center justify-center text-gray-500 hover:text-[#1877F2] hover:bg-blue-50 transition-all p-1"
++              title="Facebook Fanpage"
++              aria-label="Facebook"
++            >
++              <Image
++                src="/assets/logos/facebook.png"
++                alt="Facebook"
++                width={20}
++                height={20}
++                className="w-5 h-5 object-contain"
++              />
++            </a>
++
++            <a
++              href="https://line.me/ti/p/~@it.kmutnb"
++              target="_blank"
++              rel="noopener noreferrer"
++              className="w-7 h-7 rounded-full flex items-center justify-center text-gray-500 hover:text-[#00B900] hover:bg-green-50 transition-all p-1"
++              title="LINE Official Account"
++              aria-label="Line"
++            >
++              <Image
++                src="/assets/logos/line.png"
++                alt="Line OA"
++                width={20}
++                height={20}
++                className="w-5 h-5 object-contain"
++              />
++            </a>
++
++            <Link
++              href="/contact"
++              className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-brand-orange transition-colors px-2 py-1 rounded hover:bg-gray-50"
++              title={t("ติดต่อคณะ", "Contact Us")}
++            >
++              <Phone className="w-3.5 h-3.5 text-brand-orange" />
++              <span className="hidden md:inline font-medium">{t("ติดต่อเรา", "Contact")}</span>
++            </Link>
++          </div>
++
++          {/* Bilingual Language Switcher Toggle */}
++          <div className="flex items-center bg-gray-100 p-0.5 rounded-full border border-gray-200 shadow-inner">
++            <button
++              type="button"
++              onClick={() => setLanguage("th")}
++              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
++                language === "th"
++                  ? "bg-brand-orange text-white shadow-xs"
++                  : "text-gray-600 hover:text-gray-900"
++              }`}
++              aria-label="ภาษาไทย"
++            >
++              <Image
++                src="/assets/logos/th-flag.png"
++                alt="TH"
++                width={14}
++                height={14}
++                className="w-3.5 h-3.5 rounded-full object-cover shadow-2xs"
++              />
++              <span>TH</span>
++            </button>
++            <button
++              type="button"
++              onClick={() => setLanguage("en")}
++              className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
++                language === "en"
++                  ? "bg-brand-orange text-white shadow-xs"
++                  : "text-gray-600 hover:text-gray-900"
++              }`}
++              aria-label="English"
++            >
++              <Image
++                src="/assets/logos/uk-flag.png"
++                alt="EN"
++                width={14}
++                height={14}
++                className="w-3.5 h-3.5 rounded-full object-cover shadow-2xs"
++              />
++              <span>EN</span>
++            </button>
++          </div>
++        </div>
++      </div>
++    </header>
++  );
++}
+diff --git a/src/context/LanguageContext.tsx b/src/context/LanguageContext.tsx
+new file mode 100644
+index 0000000..ad274a5
+--- /dev/null
++++ b/src/context/LanguageContext.tsx
+@@ -0,0 +1,55 @@
++"use client";
++
++import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
++
++export type Language = "th" | "en";
++
++interface LanguageContextType {
++  language: Language;
++  setLanguage: (lang: Language) => void;
++  t: (th: string, en?: string) => string;
++}
++
++const LanguageContext = createContext<LanguageContextType>({
++  language: "th",
++  setLanguage: () => {},
++  t: (th) => th,
++});
++
++export function LanguageProvider({ children }: { children: ReactNode }) {
++  const [language, setLanguageState] = useState<Language>("th");
++  const [mounted, setMounted] = useState(false);
++
++  useEffect(() => {
++    setMounted(true);
++    const saved = localStorage.getItem("itd_lang") as Language;
++    if (saved === "th" || saved === "en") {
++      setLanguageState(saved);
++    }
++  }, []);
++
++  const setLanguage = (lang: Language) => {
++    setLanguageState(lang);
++    if (typeof window !== "undefined") {
++      localStorage.setItem("itd_lang", lang);
++      document.documentElement.lang = lang;
++    }
++  };
++
++  const t = (th: string, en?: string): string => {
++    if (mounted && language === "en" && en) {
++      return en;
++    }
++    return th;
++  };
++
++  return (
++    <LanguageContext.Provider value={{ language, setLanguage, t }}>
++      {children}
++    </LanguageContext.Provider>
++  );
++}
++
++export function useLanguage() {
++  return useContext(LanguageContext);
++}

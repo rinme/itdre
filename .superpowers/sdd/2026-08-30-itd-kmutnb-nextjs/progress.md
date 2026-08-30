@@ -17,3 +17,4 @@
 - Task 4: complete (commits cb4e066..f46c0cc, review clean)
 - Task 5: complete (commits f46c0cc..b67c193, review clean)
 - Task 6: complete (commits b67c193..e9c94aa, review clean)
+- Task 7: complete (commits e9c94aa..ccd9305, review clean)

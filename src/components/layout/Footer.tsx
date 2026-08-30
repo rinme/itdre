@@ -30,13 +30,16 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="w-full bg-[#161616] text-gray-300 border-t-4 border-brand-orange mt-auto relative z-30">
+    <footer className="w-full bg-[#0C0D11] text-slate-300 relative z-30 mt-auto overflow-hidden">
+      {/* Top Accent Gradient Border */}
+      <div className="h-1 w-full bg-gradient-to-r from-brand-orange via-amber-400 to-brand-darkOrange" />
+
       {/* Top Bar / Quick Accent Bar */}
-      <div className="border-b border-neutral-800 bg-[#121212]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="border-b border-white/10 bg-[#111217]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3 text-center sm:text-left">
-            <span className="w-2.5 h-2.5 rounded-full bg-brand-orange animate-pulse" />
-            <span className="text-xs sm:text-sm text-gray-300 font-medium">
+            <span className="w-2.5 h-2.5 rounded-full bg-brand-orange animate-pulse shadow-[0_0_10px_#FF6B00]" />
+            <span className="text-xs sm:text-sm text-slate-200 font-medium">
               {t(
                 "คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าพระนครเหนือ",
                 "Faculty of Information Technology and Digital Innovation, KMUTNB"
@@ -47,10 +50,10 @@ export default function Footer() {
           <button
             type="button"
             onClick={scrollToTop}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-gray-300 hover:text-white text-xs font-medium transition-colors border border-neutral-700 shadow-sm"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white text-xs font-semibold transition-all border border-white/10 shadow-xs active:scale-95 group"
             aria-label="Scroll back to top"
           >
-            <ArrowUp className="w-3.5 h-3.5 text-brand-orange" />
+            <ArrowUp className="w-3.5 h-3.5 text-brand-orange transition-transform group-hover:-translate-y-0.5" />
             <span>{t("กลับขึ้นด้านบน", "Back to top")}</span>
           </button>
         </div>
@@ -58,10 +61,10 @@ export default function Footer() {
 
       {/* Main Footer Directory */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
-          {/* Column 1: Faculty Info & Contact (Span 5 cols on desktop) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
+          {/* Column 1: Faculty Info & Contact (Span 4 cols on desktop) */}
           <div className="lg:col-span-4 space-y-6">
-            <Link href="/" className="inline-block group">
+            <Link href="/" className="inline-block group active:scale-98 transition-transform">
               <div className="relative h-12 w-48 sm:w-56">
                 <Image
                   src="/assets/logos/Logo-Footer.png"
@@ -73,37 +76,43 @@ export default function Footer() {
               </div>
             </Link>
 
-            <p className="text-xs text-gray-400 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
               {t(
                 "มุ่งมั่นผลิตบัณฑิต วิจัย และพัฒนานวัตกรรมด้านเทคโนโลยีสารสนเทศและดิจิทัลที่มีคุณภาพสูง สอดคล้องกับความต้องการของสังคมและภาคอุตสาหกรรมในระดับสากล",
                 "Dedicated to cultivating high-caliber graduates, research, and innovation in information technology and digital innovation meeting international standards and industry demands."
               )}
             </p>
 
-            <div className="space-y-2.5 text-xs text-gray-300">
-              <div className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-brand-orange shrink-0 mt-0.5" />
-                <span className="leading-relaxed">
+            <div className="space-y-3 text-xs sm:text-sm text-slate-300">
+              <div className="flex items-start gap-3">
+                <div className="p-1.5 rounded-lg bg-white/5 border border-white/10 shrink-0 mt-0.5">
+                  <MapPin className="w-3.5 h-3.5 text-brand-orange" />
+                </div>
+                <span className="leading-relaxed text-slate-300">
                   {t(
                     "1518 ถนนประชาราษฎร์ 1 แขวงวงศ์สว่าง เขตบางซื่อ กรุงเทพฯ 10800",
                     "1518 Pracharat 1 Rd., Wongsawang, Bangsue, Bangkok 10800, Thailand"
                   )}
                 </span>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Phone className="w-4 h-4 text-brand-orange shrink-0" />
+              <div className="flex items-center gap-3">
+                <div className="p-1.5 rounded-lg bg-white/5 border border-white/10 shrink-0">
+                  <Phone className="w-3.5 h-3.5 text-brand-orange" />
+                </div>
                 <a
                   href="tel:025552000"
-                  className="hover:text-white hover:underline transition-colors"
+                  className="hover:text-white hover:underline transition-colors text-slate-300"
                 >
-                  {t("โทรศัพท์: 02-555-2000 ต่อ 2701 - 2708", "Tel: +66 2 555 2000 Ext. 2701 - 2708")}
+                  {t("02-555-2000 ต่อ 2701 - 2708", "+66 2 555 2000 Ext. 2701 - 2708")}
                 </a>
               </div>
-              <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-brand-orange shrink-0" />
+              <div className="flex items-center gap-3">
+                <div className="p-1.5 rounded-lg bg-white/5 border border-white/10 shrink-0">
+                  <Mail className="w-3.5 h-3.5 text-brand-orange" />
+                </div>
                 <a
                   href="mailto:itd@itd.kmutnb.ac.th"
-                  className="hover:text-white hover:underline transition-colors"
+                  className="hover:text-white hover:underline transition-colors text-slate-300"
                 >
                   itd@itd.kmutnb.ac.th
                 </a>
@@ -112,15 +121,15 @@ export default function Footer() {
 
             {/* Social Channels */}
             <div className="pt-2">
-              <span className="block text-xs font-semibold text-gray-400 mb-2.5 uppercase tracking-wider">
+              <span className="block text-xs font-semibold text-slate-400 mb-3 uppercase tracking-wider">
                 {t("ช่องทางการติดตาม", "Follow Us")}
               </span>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <a
                   href="https://www.facebook.com/IT.KMUTNB"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-[#1877F2] flex items-center justify-center p-1.5 transition-colors group"
+                  className="w-9 h-9 rounded-xl bg-white/5 hover:bg-[#1877F2] border border-white/10 hover:border-transparent flex items-center justify-center p-2 transition-all active:scale-90 group"
                   aria-label="Facebook Fanpage"
                 >
                   <Image
@@ -128,7 +137,7 @@ export default function Footer() {
                     alt="Facebook"
                     width={20}
                     height={20}
-                    className="w-5 h-5 object-contain"
+                    className="w-4 h-4 object-contain"
                   />
                 </a>
 
@@ -136,7 +145,7 @@ export default function Footer() {
                   href="https://line.me/ti/p/~@it.kmutnb"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-[#00B900] flex items-center justify-center p-1.5 transition-colors group"
+                  className="w-9 h-9 rounded-xl bg-white/5 hover:bg-[#00B900] border border-white/10 hover:border-transparent flex items-center justify-center p-2 transition-all active:scale-90 group"
                   aria-label="Line Official Account"
                 >
                   <Image
@@ -144,7 +153,7 @@ export default function Footer() {
                     alt="Line OA"
                     width={20}
                     height={20}
-                    className="w-5 h-5 object-contain"
+                    className="w-4 h-4 object-contain"
                   />
                 </a>
 
@@ -152,7 +161,7 @@ export default function Footer() {
                   href="https://www.youtube.com/@ITKMUTNB"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-lg bg-neutral-800 hover:bg-[#FF0000] flex items-center justify-center p-1.5 transition-colors group"
+                  className="w-9 h-9 rounded-xl bg-white/5 hover:bg-[#FF0000] border border-white/10 hover:border-transparent flex items-center justify-center p-2 transition-all active:scale-90 group"
                   aria-label="YouTube Channel"
                 >
                   <Image
@@ -160,7 +169,7 @@ export default function Footer() {
                     alt="YouTube"
                     width={20}
                     height={20}
-                    className="w-5 h-5 object-contain"
+                    className="w-4 h-4 object-contain"
                   />
                 </a>
               </div>
@@ -171,10 +180,10 @@ export default function Footer() {
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
             {footerNav.map((group) => (
               <div key={group.titleTh} className="space-y-4">
-                <h3 className="text-sm font-semibold text-white tracking-wide border-l-2 border-brand-orange pl-2.5">
+                <h3 className="text-sm font-bold text-white tracking-wide border-l-2 border-brand-orange pl-3">
                   {t(group.titleTh, group.titleEn)}
                 </h3>
-                <ul className="space-y-2.5 text-xs text-gray-400">
+                <ul className="space-y-2.5 text-xs sm:text-sm text-slate-400">
                   {group.items.map((item) => {
                     if (item.external) {
                       return (
@@ -183,10 +192,10 @@ export default function Footer() {
                             href={item.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 hover:text-brand-orange hover:translate-x-0.5 transition-all"
+                            className="inline-flex items-center gap-1.5 hover:text-brand-orange hover:translate-x-1 transition-all group"
                           >
                             <span>{t(item.titleTh, item.titleEn)}</span>
-                            <ExternalLink className="w-3 h-3 opacity-60 shrink-0 ml-0.5" />
+                            <ExternalLink className="w-3 h-3 opacity-50 group-hover:opacity-100 shrink-0 ml-0.5" />
                           </a>
                         </li>
                       );
@@ -196,9 +205,9 @@ export default function Footer() {
                       <li key={item.href + item.titleTh}>
                         <Link
                           href={item.href}
-                          className="inline-flex items-center gap-1 hover:text-brand-orange hover:translate-x-0.5 transition-all"
+                          className="inline-flex items-center gap-1.5 hover:text-brand-orange hover:translate-x-1 transition-all group"
                         >
-                          <ChevronRight className="w-3 h-3 opacity-40 shrink-0" />
+                          <ChevronRight className="w-3 h-3 opacity-40 group-hover:opacity-100 group-hover:text-brand-orange shrink-0" />
                           <span>{t(item.titleTh, item.titleEn)}</span>
                         </Link>
                       </li>
@@ -212,12 +221,12 @@ export default function Footer() {
       </div>
 
       {/* Copyright & Secondary Legal Bar */}
-      <div className="border-t border-neutral-800 bg-[#0E0E0E]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-          <p className="text-center sm:text-left">
-            © {currentYear} Faculty of Information Technology and Digital Innovation, KMUTNB. All rights reserved.
+      <div className="border-t border-white/10 bg-[#08090C]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+          <p className="text-center sm:text-left font-mono text-[11px] sm:text-xs">
+            © {currentYear} ITD KMUTNB. All rights reserved.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 text-gray-400">
+          <div className="flex flex-wrap items-center justify-center gap-4 text-slate-400">
             <Link href="/about" className="hover:text-brand-orange transition-colors">
               {t("เกี่ยวกับคณะ", "About Us")}
             </Link>

@@ -83,25 +83,25 @@ export default function VideoHighlight() {
   ];
 
   return (
-    <section className="w-full py-16 sm:py-24 bg-[#1a1b1e] text-white relative overflow-hidden">
+    <section className="w-full py-16 sm:py-24 bg-[#0D0E12] text-white relative overflow-hidden">
       {/* Ambient background glows */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-orange/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-orange/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
+      <div className="absolute bottom-10 right-0 w-96 h-96 bg-brand-darkOrange/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12 sm:space-y-16">
         {/* Top Header & Intro */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-neutral-800/90 border border-neutral-700 text-brand-orange text-xs font-semibold tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/5 border border-white/10 text-brand-orange text-xs font-bold tracking-wide backdrop-blur-md">
             <Building2 className="w-3.5 h-3.5" />
             <span>{t("แนะนำคณะ ITD KMUTNB", "ABOUT ITD FACULTY")}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white">
             {t(
               "ก้าวสู่ยุคดิจิทัลด้วยศักยภาพและความพร้อมระดับสากล",
               "Pioneering Digital Future with Global Excellence"
             )}
           </h2>
-          <p className="text-xs sm:text-sm md:text-base text-gray-300 leading-relaxed">
+          <p className="text-xs sm:text-sm md:text-base text-slate-300 leading-relaxed">
             {t(
               "คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มจพ. มุ่งมั่นสร้างสรรค์นวัตกรรม บ่มเพาะบุคลากรที่มีความเชี่ยวชาญเพื่อขับเคลื่อนสังคมและเศรษฐกิจดิจิทัล",
               "Faculty of Information Technology and Digital Innovation KMUTNB empowers future innovators and leaders through hands-on education and high-impact research."
@@ -110,10 +110,10 @@ export default function VideoHighlight() {
         </div>
 
         {/* Video & Core Pillars Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Left: Video Embed Frame (7 cols) */}
           <div className="lg:col-span-7">
-            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-neutral-900 border border-neutral-700 shadow-2xl group">
+            <div className="relative rounded-3xl overflow-hidden bg-[#141519] border border-white/10 shadow-2xl shadow-black/50 group">
               {/* Responsive 16:9 Video Container */}
               <div className="relative w-full aspect-video">
                 <iframe
@@ -126,10 +126,10 @@ export default function VideoHighlight() {
               </div>
 
               {/* Video Caption Bar */}
-              <div className="p-4 bg-neutral-900/90 border-t border-neutral-800 flex items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-xs text-gray-300">
+              <div className="p-4 sm:p-5 bg-[#141519]/95 border-t border-white/10 flex items-center justify-between gap-4 backdrop-blur-md">
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-200">
                   <Play className="w-4 h-4 text-brand-orange shrink-0 fill-brand-orange" />
-                  <span className="font-medium truncate">
+                  <span className="font-semibold truncate">
                     {t(
                       "วิดีทัศน์แนะนำคณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มจพ.",
                       "ITD KMUTNB Faculty Introductory Video"
@@ -140,10 +140,10 @@ export default function VideoHighlight() {
                   href="https://www.youtube.com/@ITKMUTNB"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="shrink-0 text-xs text-brand-orange hover:text-orange-400 font-medium inline-flex items-center gap-1 transition-colors"
+                  className="shrink-0 text-xs font-bold text-brand-orange hover:text-orange-400 inline-flex items-center gap-1.5 transition-colors active:scale-95"
                 >
                   <span>YouTube</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
             </div>
@@ -155,17 +155,17 @@ export default function VideoHighlight() {
               {pillars.map((pillar, idx) => (
                 <div
                   key={idx}
-                  className="p-4 sm:p-5 rounded-2xl bg-neutral-800/60 hover:bg-neutral-800/90 border border-neutral-700/80 transition-all duration-200 group"
+                  className="p-5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-brand-orange/40 transition-all duration-300 group"
                 >
-                  <div className="flex items-start gap-3.5">
-                    <div className="w-8 h-8 rounded-xl bg-orange-500/10 text-brand-orange flex items-center justify-center shrink-0 mt-0.5 border border-orange-500/20 group-hover:bg-brand-orange group-hover:text-white transition-colors">
-                      <ShieldCheck className="w-4 h-4" />
+                  <div className="flex items-start gap-4">
+                    <div className="w-9 h-9 rounded-xl bg-brand-orange/15 text-brand-orange flex items-center justify-center shrink-0 mt-0.5 border border-brand-orange/30 group-hover:bg-brand-orange group-hover:text-white transition-all shadow-sm">
+                      <ShieldCheck className="w-5 h-5" />
                     </div>
                     <div className="space-y-1">
-                      <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-brand-orange transition-colors">
+                      <h4 className="text-sm sm:text-base font-bold text-white group-hover:text-brand-orange transition-colors leading-snug">
                         {t(pillar.titleTh, pillar.titleEn)}
                       </h4>
-                      <p className="text-xs text-gray-300 leading-relaxed">
+                      <p className="text-xs text-slate-300 leading-relaxed">
                         {t(pillar.descTh, pillar.descEn)}
                       </p>
                     </div>
@@ -177,39 +177,39 @@ export default function VideoHighlight() {
             <div className="pt-2">
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-brand-orange hover:text-orange-400 hover:translate-x-1 transition-all"
+                className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-brand-orange hover:text-orange-400 hover:translate-x-1 transition-all group"
               >
                 <span>{t("ศึกษาข้อมูลเพิ่มเติมเกี่ยวกับคณะ ITD", "Discover More About ITD Faculty")}</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
           </div>
         </div>
 
         {/* Bottom Key Stats Counter Row */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-6 border-t border-neutral-800">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-8 border-t border-white/10">
           {stats.map((stat) => {
             const Icon = stat.icon;
 
             return (
               <div
                 key={stat.id}
-                className="p-5 sm:p-6 rounded-2xl bg-neutral-800/40 border border-neutral-700/60 flex flex-col justify-between space-y-3 hover:border-brand-orange/40 hover:bg-neutral-800/70 transition-all"
+                className="p-6 rounded-3xl bg-white/5 border border-white/10 flex flex-col justify-between space-y-3 hover:border-brand-orange/40 hover:bg-white/10 transition-all group shadow-lg"
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+                  <span className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight font-mono tabular-nums group-hover:text-brand-orange transition-colors">
                     {stat.value}
                   </span>
-                  <div className={`p-2 rounded-lg bg-neutral-900/80 ${stat.color}`}>
+                  <div className={`p-2.5 rounded-xl bg-black/40 border border-white/10 ${stat.color}`}>
                     <Icon className="w-5 h-5" />
                   </div>
                 </div>
 
                 <div className="space-y-1">
-                  <h4 className="text-xs sm:text-sm font-bold text-gray-200">
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-200 leading-snug">
                     {t(stat.labelTh, stat.labelEn)}
                   </h4>
-                  <p className="text-[11px] sm:text-xs text-gray-400 leading-tight">
+                  <p className="text-[11px] sm:text-xs text-slate-400 leading-normal">
                     {t(stat.descTh, stat.descEn)}
                   </p>
                 </div>

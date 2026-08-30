@@ -67,18 +67,18 @@ export default function ProgramsOverview() {
   };
 
   return (
-    <section id="programs" className="w-full py-14 sm:py-20 bg-gray-50/80 border-b border-gray-200/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
+    <section id="programs" className="w-full py-16 sm:py-24 bg-[#FAFAFC] border-b border-slate-200/80 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-orange-100/80 border border-orange-200 text-brand-orange text-xs font-semibold tracking-wide">
-            <GraduationCap className="w-4 h-4" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-lightOrange border border-orange-200/80 text-brand-darkOrange text-xs font-bold tracking-wide">
+            <GraduationCap className="w-4 h-4 text-brand-orange" />
             <span>{t("หลักสูตรการศึกษาที่เปิดสอน", "ACADEMIC PROGRAMS")}</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight">
             {t("หลักสูตรระดับปริญญาตรี ปริญญาโท และปริญญาเอก", "Undergraduate & Graduate Programs")}
           </h2>
-          <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
             {t(
               "หลักสูตรทันสมัยที่ได้รับการรับรองมาตรฐานสากล มุ่งเน้นการปฏิบัติจริง ตอบสนองความต้องการของอุตสาหกรรมดิจิทัล ปัญญาประดิษฐ์ และความมั่นคงไซเบอร์",
               "World-class curricula designed for hands-on expertise in software engineering, AI, cybersecurity, and digital business innovation."
@@ -88,7 +88,7 @@ export default function ProgramsOverview() {
 
         {/* Degree Filter Switcher */}
         <div className="flex justify-center">
-          <div className="inline-flex flex-wrap items-center justify-center gap-2 p-1.5 bg-white rounded-2xl border border-gray-200/80 shadow-sm max-w-full">
+          <div className="inline-flex flex-wrap items-center justify-center gap-2 p-1.5 bg-white rounded-2xl border border-slate-200/90 shadow-sm max-w-full">
             {degreeTabs.map((tab) => {
               const isActive = selectedDegree === tab.id;
               const Icon = tab.icon;
@@ -98,10 +98,10 @@ export default function ProgramsOverview() {
                   key={tab.id}
                   type="button"
                   onClick={() => setSelectedDegree(tab.id)}
-                  className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium transition-all duration-200 ${
+                  className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 active:scale-95 ${
                     isActive
-                      ? "bg-brand-orange text-white shadow-md font-semibold"
-                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100/70"
+                      ? "bg-brand-orange text-white shadow-md shadow-orange-500/25"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100/70"
                   }`}
                 >
                   <Icon className="w-4 h-4 shrink-0" />
@@ -120,64 +120,64 @@ export default function ProgramsOverview() {
             return (
               <div
                 key={program.id}
-                className="group bg-white rounded-2xl border border-gray-200/90 shadow-sm hover:shadow-xl hover:border-brand-orange/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+                className="group bg-white rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-2xl hover:shadow-orange-500/10 hover:border-brand-orange/40 hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between overflow-hidden"
               >
                 {/* Card Header & Content */}
-                <div className="p-6 space-y-4">
+                <div className="p-6 sm:p-7 space-y-4">
                   {/* Degree Badge Row */}
                   <div className="flex items-center justify-between gap-2">
                     <span
-                      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold border ${badge.color}`}
+                      className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold border ${badge.color}`}
                     >
                       <span>{badge.label}</span>
                     </span>
-                    <span className="text-[11px] font-mono text-gray-400 uppercase">
+                    <span className="text-[11px] font-mono text-slate-400 font-bold uppercase tracking-wider">
                       {badge.tag}
                     </span>
                   </div>
 
                   {/* Title */}
                   <div className="space-y-1">
-                    <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover:text-brand-orange transition-colors leading-snug">
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-brand-orange transition-colors leading-snug">
                       {language === "en" && program.titleEn ? program.titleEn : program.titleTh}
                     </h3>
                     {language === "th" && program.titleEn && (
-                      <p className="text-xs text-gray-500 line-clamp-1 italic">
+                      <p className="text-xs text-slate-500 line-clamp-1 italic font-medium">
                         {program.titleEn}
                       </p>
                     )}
                   </div>
 
                   {/* Description */}
-                  <p className="text-xs sm:text-sm text-gray-600 leading-relaxed line-clamp-3">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
                     {program.shortDescription}
                   </p>
 
                   {/* Program Metadata Specs */}
-                  <div className="pt-2 space-y-2 border-t border-gray-100 text-xs text-gray-600">
+                  <div className="pt-3 space-y-2 border-t border-slate-100 text-xs text-slate-600 font-mono">
                     <div className="flex items-center gap-2">
                       <Clock className="w-3.5 h-3.5 text-brand-orange shrink-0" />
-                      <span className="font-medium text-gray-800">{t("ระยะเวลา:", "Duration:")}</span>
-                      <span>{program.duration}</span>
+                      <span className="font-semibold text-slate-800 font-sans">{t("ระยะเวลา:", "Duration:")}</span>
+                      <span className="tabular-nums font-medium">{program.duration}</span>
                     </div>
 
                     {program.tuition && (
                       <div className="flex items-center gap-2">
                         <Coins className="w-3.5 h-3.5 text-brand-orange shrink-0" />
-                        <span className="font-medium text-gray-800">{t("ค่าธรรมเนียม:", "Tuition:")}</span>
-                        <span>{program.tuition}</span>
+                        <span className="font-semibold text-slate-800 font-sans">{t("ค่าธรรมเนียม:", "Tuition:")}</span>
+                        <span className="tabular-nums font-medium">{program.tuition}</span>
                       </div>
                     )}
                   </div>
                 </div>
 
                 {/* Card Action Footer */}
-                <div className="p-6 pt-0 mt-auto">
+                <div className="p-6 sm:p-7 pt-0 mt-auto">
                   <a
                     href={program.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gray-50 hover:bg-brand-orange text-gray-700 hover:text-white border border-gray-200 hover:border-transparent text-xs sm:text-sm font-semibold transition-all duration-200 shadow-2xs group/btn"
+                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-slate-50 hover:bg-gradient-to-r hover:from-brand-orange hover:to-brand-darkOrange text-slate-700 hover:text-white border border-slate-200 hover:border-transparent text-xs sm:text-sm font-bold transition-all duration-300 shadow-xs hover:shadow-md hover:shadow-orange-500/20 active:scale-95 group/btn"
                   >
                     <span>{t("ดูรายละเอียด & สมัครเรียน", "Program Details & Apply")}</span>
                     <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" />
@@ -189,23 +189,23 @@ export default function ProgramsOverview() {
         </div>
 
         {/* Admissions Call to Action Banner */}
-        <div className="relative rounded-3xl bg-gradient-to-r from-[#222222] via-[#2A2B30] to-[#1E1E22] p-8 sm:p-10 text-white shadow-xl overflow-hidden border border-neutral-700">
+        <div className="relative rounded-3xl bg-gradient-to-r from-[#141519] via-[#1C1E24] to-[#121316] p-8 sm:p-12 text-white shadow-2xl overflow-hidden border border-white/10">
           {/* Ambient Glow */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-brand-orange/15 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-brand-orange/20 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/3 animate-pulse-glow" />
 
-          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 text-center lg:text-left">
-            <div className="space-y-2 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/20 border border-brand-orange/30 text-brand-orange text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5" />
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-orange/20 border border-brand-orange/40 text-orange-300 text-xs font-bold">
+                <Sparkles className="w-3.5 h-3.5 text-brand-orange" />
                 <span>{t("เปิดรับสมัครนักศึกษาใหม่ 2569", "Admissions Open for Academic Year 2026")}</span>
               </div>
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-extrabold tracking-tight">
                 {t(
                   "พร้อมก้าวสู่อนาคตสายไอทีและนวัตกรรมดิจิทัลกับเรา",
                   "Ready to Shape the Future of IT & Digital Innovation?"
                 )}
               </h3>
-              <p className="text-xs sm:text-sm text-gray-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                 {t(
                   "สมัครเรียนออนไลน์ผ่านระบบกลาง มจพ. ทั้งระดับปริญญาตรี (TCAS / โควตา / รับตรง) และระดับบัณฑิตศึกษา",
                   "Apply online via the central KMUTNB admissions portal for undergraduate and graduate programs."
@@ -218,7 +218,7 @@ export default function ProgramsOverview() {
                 href="https://www.admission.kmutnb.ac.th"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-orange hover:bg-brand-darkOrange text-white text-sm font-semibold shadow-lg hover:shadow-orange-500/25 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-darkOrange hover:opacity-95 text-white text-sm font-bold shadow-xl shadow-orange-500/30 transition-all hover:scale-105 active:scale-95"
               >
                 <span>{t("สมัครระดับปริญญาตรี (TCAS)", "Undergraduate Admissions")}</span>
                 <ExternalLink className="w-4 h-4" />
@@ -228,7 +228,7 @@ export default function ProgramsOverview() {
                 href="https://grad.admission.kmutnb.ac.th"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white text-sm font-semibold border border-neutral-600 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/15 text-white text-sm font-bold border border-white/15 backdrop-blur-md transition-all hover:scale-105 active:scale-95"
               >
                 <span>{t("สมัครระดับ ป.โท - ป.เอก", "Graduate Admissions")}</span>
                 <ExternalLink className="w-4 h-4" />

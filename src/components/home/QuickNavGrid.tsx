@@ -141,22 +141,22 @@ export default function QuickNavGrid() {
             return (
               <div
                 key={item.id}
-                className="group relative bg-white rounded-2xl p-5 sm:p-6 border border-gray-200/90 shadow-sm hover:shadow-xl hover:border-brand-orange/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+                className="group relative bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-2xl hover:shadow-orange-500/10 hover:border-brand-orange/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
               >
-                {/* Accent Top Bar */}
-                <div className="absolute top-0 inset-x-0 h-1 rounded-t-2xl bg-gradient-to-r from-transparent via-gray-200 to-transparent group-hover:from-brand-orange group-hover:via-amber-400 group-hover:to-brand-darkOrange transition-all duration-300" />
+                {/* Subtle Accent Glow Top Bar */}
+                <div className="absolute top-0 inset-x-6 h-0.5 rounded-full bg-gradient-to-r from-transparent via-slate-200 to-transparent group-hover:from-brand-orange group-hover:via-amber-400 group-hover:to-brand-darkOrange transition-all duration-500" />
 
                 <div>
                   {/* Top Row: Icon & Tag */}
                   <div className="flex items-center justify-between gap-2 mb-4">
                     <div
-                      className={`w-12 h-12 rounded-xl bg-gradient-to-br ${item.accentColor} text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform duration-300`}
+                      className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${item.accentColor} text-white flex items-center justify-center shadow-md shadow-orange-500/20 group-hover:scale-105 group-hover:rotate-1 transition-transform duration-300`}
                     >
                       <Icon className="w-6 h-6" />
                     </div>
 
                     <span
-                      className={`text-[11px] font-medium px-2.5 py-1 rounded-full ${item.badgeColor}`}
+                      className={`text-[11px] font-semibold px-3 py-1 rounded-full border border-slate-200/60 ${item.badgeColor}`}
                     >
                       {t(item.tagTh, item.tagEn)}
                     </span>
@@ -168,30 +168,33 @@ export default function QuickNavGrid() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group/title block focus:outline-none"
+                      className="group/title block focus-visible:ring-2 focus-visible:ring-brand-orange rounded-xl -m-1 p-1 active:scale-98 transition-transform"
                     >
-                      <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover/title:text-brand-orange transition-colors flex items-center gap-1.5">
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover/title:text-brand-orange transition-colors flex items-center gap-1.5 leading-snug">
                         <span>{t(item.titleTh, item.titleEn)}</span>
-                        <ArrowUpRight className="w-4 h-4 opacity-50 group-hover/title:opacity-100 group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-all text-brand-orange" />
+                        <ArrowUpRight className="w-4 h-4 opacity-40 group-hover/title:opacity-100 group-hover/title:translate-x-0.5 group-hover/title:-translate-y-0.5 transition-all text-brand-orange shrink-0" />
                       </h3>
                     </a>
                   ) : (
-                    <Link href={item.href} className="group/title block focus:outline-none">
-                      <h3 className="text-base sm:text-lg font-bold text-gray-900 group-hover/title:text-brand-orange transition-colors flex items-center gap-1.5">
+                    <Link 
+                      href={item.href} 
+                      className="group/title block focus-visible:ring-2 focus-visible:ring-brand-orange rounded-xl -m-1 p-1 active:scale-98 transition-transform"
+                    >
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 group-hover/title:text-brand-orange transition-colors flex items-center gap-1.5 leading-snug">
                         <span>{t(item.titleTh, item.titleEn)}</span>
-                        <ChevronRight className="w-4 h-4 opacity-50 group-hover/title:opacity-100 group-hover/title:translate-x-0.5 transition-all text-brand-orange" />
+                        <ChevronRight className="w-4 h-4 opacity-40 group-hover/title:opacity-100 group-hover/title:translate-x-0.5 transition-all text-brand-orange shrink-0" />
                       </h3>
                     </Link>
                   )}
 
                   {/* Description */}
-                  <p className="mt-2 text-xs sm:text-sm text-gray-600 leading-relaxed">
+                  <p className="mt-2.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
                     {t(item.descTh, item.descEn)}
                   </p>
                 </div>
 
                 {/* Sub Quick Links */}
-                <div className="mt-5 pt-4 border-t border-gray-100 flex flex-wrap gap-2">
+                <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-2">
                   {item.subLinks.map((sub) => {
                     if (sub.external) {
                       return (
@@ -200,7 +203,7 @@ export default function QuickNavGrid() {
                           href={sub.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[11px] sm:text-xs text-gray-500 hover:text-brand-orange bg-gray-50 hover:bg-orange-50/80 px-2 py-1 rounded-md transition-colors border border-gray-200/60 hover:border-orange-200"
+                          className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-600 hover:text-brand-orange bg-slate-50 hover:bg-orange-50/80 px-2.5 py-1.5 rounded-xl transition-all border border-slate-200/70 hover:border-orange-200 active:scale-95 font-medium"
                         >
                           <span>{t(sub.nameTh, sub.nameEn)}</span>
                           <ExternalLink className="w-2.5 h-2.5 opacity-60" />
@@ -212,7 +215,7 @@ export default function QuickNavGrid() {
                       <Link
                         key={sub.nameTh}
                         href={sub.href}
-                        className="inline-flex items-center gap-1 text-[11px] sm:text-xs text-gray-500 hover:text-brand-orange bg-gray-50 hover:bg-orange-50/80 px-2 py-1 rounded-md transition-colors border border-gray-200/60 hover:border-orange-200"
+                        className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-600 hover:text-brand-orange bg-slate-50 hover:bg-orange-50/80 px-2.5 py-1.5 rounded-xl transition-all border border-slate-200/70 hover:border-orange-200 active:scale-95 font-medium"
                       >
                         <span>{t(sub.nameTh, sub.nameEn)}</span>
                       </Link>

@@ -1,8 +1,10 @@
+import React from "react";
+
 export default function HomePage() {
   return (
-    <main className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+    <div className="flex-1 flex flex-col items-center justify-center p-8 sm:p-16 text-center">
       <div className="max-w-2xl mx-auto space-y-6">
-        <div className="inline-block px-4 py-1.5 rounded-full bg-orange-100 text-brand-orange text-sm font-semibold tracking-wide">
+        <div className="inline-block px-4 py-1.5 rounded-full bg-orange-100 text-brand-orange text-sm font-semibold tracking-wide shadow-xs">
           คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มจพ.
         </div>
         <h1 className="text-4xl sm:text-5xl font-bold text-brand-dark tracking-tight">
@@ -26,6 +28,6 @@ export default function HomePage() {
           </a>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

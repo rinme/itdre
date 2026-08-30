@@ -39,7 +39,7 @@ export default function NewsArchiveContent() {
 
   // Read initial parameters from URL
   const initialCategory = searchParams.get("category") || "all";
-  const initialSearch = searchParams.get("search") || "";
+  const initialSearch = searchParams.get("q") || searchParams.get("search") || "";
   const initialSort = (searchParams.get("sort") as NewsSortOption) || "newest";
   const initialPage = parseInt(searchParams.get("page") || "1", 10) || 1;
 
@@ -51,7 +51,7 @@ export default function NewsArchiveContent() {
   // Sync state when URL params change from external navigation
   useEffect(() => {
     const cat = searchParams.get("category") || "all";
-    const s = searchParams.get("search") || "";
+    const s = searchParams.get("q") || searchParams.get("search") || "";
     const sort = (searchParams.get("sort") as NewsSortOption) || "newest";
     const p = parseInt(searchParams.get("page") || "1", 10) || 1;
 

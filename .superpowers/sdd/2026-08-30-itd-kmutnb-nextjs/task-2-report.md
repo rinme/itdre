@@ -30,11 +30,22 @@
   - `src/data/programs.ts`
   - `src/data/navigation.ts`
 
-## 2. Verification & Test Results
-- `bun run scripts/scrape-and-archive.ts`: Successfully scraped all live assets and generated typed data modules in 14.5 seconds.
-- `bun run build`: Passed cleanly with exit code 0. TypeScript validity check and ESLint passed with 0 errors, static pages prerendered smoothly.
-- Git commit: `feat: implement scraper and extract local assets and structured data` (commit hash: `94cd579`).
+## 2. Review Findings & Fixes
+1. **Fallback for Missing Assets (`downloadAsset`):**
+   - Updated `downloadAsset` in `scripts/scrape-and-archive.ts` so that if `fs.existsSync(targetPath)` is false (e.g. 404 or failed download), it automatically returns the appropriate local placeholder (`/assets/news/placeholder-news.svg`, `/assets/faculty/placeholder-avatar.svg`, `/assets/facilities/placeholder-facility.svg`, `/assets/banners/placeholder-banner.svg`, `/assets/logos/logo-favicon.png`) rather than returning a path to a non-existent file.
+   - Validated that 100% of referenced image paths exist locally in `public/` (0 missing assets).
+2. **Phone Number Formatting & Sanitization:**
+   - Implemented `parsePhoneNumber` to properly extract 4-digit internal extensions (e.g. `02-555-2000 ต่อ 2708`) and direct telephone numbers, preventing duplicate prefixes (such as `02-555-2000 ต่อ 02-555-2000`) or empty extension suffixes (`ต่อ -`).
 
-## 3. Potential Concerns & Notes for Subsequent Tasks
+## 3. Verification & Test Results
+- `bun run scripts/scrape-and-archive.ts`: Successfully scraped all live assets and generated typed data modules in 14.5 seconds.
+- Asset validation test: 0 missing or broken assets across `banners`, `news`, `personnel`, `facilities`, and `logos`.
+- `bun run build`: Passed cleanly with exit code 0. TypeScript validity check and ESLint passed with 0 errors, static pages prerendered smoothly.
+- Commits:
+  - `94cd579`: `feat: implement scraper and extract local assets and structured data`
+  - `414df91`: `docs: record Task 2 completion and add report`
+  - Current review fix commit.
+
+## 4. Potential Concerns & Notes for Subsequent Tasks
 - All media references in `src/data/*.ts` strictly point to local paths (`/assets/...`), preventing any broken external dependencies or remote hotlinking.
 - Downstream tasks (Task 3: Layout Components, Task 4: Homepage, Task 5: News Pages, Task 6: Personnel Directory, Task 7: Subpages) can directly import typed data from `@/data/*` and types from `@/types`.

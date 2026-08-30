@@ -208,7 +208,7 @@ export const personnel: PersonnelMember[] = [
     "category": "lecturer",
     "department": "ภาควิชาการจัดการเทคโนโลยีสารสนเทศ",
     "email": "phayung.m@itd.kmutnb.ac.th",
-    "phone": "02-555-2000 ต่อ 02-555-2000",
+    "phone": "02-555-2000 ต่อ 2101",
     "image": "/assets/faculty/faculty-person-21.png"
   },
   {
@@ -248,7 +248,7 @@ export const personnel: PersonnelMember[] = [
     "category": "lecturer",
     "department": "ภาควิชาการจัดการเทคโนโลยีสารสนเทศ",
     "email": "pallop.p@itd.kmutnb.ac.th",
-    "phone": "02-555-2000 ต่อ 02-555-2000",
+    "phone": "02-555-2000",
     "image": "/assets/faculty/faculty-person-25.JPG"
   },
   {
@@ -258,7 +258,7 @@ export const personnel: PersonnelMember[] = [
     "category": "lecturer",
     "department": "ภาควิชาการจัดการเทคโนโลยีสารสนเทศ",
     "email": "prachyanun.n@itd.kmutnb.ac.th",
-    "phone": "02-555-2000 ต่อ 02-555-2000",
+    "phone": "02-555-2000",
     "image": "/assets/faculty/faculty-person-26.JPG"
   },
   {
@@ -268,7 +268,7 @@ export const personnel: PersonnelMember[] = [
     "category": "lecturer",
     "department": "ภาควิชาการจัดการเทคโนโลยีสารสนเทศ",
     "email": "panita.w@itd.kmutnb.ac.th",
-    "phone": "02-555-2000 ต่อ 02-555-2000",
+    "phone": "02-555-2000",
     "image": "/assets/faculty/faculty-person-27.JPG"
   },
   {
@@ -278,7 +278,7 @@ export const personnel: PersonnelMember[] = [
     "category": "lecturer",
     "department": "ภาควิชาการจัดการเทคโนโลยีสารสนเทศ",
     "email": "junjiraporn.t@itd.kmutnb.ac.th",
-    "phone": "02-555-2000 ต่อ 02-555-2000",
+    "phone": "02-555-2000",
     "image": "/assets/faculty/faculty-person-28.PNG"
   },
   {
@@ -508,7 +508,7 @@ export const personnel: PersonnelMember[] = [
     "category": "staff",
     "department": "งานบริการการศึกษา",
     "email": "attiyaporn.k@itd.kmutnb.ac.th",
-    "phone": "02-555-2000 ต่อ 02-555-2000",
+    "phone": "02-555-2000",
     "image": "/assets/faculty/faculty-person-51.PNG"
   },
   {

@@ -74,14 +74,27 @@ async function fetchWithRetry(url: string, retries = 1): Promise<Response | null
   return null;
 }
 
+// Helper to determine appropriate fallback path based on target directory
+function getFallbackAssetPath(targetDir: string, customFallback?: string): string {
+  if (customFallback) return customFallback;
+  if (targetDir.includes("news")) return "/assets/news/placeholder-news.svg";
+  if (targetDir.includes("faculty")) return "/assets/faculty/placeholder-avatar.svg";
+  if (targetDir.includes("banners")) return "/assets/banners/placeholder-banner.svg";
+  if (targetDir.includes("facilities")) return "/assets/facilities/placeholder-facility.svg";
+  return "/assets/logos/logo-favicon.png";
+}
+
 // Helper to download binary files and save to disk
 async function downloadAsset(
   remoteUrl: string,
   targetDir: string,
-  preferredName?: string
+  preferredName?: string,
+  customFallback?: string
 ): Promise<string> {
+  const fallback = getFallbackAssetPath(targetDir, customFallback);
+
   if (!remoteUrl || remoteUrl.trim() === "" || remoteUrl.startsWith("data:")) {
-    return "/assets/logos/logo-favicon.png";
+    return fallback;
   }
 
   const cleanRemote = remoteUrl.trim().replace(/^\\+/, "").replace(/\\/g, "/");
@@ -104,14 +117,41 @@ async function downloadAsset(
       const buffer = await res.arrayBuffer();
       if (buffer.byteLength > 0) {
         fs.writeFileSync(targetPath, Buffer.from(buffer));
-        return relativePublicPath;
+        if (fs.existsSync(targetPath)) {
+          return relativePublicPath;
+        }
       }
     }
   } catch {
     // ignore
   }
 
-  return relativePublicPath;
+  // Ensure we never return a path to a non-existent file
+  return fallback;
+}
+
+// Phone parsing helper avoiding duplicate full numbers as extensions
+function parsePhoneNumber(text: string): string | undefined {
+  if (!text || text.trim() === "") return undefined;
+
+  // Extract 4-digit internal extension (starting with 27xx or 22xx)
+  const extMatch = text.match(/(?:ต่อ|ภายใน)\s*(\d{4})/i) || text.match(/\b(27\d{2}|22\d{2})\b/);
+  if (extMatch) {
+    return `02-555-2000 ต่อ ${extMatch[1]}`;
+  }
+
+  // Extract full phone number (e.g. 02-555-2701, 08-xxxx-xxxx)
+  const directMatch = text.match(/(0[2-9][-\s]?\d{3,4}[-\s]?\d{4})/);
+  if (directMatch) {
+    return directMatch[1];
+  }
+
+  // If text mentions general KMUTNB operator without valid extension
+  if (text.includes("02-555-2000") && !text.includes("ต่อ -")) {
+    return "02-555-2000";
+  }
+
+  return undefined;
 }
 
 // Create fallback SVG assets if needed
@@ -488,7 +528,7 @@ async function scrapePersonnel(): Promise<PersonnelMember[]> {
             processedKeys.add(key);
 
             const emailMatch = fullText.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/);
-            const phoneMatch = fullText.match(/27\d{2}|22\d{2}|02-555-\d{4}/);
+            const phone = parsePhoneNumber(fullText);
 
             const imgBase = path.parse(imgSrc).name.toLowerCase();
             const nameEn = enMap[imgBase] || undefined;
@@ -501,7 +541,7 @@ async function scrapePersonnel(): Promise<PersonnelMember[]> {
               category: cfg.category,
               department: currentDept,
               email: emailMatch ? emailMatch[1] : undefined,
-              phone: phoneMatch ? `02-555-2000 ต่อ ${phoneMatch[0]}` : undefined,
+              phone,
               image: imgSrc,
             });
           }

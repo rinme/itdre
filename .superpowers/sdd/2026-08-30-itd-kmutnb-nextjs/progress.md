@@ -11,3 +11,4 @@
 | Task 2 & Task 7 | Data & Assets / About, Facilities, Services, Contact | Clean - Task 7 consumes facilities and navigation data from Task 2 |
 
 ## Execution Progress
+- Task 1: complete (commits f1859d4..9eec5c8, review clean)

@@ -102,6 +102,11 @@ export const mainNav: NavItem[] = [
     ]
   },
   {
+    "titleTh": "ตารางเรียน",
+    "titleEn": "Class Schedules",
+    "href": "/schedules"
+  },
+  {
     "titleTh": "แนะนำคณะ",
     "titleEn": "About ITD",
     "href": "/about",
@@ -144,8 +149,8 @@ export const mainNav: NavItem[] = [
         "href": "/services#downloads"
       },
       {
-        "titleTh": "ตารางเรียนและตารางสอบ",
-        "titleEn": "Class & Exam Timetable",
+        "titleTh": "ตารางเรียน",
+        "titleEn": "Class Schedules",
         "href": "/schedules"
       },
       {
@@ -169,6 +174,11 @@ export const quickLinks: NavItem[] = [
     "titleEn": "Admission Online",
     "href": "https://www.admission.kmutnb.ac.th",
     "external": true
+  },
+  {
+    "titleTh": "ตารางเรียน",
+    "titleEn": "Class Schedules",
+    "href": "/schedules"
   },
   {
     "titleTh": "ปฏิทินการศึกษา",
@@ -223,6 +233,11 @@ export const footerNav = [
     "titleTh": "บริการและระบบสารสนเทศ",
     "titleEn": "E-Services & Systems",
     "items": [
+      {
+        "titleTh": "ตารางเรียน",
+        "titleEn": "Class Schedules",
+        "href": "/schedules"
+      },
       {
         "titleTh": "Student e-Services",
         "titleEn": "Student e-Services",

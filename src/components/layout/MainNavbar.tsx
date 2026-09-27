@@ -23,7 +23,8 @@ import {
   Users,
   Info,
   Layers,
-  FileText
+  FileText,
+  CalendarDays
 } from "lucide-react";
 
 export default function MainNavbar() {
@@ -102,19 +103,28 @@ export default function MainNavbar() {
   // Helper to determine if a nav item is active
   const isItemActive = (item: NavItem) => {
     if (item.href === "/" && pathname === "/") return true;
+    if (item.href === "/schedules") {
+      return pathname === "/schedules" || pathname.startsWith("/schedules/");
+    }
     if (item.href !== "/" && pathname.startsWith(item.href.split("?")[0].split("#")[0])) {
       return true;
     }
     if (item.children) {
-      return item.children.some((child) =>
-        child.href.startsWith("/") && pathname.startsWith(child.href.split("?")[0].split("#")[0])
-      );
+      return item.children.some((child) => {
+        // If on /schedules, only the dedicated schedules top nav item should be active
+        if (child.href === "/schedules") return false;
+        return (
+          child.href.startsWith("/") &&
+          pathname.startsWith(child.href.split("?")[0].split("#")[0])
+        );
+      });
     }
     return false;
   };
 
   const quickSearchSuggestions = [
     { titleTh: "รับสมัครนักศึกษาใหม่", titleEn: "New Admissions", href: "https://www.admission.kmutnb.ac.th", external: true },
+    { titleTh: "ตารางเรียน / ตารางสอน", titleEn: "Class Schedules", href: "/schedules" },
     { titleTh: "ปฏิทินการศึกษา", titleEn: "Academic Calendar", href: "http://acdserv.kmutnb.ac.th/academic-calendar", external: true },
     { titleTh: "คณาจารย์และบุคลากร", titleEn: "Faculty & Staff", href: "/personnel" },
     { titleTh: "ห้องเรียนและห้องปฏิบัติการ", titleEn: "Labs & Facilities", href: "/facilities" },
@@ -208,14 +218,29 @@ export default function MainNavbar() {
                               );
                             }
 
+                            const isChildActive =
+                              pathname === child.href ||
+                              (child.href !== "/" &&
+                                pathname.startsWith(child.href.split("?")[0].split("#")[0]));
+
                             return (
                               <Link
                                 key={child.href + child.titleTh}
                                 href={child.href}
-                                className="group/item flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm text-slate-300 hover:text-white hover:bg-brand-orange/15 rounded-xl transition-all"
+                                className={`group/item flex items-center justify-between px-3.5 py-2.5 text-xs sm:text-sm rounded-xl transition-all ${
+                                  isChildActive
+                                    ? "text-brand-orange bg-brand-orange/15 font-semibold"
+                                    : "text-slate-300 hover:text-white hover:bg-brand-orange/15"
+                                }`}
                               >
                                 <span>{t(child.titleTh, child.titleEn)}</span>
-                                <ChevronRight className="w-3.5 h-3.5 text-slate-500 group-hover/item:text-brand-orange group-hover/item:translate-x-0.5 transition-all" />
+                                <ChevronRight
+                                  className={`w-3.5 h-3.5 transition-all ${
+                                    isChildActive
+                                      ? "text-brand-orange translate-x-0.5"
+                                      : "text-slate-500 group-hover/item:text-brand-orange group-hover/item:translate-x-0.5"
+                                  }`}
+                                />
                               </Link>
                             );
                           })}
@@ -424,15 +449,29 @@ export default function MainNavbar() {
                           );
                         }
 
+                        const isChildActive =
+                          !child.external &&
+                          (pathname === child.href ||
+                            (child.href !== "/" &&
+                              pathname.startsWith(child.href.split("?")[0].split("#")[0])));
+
                         return (
                           <Link
                             key={child.href + child.titleTh}
                             href={child.href}
                             onClick={() => setMobileOpen(false)}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm text-slate-300 hover:text-white hover:bg-brand-orange/20 transition-colors"
+                            className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs sm:text-sm transition-colors ${
+                              isChildActive
+                                ? "text-brand-orange bg-brand-orange/20 font-semibold"
+                                : "text-slate-300 hover:text-white hover:bg-brand-orange/20"
+                            }`}
                           >
                             <span>{t(child.titleTh, child.titleEn)}</span>
-                            <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
+                            <ChevronRight
+                              className={`w-3.5 h-3.5 ${
+                                isChildActive ? "text-brand-orange" : "text-slate-500"
+                              }`}
+                            />
                           </Link>
                         );
                       })}
@@ -459,6 +498,22 @@ export default function MainNavbar() {
                 </div>
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
+
+              <Link
+                href="/schedules"
+                onClick={() => setMobileOpen(false)}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-colors ${
+                  pathname === "/schedules" || pathname.startsWith("/schedules")
+                    ? "bg-brand-orange text-white font-semibold shadow-md"
+                    : "bg-white/5 hover:bg-white/10 text-slate-300"
+                }`}
+              >
+                <div className="flex items-center gap-2">
+                  <CalendarDays className="w-4 h-4 text-brand-orange" />
+                  <span>{t("ตารางเรียน", "Class Schedules")}</span>
+                </div>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
+              </Link>
 
               <Link
                 href="/services#e-services"

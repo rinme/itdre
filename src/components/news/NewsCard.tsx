@@ -128,7 +128,7 @@ export default function NewsCard({ item, featured = false, className = "" }: New
         <div className="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between">
           <Link
             href={`/news/${item.id}`}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-orange hover:text-brand-darkOrange transition-all group-hover:translate-x-0.5 active:scale-95"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-orange hover:text-brand-dark-orange transition-all group-hover:translate-x-0.5 active:scale-95"
           >
             <span>{t("อ่านรายละเอียด", "Read More")}</span>
             <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />

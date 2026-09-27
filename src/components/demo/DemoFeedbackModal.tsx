@@ -61,7 +61,7 @@ export default function DemoFeedbackModal({
         {/* Header */}
         <div className="p-5 sm:p-6 border-b border-white/10 flex items-center justify-between bg-[#1f2027]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-orange to-brand-darkOrange flex items-center justify-center text-white shadow-md shadow-orange-500/25">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-orange to-brand-dark-orange flex items-center justify-center text-white shadow-md shadow-orange-500/25">
               <MessageSquareHeart className="w-5 h-5" />
             </div>
             <div>
@@ -204,7 +204,7 @@ export default function DemoFeedbackModal({
               <button
                 type="submit"
                 disabled={isSubmitting || !feedback.trim()}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-orange to-brand-darkOrange hover:opacity-90 text-white text-xs sm:text-sm font-semibold shadow-md shadow-orange-500/25 transition-all disabled:opacity-50 active:scale-95"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-orange to-brand-dark-orange hover:opacity-90 text-white text-xs sm:text-sm font-semibold shadow-md shadow-orange-500/25 transition-all disabled:opacity-50 active:scale-95"
               >
                 {isSubmitting ? (
                   <>

@@ -74,7 +74,7 @@ function LoginForm() {
     <div className="w-full max-w-md bg-[#18191E] border border-white/15 rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative z-10">
       {/* Brand Header */}
       <div className="text-center mb-6">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-orange to-brand-darkOrange text-white font-bold text-2xl shadow-xl shadow-orange-500/25 mb-4 ring-4 ring-orange-500/10">
+        <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-orange to-brand-dark-orange text-white font-bold text-2xl shadow-xl shadow-orange-500/25 mb-4 ring-4 ring-orange-500/10">
           IT
         </div>
         <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
@@ -152,7 +152,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full mt-2 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-brand-orange to-brand-darkOrange hover:opacity-95 text-white font-semibold text-sm shadow-xl shadow-orange-500/25 active:scale-98 transition-all disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+          className="w-full mt-2 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-gradient-to-r from-brand-orange to-brand-dark-orange hover:opacity-95 text-white font-semibold text-sm shadow-xl shadow-orange-500/25 active:scale-98 transition-all disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
         >
           {isLoading ? (
             <>

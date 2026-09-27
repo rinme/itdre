@@ -418,7 +418,7 @@ export default function AboutHistoryContent() {
                 </p>
                 <Link
                   href="/facilities"
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-darkOrange text-white text-xs font-semibold transition-colors shadow-sm"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-dark-orange text-white text-xs font-semibold transition-colors shadow-sm"
                 >
                   <span>{t("ดูห้องเรียนและห้องแล็บทั้งหมด", "View All 19 Facilities")}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -438,7 +438,7 @@ export default function AboutHistoryContent() {
           </Link>
           <Link
             href="/personnel/administrators"
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-brand-orange hover:text-brand-darkOrange transition-colors"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-brand-orange hover:text-brand-dark-orange transition-colors"
           >
             <span>{t("ดูทำเนียบผู้บริหารคณะ", "View Executive Leadership")} →</span>
           </Link>

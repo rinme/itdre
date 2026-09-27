@@ -245,7 +245,7 @@ export default function FacilityModal({ facility, onClose }: FacilityModalProps)
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <Link
               href="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-darkOrange text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-dark-orange text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs"
             >
               <CalendarDays className="w-4 h-4" />
               <span>{t("ติดต่อสอบถาม / จองห้อง", "Inquire / Book Room")}</span>

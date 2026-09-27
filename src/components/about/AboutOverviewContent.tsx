@@ -251,7 +251,7 @@ export default function AboutOverviewContent() {
               <div className="pt-2 flex items-center gap-4">
                 <Link
                   href="/personnel/administrators"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-orange hover:bg-brand-darkOrange text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-orange hover:bg-brand-dark-orange text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs"
                 >
                   <Award className="w-4 h-4" />
                   <span>{t("ทำเนียบคณะผู้บริหาร", "Meet Executive Leadership")}</span>

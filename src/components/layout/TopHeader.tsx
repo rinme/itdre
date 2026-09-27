@@ -45,7 +45,7 @@ export default function TopHeader() {
               href="https://www.admission.kmutnb.ac.th"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-lightOrange hover:bg-orange-100 text-brand-darkOrange font-semibold border border-orange-200/80 transition-all hover:shadow-xs active:scale-95"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-brand-light-orange hover:bg-orange-100 text-brand-dark-orange font-semibold border border-orange-200/80 transition-all hover:shadow-xs active:scale-95"
             >
               <GraduationCap className="w-3.5 h-3.5 text-brand-orange" />
               <span>{t("สมัครเรียนออนไลน์ 2569", "Admissions 2026")}</span>

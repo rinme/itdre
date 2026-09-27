@@ -257,7 +257,7 @@ export default function MainNavbar() {
             {/* Mobile Brand / Title Indicator */}
             <div className="lg:hidden flex items-center gap-2">
               <Link href="/" className="flex items-center gap-2.5 text-left active:scale-95 transition-transform">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-orange to-brand-darkOrange flex items-center justify-center font-bold text-white shadow-md shadow-orange-500/20">
+                <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-orange to-brand-dark-orange flex items-center justify-center font-bold text-white shadow-md shadow-orange-500/20">
                   IT
                 </div>
                 <div className="flex flex-col">
@@ -326,7 +326,7 @@ export default function MainNavbar() {
           {/* Drawer Header */}
           <div className="p-4 border-b border-white/10 flex items-center justify-between bg-[#1A1B20]">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-orange to-brand-darkOrange flex items-center justify-center font-bold text-white shadow-md shadow-orange-500/20">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-brand-orange to-brand-dark-orange flex items-center justify-center font-bold text-white shadow-md shadow-orange-500/20">
                 IT
               </div>
               <div className="flex flex-col">
@@ -595,7 +595,7 @@ export default function MainNavbar() {
               )}
               <button
                 type="submit"
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-brand-orange to-brand-darkOrange hover:opacity-90 text-white text-xs font-semibold shadow-md shadow-orange-500/25 transition-all shrink-0 active:scale-95"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-brand-orange to-brand-dark-orange hover:opacity-90 text-white text-xs font-semibold shadow-md shadow-orange-500/25 transition-all shrink-0 active:scale-95"
               >
                 {t("ค้นหา", "Search")}
               </button>

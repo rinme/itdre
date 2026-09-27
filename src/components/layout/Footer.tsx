@@ -32,7 +32,7 @@ export default function Footer() {
   return (
     <footer className="w-full bg-[#0C0D11] text-slate-300 relative z-30 mt-auto overflow-hidden">
       {/* Top Accent Gradient Border */}
-      <div className="h-1 w-full bg-gradient-to-r from-brand-orange via-amber-400 to-brand-darkOrange" />
+      <div className="h-1 w-full bg-gradient-to-r from-brand-orange via-amber-400 to-brand-dark-orange" />
 
       {/* Top Bar / Quick Accent Bar */}
       <div className="border-b border-white/10 bg-[#111217]">

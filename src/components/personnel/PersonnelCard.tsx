@@ -44,7 +44,7 @@ export default function PersonnelCard({
         className={`group relative bg-white rounded-3xl border-2 border-brand-orange/30 shadow-lg hover:shadow-2xl hover:shadow-orange-500/10 hover:border-brand-orange transition-all duration-300 overflow-hidden flex flex-col md:flex-row ${className}`}
       >
         {/* Executive Ribbon Tag */}
-        <div className="absolute top-4 right-4 z-20 hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-brand-orange to-brand-darkOrange text-white text-xs font-bold shadow-md shadow-orange-500/25">
+        <div className="absolute top-4 right-4 z-20 hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-brand-orange to-brand-dark-orange text-white text-xs font-bold shadow-md shadow-orange-500/25">
           <Award className="w-3.5 h-3.5" />
           <span>{t("ผู้บริหารสูงสุด", "Faculty Leadership")}</span>
         </div>
@@ -97,8 +97,8 @@ export default function PersonnelCard({
             </div>
 
             {/* Role */}
-            <div className="p-3.5 rounded-2xl bg-brand-lightOrange/80 border border-orange-200/70">
-              <p className="text-sm sm:text-base font-bold text-brand-darkOrange leading-snug">
+            <div className="p-3.5 rounded-2xl bg-brand-light-orange/80 border border-orange-200/70">
+              <p className="text-sm sm:text-base font-bold text-brand-dark-orange leading-snug">
                 {roleName}
               </p>
             </div>
@@ -187,7 +187,7 @@ export default function PersonnelCard({
 
           {/* Role / Position */}
           <div className="pt-1">
-            <p className="text-xs sm:text-sm font-semibold text-brand-darkOrange leading-tight line-clamp-2">
+            <p className="text-xs sm:text-sm font-semibold text-brand-dark-orange leading-tight line-clamp-2">
               {roleName}
             </p>
           </div>

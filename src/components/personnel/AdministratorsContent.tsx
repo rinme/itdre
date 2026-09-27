@@ -266,7 +266,7 @@ export default function AdministratorsContent() {
             <button
               type="button"
               onClick={() => setSearchQuery("")}
-              className="px-4 py-2 rounded-xl bg-brand-orange hover:bg-brand-darkOrange text-white text-xs font-semibold shadow-xs transition-all cursor-pointer"
+              className="px-4 py-2 rounded-xl bg-brand-orange hover:bg-brand-dark-orange text-white text-xs font-semibold shadow-xs transition-all cursor-pointer"
             >
               {t("ล้างคำค้นหา", "Clear search")}
             </button>

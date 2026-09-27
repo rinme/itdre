@@ -94,7 +94,7 @@ export default function HeroBannerSlider() {
 
                     {slide.link && (
                       <div className="shrink-0 pt-1 sm:pt-0">
-                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-orange to-brand-darkOrange hover:opacity-95 text-white text-xs sm:text-sm font-semibold shadow-lg shadow-orange-500/30 transition-all hover:scale-105 active:scale-95">
+                        <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-brand-orange to-brand-dark-orange hover:opacity-95 text-white text-xs sm:text-sm font-semibold shadow-lg shadow-orange-500/30 transition-all hover:scale-105 active:scale-95">
                           <span>{t("อ่านรายละเอียด", "Learn More")}</span>
                           <ExternalLink className="w-3.5 h-3.5" />
                         </span>

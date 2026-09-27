@@ -147,7 +147,7 @@ export default function FacilityCard({
         </div>
 
         {/* Action Button */}
-        <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-brand-orange group-hover:text-brand-darkOrange">
+        <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-brand-orange group-hover:text-brand-dark-orange">
           <span>{t("ดูข้อมูลห้องและอุปกรณ์", "Room specs & details")}</span>
           <span className="transform group-hover:translate-x-1 transition-transform">→</span>
         </div>

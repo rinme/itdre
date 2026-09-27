@@ -57,7 +57,7 @@ export default function CoursePresetsTab() {
         </p>
         <button
           onClick={() => setModalPreset("new")}
-          className="flex items-center gap-2 px-4 py-2 bg-brand-orange hover:bg-brand-darkOrange text-white rounded-xl text-sm font-semibold transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-brand-orange hover:bg-brand-dark-orange text-white rounded-xl text-sm font-semibold transition-all"
         >
           <Plus className="w-4 h-4" />
           เพิ่มรายวิชา

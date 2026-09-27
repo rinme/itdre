@@ -39,7 +39,7 @@ export default function ProgramsOverview() {
         return {
           label: t("ระดับปริญญาตรี", "Bachelor's Degree"),
           tag: "Undergraduate",
-          color: "bg-orange-100 text-brand-darkOrange border-orange-200",
+          color: "bg-orange-100 text-brand-dark-orange border-orange-200",
           gradient: "from-orange-500 to-amber-500",
         };
       case "master":
@@ -71,7 +71,7 @@ export default function ProgramsOverview() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-lightOrange border border-orange-200/80 text-brand-darkOrange text-xs font-bold tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-light-orange border border-orange-200/80 text-brand-dark-orange text-xs font-bold tracking-wide">
             <GraduationCap className="w-4 h-4 text-brand-orange" />
             <span>{t("หลักสูตรการศึกษาที่เปิดสอน", "ACADEMIC PROGRAMS")}</span>
           </div>
@@ -177,7 +177,7 @@ export default function ProgramsOverview() {
                     href={program.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-slate-50 hover:bg-gradient-to-r hover:from-brand-orange hover:to-brand-darkOrange text-slate-700 hover:text-white border border-slate-200 hover:border-transparent text-xs sm:text-sm font-bold transition-all duration-300 shadow-xs hover:shadow-md hover:shadow-orange-500/20 active:scale-95 group/btn"
+                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-slate-50 hover:bg-gradient-to-r hover:from-brand-orange hover:to-brand-dark-orange text-slate-700 hover:text-white border border-slate-200 hover:border-transparent text-xs sm:text-sm font-bold transition-all duration-300 shadow-xs hover:shadow-md hover:shadow-orange-500/20 active:scale-95 group/btn"
                   >
                     <span>{t("ดูรายละเอียด & สมัครเรียน", "Program Details & Apply")}</span>
                     <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" />
@@ -218,7 +218,7 @@ export default function ProgramsOverview() {
                 href="https://www.admission.kmutnb.ac.th"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-darkOrange hover:opacity-95 text-white text-sm font-bold shadow-xl shadow-orange-500/30 transition-all hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-dark-orange hover:opacity-95 text-white text-sm font-bold shadow-xl shadow-orange-500/30 transition-all hover:scale-105 active:scale-95"
               >
                 <span>{t("สมัครระดับปริญญาตรี (TCAS)", "Undergraduate Admissions")}</span>
                 <ExternalLink className="w-4 h-4" />

@@ -144,7 +144,7 @@ export default function QuickNavGrid() {
                 className="group relative bg-white rounded-3xl p-6 border border-slate-200/80 shadow-sm hover:shadow-2xl hover:shadow-orange-500/10 hover:border-brand-orange/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
               >
                 {/* Subtle Accent Glow Top Bar */}
-                <div className="absolute top-0 inset-x-6 h-0.5 rounded-full bg-gradient-to-r from-transparent via-slate-200 to-transparent group-hover:from-brand-orange group-hover:via-amber-400 group-hover:to-brand-darkOrange transition-all duration-500" />
+                <div className="absolute top-0 inset-x-6 h-0.5 rounded-full bg-gradient-to-r from-transparent via-slate-200 to-transparent group-hover:from-brand-orange group-hover:via-amber-400 group-hover:to-brand-dark-orange transition-all duration-500" />
 
                 <div>
                   {/* Top Row: Icon & Tag */}

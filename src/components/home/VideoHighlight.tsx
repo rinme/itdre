@@ -86,7 +86,7 @@ export default function VideoHighlight() {
     <section className="w-full py-16 sm:py-24 bg-[#0D0E12] text-white relative overflow-hidden">
       {/* Ambient background glows */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-orange/15 rounded-full blur-3xl pointer-events-none animate-pulse-glow" />
-      <div className="absolute bottom-10 right-0 w-96 h-96 bg-brand-darkOrange/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-0 w-96 h-96 bg-brand-dark-orange/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12 sm:space-y-16">
         {/* Top Header & Intro */}

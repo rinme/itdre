@@ -319,7 +319,7 @@ export default function AdminSchedulesDashboardPage() {
             <button
               type="button"
               onClick={() => setIsCreateModalOpen(true)}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-orange to-brand-darkOrange hover:opacity-95 text-white font-semibold text-xs sm:text-sm shadow-xl shadow-orange-500/25 active:scale-95 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-orange to-brand-dark-orange hover:opacity-95 text-white font-semibold text-xs sm:text-sm shadow-xl shadow-orange-500/25 active:scale-95 transition-all cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>+ สร้างตารางเรียนใหม่</span>
@@ -551,7 +551,7 @@ export default function AdminSchedulesDashboardPage() {
             <button
               type="button"
               onClick={() => setIsCreateModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-orange hover:bg-brand-darkOrange text-white text-xs font-semibold shadow-md shadow-orange-500/20 active:scale-95 transition-all"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-orange hover:bg-brand-dark-orange text-white text-xs font-semibold shadow-md shadow-orange-500/20 active:scale-95 transition-all"
             >
               <Plus className="w-4 h-4" />
               <span>+ สร้างตารางเรียนใหม่</span>

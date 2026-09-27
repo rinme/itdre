@@ -91,7 +91,7 @@ export default function AdminHeader({
               href="/admin/schedules"
               className="flex items-center gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange rounded-xl"
             >
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-orange to-brand-darkOrange flex items-center justify-center font-bold text-white shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-orange to-brand-dark-orange flex items-center justify-center font-bold text-white shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform">
                 IT
               </div>
               <div className="flex flex-col">

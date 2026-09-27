@@ -187,7 +187,7 @@ export default function NewsFilter({
           <button
             type="button"
             onClick={handleResetFilters}
-            className="inline-flex items-center gap-1 text-xs text-brand-orange hover:text-brand-darkOrange font-medium hover:underline cursor-pointer"
+            className="inline-flex items-center gap-1 text-xs text-brand-orange hover:text-brand-dark-orange font-medium hover:underline cursor-pointer"
           >
             <RotateCcw className="w-3 h-3" />
             <span>{t("ล้างตัวกรองทั้งหมด", "Reset all filters")}</span>

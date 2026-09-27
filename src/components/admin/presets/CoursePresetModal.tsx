@@ -168,7 +168,7 @@ export default function CoursePresetModal({ preset, onClose, onSaved }: CoursePr
             <button
               type="submit"
               disabled={saving}
-              className="flex-1 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-darkOrange text-white text-sm font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              className="flex-1 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-dark-orange text-white text-sm font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
               {isEdit ? "บันทึกการแก้ไข" : "เพิ่ม Preset"}

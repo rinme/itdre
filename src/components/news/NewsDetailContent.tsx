@@ -130,7 +130,7 @@ export default function NewsDetailContent({
           {/* Back to archive link */}
           <Link
             href={`/news?category=${categoryId}`}
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-orange hover:text-brand-darkOrange transition-colors shrink-0"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-orange hover:text-brand-dark-orange transition-colors shrink-0"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>{t("กลับหน้ารวมข่าว", "Back to News")}</span>
@@ -279,7 +279,7 @@ export default function NewsDetailContent({
           {/* Article Summary Lead Box */}
           {article.summary && (
             <div className="p-4 sm:p-5 rounded-2xl bg-orange-50/60 border-l-4 border-brand-orange text-gray-800 text-sm sm:text-base leading-relaxed">
-              <span className="font-bold text-brand-darkOrange block mb-1 text-xs uppercase tracking-wider">
+              <span className="font-bold text-brand-dark-orange block mb-1 text-xs uppercase tracking-wider">
                 {t("สรุปเนื้อหาข่าว", "Article Summary")}
               </span>
               {article.summary}
@@ -290,7 +290,7 @@ export default function NewsDetailContent({
           <div className="prose prose-lg max-w-none text-gray-800 leading-relaxed space-y-4 pt-2">
             {article.content ? (
               <div
-                className="article-content-body text-sm sm:text-base text-gray-800 leading-relaxed [&_p]:mb-4 [&_strong]:font-semibold [&_strong]:text-gray-900 [&_a]:text-brand-orange [&_a]:underline hover:[&_a]:text-brand-darkOrange [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_img]:rounded-xl [&_img]:max-w-full [&_img]:my-4"
+                className="article-content-body text-sm sm:text-base text-gray-800 leading-relaxed [&_p]:mb-4 [&_strong]:font-semibold [&_strong]:text-gray-900 [&_a]:text-brand-orange [&_a]:underline hover:[&_a]:text-brand-dark-orange [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_img]:rounded-xl [&_img]:max-w-full [&_img]:my-4"
                 dangerouslySetInnerHTML={{ __html: article.content }}
               />
             ) : (
@@ -381,7 +381,7 @@ export default function NewsDetailContent({
             {/* Bottom Back Button */}
             <Link
               href={`/news?category=${categoryId}`}
-              className="inline-flex items-center gap-2 text-xs font-semibold text-brand-orange hover:text-brand-darkOrange transition-colors"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-brand-orange hover:text-brand-dark-orange transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>{t("กลับไปยังข่าวสารหมวดหมู่นี้", "Back to this category")}</span>
@@ -405,7 +405,7 @@ export default function NewsDetailContent({
 
               <Link
                 href={`/news?category=${categoryId}`}
-                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-brand-orange hover:text-brand-darkOrange transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-brand-orange hover:text-brand-dark-orange transition-colors"
               >
                 <span>{t("ดูทั้งหมดในหมวดนี้", "View all in category")}</span>
                 <ArrowUpRight className="w-4 h-4" />

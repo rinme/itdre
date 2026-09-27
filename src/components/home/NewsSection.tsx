@@ -63,7 +63,7 @@ export default function NewsSection() {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-2.5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-lightOrange border border-orange-200/80 text-brand-darkOrange text-xs font-bold tracking-wide">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-light-orange border border-orange-200/80 text-brand-dark-orange text-xs font-bold tracking-wide">
               <Newspaper className="w-3.5 h-3.5 text-brand-orange" />
               <span>{t("ข่าวสารและประชาสัมพันธ์", "NEWS & UPDATES")}</span>
             </div>
@@ -82,7 +82,7 @@ export default function NewsSection() {
           <div className="hidden md:block shrink-0">
             <Link
               href={activeTabId === "all" ? "/news" : `/news?category=${activeTabId}`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-darkOrange hover:opacity-95 text-white font-semibold text-sm shadow-md shadow-orange-500/20 hover:shadow-lg transition-all active:scale-95 group"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-dark-orange hover:opacity-95 text-white font-semibold text-sm shadow-md shadow-orange-500/20 hover:shadow-lg transition-all active:scale-95 group"
             >
               <span>{t("ดูข่าวทั้งหมด", "View All News")}</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -165,7 +165,7 @@ export default function NewsSection() {
         <div className="block md:hidden text-center pt-2">
           <Link
             href={activeTabId === "all" ? "/news" : `/news?category=${activeTabId}`}
-            className="inline-flex items-center justify-center w-full py-3.5 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-darkOrange text-white font-bold text-sm shadow-md shadow-orange-500/25 transition-all gap-2 active:scale-98"
+            className="inline-flex items-center justify-center w-full py-3.5 rounded-2xl bg-gradient-to-r from-brand-orange to-brand-dark-orange text-white font-bold text-sm shadow-md shadow-orange-500/25 transition-all gap-2 active:scale-98"
           >
             <span>{t("ดูข่าวทั้งหมด", "View All News")}</span>
             <ArrowRight className="w-4 h-4" />

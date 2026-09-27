@@ -520,7 +520,7 @@ export default function FacilitiesExplorer({
               <button
                 type="button"
                 onClick={handleResetFilters}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-darkOrange text-white text-xs sm:text-sm font-semibold shadow-md transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-orange hover:bg-brand-dark-orange text-white text-xs sm:text-sm font-semibold shadow-md transition-all cursor-pointer"
               >
                 <span>{t("ล้างตัวกรองและดูห้องทั้งหมด", "Reset Filters & View All")}</span>
               </button>

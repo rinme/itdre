@@ -71,3 +71,19 @@ describe("Preset API response shapes", () => {
     });
   });
 });
+
+describe("AdminPresetsContext instructor list", () => {
+  it("builds instructor list from personnel module", async () => {
+    const { personnel } = await import("../src/data/personnel");
+    const instructors = personnel.filter(
+      (p) => p.category === "lecturer" || p.category === "administrator"
+    );
+    // Must be non-empty
+    expect(instructors.length).toBeGreaterThan(0);
+    // Every item has nameTh
+    for (const inst of instructors) {
+      expect(typeof inst.nameTh).toBe("string");
+      expect(inst.nameTh.length).toBeGreaterThan(0);
+    }
+  });
+});

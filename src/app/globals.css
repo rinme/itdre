@@ -171,4 +171,75 @@
   background-size: 20px 20px;
 }
 
+/* ==========================================================================
+   Print Styles for Schedule Viewer & Printable Documents
+   ========================================================================== */
+@media print {
+  /* Hide navigation, headers, footers, feedback banner, and interactive controls */
+  header,
+  nav,
+  footer,
+  aside,
+  .no-print,
+  [data-no-print] {
+    display: none !important;
+  }
+
+  /* Reset page body background to clean white */
+  html,
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    font-size: 11pt;
+  }
+
+  /* Expand main container to 100% printable page width */
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .printable-schedule {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Display elements marked only for print (e.g. document header) */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Avoid page breaks inside schedule cards and table rows */
+  .break-inside-avoid,
+  .print-break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Timetable container high-contrast print borders */
+  .printable-grid-container {
+    border: 1px solid #94a3b8 !important;
+    background: #ffffff !important;
+  }
+}
+
+@media screen {
+  .print-only {
+    display: none !important;
+  }
+}
+
+
 

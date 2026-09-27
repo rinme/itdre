@@ -51,7 +51,7 @@ export default function QuickNavGrid() {
       titleEn: "Timetable & Calendar",
       descTh: "ตารางเรียน ตารางสอบ และปฏิทินกิจกรรมการศึกษา มจพ.",
       descEn: "Class schedules, exam timetables, and academic calendars",
-      href: "/services#timetable",
+      href: "/schedules",
       external: false,
       icon: CalendarDays,
       accentColor: "from-blue-500 to-cyan-500",
@@ -60,9 +60,9 @@ export default function QuickNavGrid() {
       tagEn: "Current Term",
       subLinks: [
         {
-          nameTh: "ตารางเรียน / ตารางสอบ",
-          nameEn: "Class & Exam Schedule",
-          href: "/services#timetable",
+          nameTh: "ตารางเรียน / ตารางสอน",
+          nameEn: "Class & Teaching Schedule",
+          href: "/schedules",
           external: false,
         },
         {

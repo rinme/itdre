@@ -146,7 +146,7 @@ export const mainNav: NavItem[] = [
       {
         "titleTh": "ตารางเรียนและตารางสอบ",
         "titleEn": "Class & Exam Timetable",
-        "href": "/services#timetable"
+        "href": "/schedules"
       },
       {
         "titleTh": "ปฏิทินการศึกษา มจพ.",

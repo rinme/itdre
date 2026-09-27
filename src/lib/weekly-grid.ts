@@ -341,3 +341,128 @@ export function detectAllScheduleConflicts(
 
   return allConflicts;
 }
+
+export interface PublicColorTheme {
+  name: ColorToken;
+  label: string;
+  cardBg: string;
+  cardBorder: string;
+  cardText: string;
+  accentBar: string;
+  badgeBg: string;
+  badgeText: string;
+  subText: string;
+}
+
+export const PUBLIC_COLOR_THEMES: Record<ColorToken, PublicColorTheme> = {
+  orange: {
+    name: "orange",
+    label: "ส้ม (Orange)",
+    cardBg: "bg-orange-50/95 hover:bg-orange-100",
+    cardBorder: "border-orange-200 hover:border-orange-400",
+    cardText: "text-orange-950",
+    accentBar: "bg-orange-500",
+    badgeBg: "bg-orange-100",
+    badgeText: "text-orange-800",
+    subText: "text-orange-900/80",
+  },
+  blue: {
+    name: "blue",
+    label: "น้ำเงิน (Blue)",
+    cardBg: "bg-blue-50/95 hover:bg-blue-100",
+    cardBorder: "border-blue-200 hover:border-blue-400",
+    cardText: "text-blue-950",
+    accentBar: "bg-blue-500",
+    badgeBg: "bg-blue-100",
+    badgeText: "text-blue-800",
+    subText: "text-blue-900/80",
+  },
+  emerald: {
+    name: "emerald",
+    label: "เขียว (Emerald)",
+    cardBg: "bg-emerald-50/95 hover:bg-emerald-100",
+    cardBorder: "border-emerald-200 hover:border-emerald-400",
+    cardText: "text-emerald-950",
+    accentBar: "bg-emerald-500",
+    badgeBg: "bg-emerald-100",
+    badgeText: "text-emerald-800",
+    subText: "text-emerald-900/80",
+  },
+  purple: {
+    name: "purple",
+    label: "ม่วง (Purple)",
+    cardBg: "bg-purple-50/95 hover:bg-purple-100",
+    cardBorder: "border-purple-200 hover:border-purple-400",
+    cardText: "text-purple-950",
+    accentBar: "bg-purple-500",
+    badgeBg: "bg-purple-100",
+    badgeText: "text-purple-800",
+    subText: "text-purple-900/80",
+  },
+  rose: {
+    name: "rose",
+    label: "ชมพู/กุหลาบ (Rose)",
+    cardBg: "bg-rose-50/95 hover:bg-rose-100",
+    cardBorder: "border-rose-200 hover:border-rose-400",
+    cardText: "text-rose-950",
+    accentBar: "bg-rose-500",
+    badgeBg: "bg-rose-100",
+    badgeText: "text-rose-800",
+    subText: "text-rose-900/80",
+  },
+  amber: {
+    name: "amber",
+    label: "อำพัน/ทอง (Amber)",
+    cardBg: "bg-amber-50/95 hover:bg-amber-100",
+    cardBorder: "border-amber-200 hover:border-amber-400",
+    cardText: "text-amber-950",
+    accentBar: "bg-amber-500",
+    badgeBg: "bg-amber-100",
+    badgeText: "text-amber-800",
+    subText: "text-amber-900/80",
+  },
+  sky: {
+    name: "sky",
+    label: "ฟ้า (Sky)",
+    cardBg: "bg-sky-50/95 hover:bg-sky-100",
+    cardBorder: "border-sky-200 hover:border-sky-400",
+    cardText: "text-sky-950",
+    accentBar: "bg-sky-500",
+    badgeBg: "bg-sky-100",
+    badgeText: "text-sky-800",
+    subText: "text-sky-900/80",
+  },
+};
+
+export function getPublicColorTheme(color?: string | null): PublicColorTheme {
+  if (color && color in PUBLIC_COLOR_THEMES) {
+    return PUBLIC_COLOR_THEMES[color as ColorToken];
+  }
+  return PUBLIC_COLOR_THEMES.orange;
+}
+
+export function calculateTotalHours(
+  slots: { startTime: string; endTime: string }[]
+): number {
+  const totalMin = slots.reduce((acc, slot) => {
+    const start = timeToMinutes(slot.startTime);
+    const end = timeToMinutes(slot.endTime);
+    return acc + Math.max(0, end - start);
+  }, 0);
+  return Number((totalMin / 60).toFixed(1));
+}
+
+export function getCurrentDayOfWeek(date: Date = new Date()): DayOfWeek {
+  const dayIndex = date.getDay(); // 0 is Sunday, 1 is Monday ... 6 is Saturday
+  const map: Record<number, DayOfWeek> = {
+    0: "SUNDAY",
+    1: "MONDAY",
+    2: "TUESDAY",
+    3: "WEDNESDAY",
+    4: "THURSDAY",
+    5: "FRIDAY",
+    6: "SATURDAY",
+  };
+  return map[dayIndex] || "MONDAY";
+}
+

@@ -380,10 +380,13 @@ export default function CourseSlotModal({
                       key={inst.id}
                       type="button"
                       onClick={() => {
-                        // APPEND to existing comma-separated instructors string
+                        // APPEND to existing comma-separated instructors string (avoiding duplicates)
                         setInstructors((prev) => {
                           const current = prev.trim();
-                          return current ? `${current}, ${inst.nameTh}` : inst.nameTh;
+                          if (!current) return inst.nameTh;
+                          const list = current.split(",").map((s) => s.trim()).filter(Boolean);
+                          if (list.includes(inst.nameTh)) return current;
+                          return `${current}, ${inst.nameTh}`;
                         });
                         setInstructorQuery("");
                       }}

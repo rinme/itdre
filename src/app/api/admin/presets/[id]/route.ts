@@ -21,8 +21,18 @@ export async function PUT(
     const courseCode = typeof body.courseCode === "string" && body.courseCode.trim() ? body.courseCode.trim() : existing.courseCode;
     const courseName = typeof body.courseName === "string" && body.courseName.trim() ? body.courseName.trim() : existing.courseName;
     const courseType: CourseType = VALID_TYPES.includes(body.courseType) ? body.courseType : existing.courseType;
-    const color = VALID_COLORS.includes(body.color) ? body.color : existing.color;
-    const credits = typeof body.credits === "string" && body.credits.trim() ? body.credits.trim() : existing.credits;
+    const color =
+      body.color !== undefined
+        ? VALID_COLORS.includes(body.color)
+          ? body.color
+          : null
+        : existing.color;
+    const credits =
+      body.credits !== undefined
+        ? typeof body.credits === "string" && body.credits.trim()
+          ? body.credits.trim()
+          : null
+        : existing.credits;
 
     const preset = await prisma.coursePreset.update({
       where: { id: params.id },

@@ -73,16 +73,19 @@ export function AdminPresetsProvider({ children }: { children: React.ReactNode }
     refreshPresets();
   }, [refreshPresets]);
 
+  const value = React.useMemo(
+    () => ({
+      coursePresets,
+      instructors: INSTRUCTOR_LIST,
+      loading,
+      error,
+      refreshPresets,
+    }),
+    [coursePresets, loading, error, refreshPresets]
+  );
+
   return (
-    <AdminPresetsContext.Provider
-      value={{
-        coursePresets,
-        instructors: INSTRUCTOR_LIST,
-        loading,
-        error,
-        refreshPresets,
-      }}
-    >
+    <AdminPresetsContext.Provider value={value}>
       {children}
     </AdminPresetsContext.Provider>
   );

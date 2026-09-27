@@ -101,6 +101,48 @@ describe("Public Schedule UI & Cascading Logic", () => {
       const withSec = cascadeFilterUpdate(state, { sectionGroup: "Sec 2" });
       expect(withSec.sectionGroup).toBe("Sec 2");
     });
+
+    it("resets orphaned sectionGroup to undefined when degreeLevel, programId, or yearLevel changes", () => {
+      const stateWithSection: ScheduleFilterState = {
+        academicYear: 2567,
+        semester: 1,
+        degreeLevel: "BACHELOR",
+        programId: "bachelor-itd",
+        yearLevel: 1,
+        sectionGroup: "Sec 2",
+      };
+
+      // 1. Changing degreeLevel clears sectionGroup
+      const switchedDegree = cascadeFilterUpdate(stateWithSection, {
+        degreeLevel: "MASTER",
+      });
+      expect(switchedDegree.sectionGroup).toBeUndefined();
+
+      // 2. Changing programId clears sectionGroup
+      const switchedProg = cascadeFilterUpdate(stateWithSection, {
+        programId: "bachelor-net-security",
+      });
+      expect(switchedProg.sectionGroup).toBeUndefined();
+
+      // 3. Changing yearLevel clears sectionGroup
+      const switchedYear = cascadeFilterUpdate(stateWithSection, {
+        yearLevel: 2,
+      });
+      expect(switchedYear.sectionGroup).toBeUndefined();
+
+      // 4. Changing semester does NOT clear sectionGroup
+      const switchedSem = cascadeFilterUpdate(stateWithSection, {
+        semester: 2,
+      });
+      expect(switchedSem.sectionGroup).toBe("Sec 2");
+
+      // 5. Explicitly passing a new sectionGroup is preserved
+      const updatedWithExplicitSec = cascadeFilterUpdate(stateWithSection, {
+        yearLevel: 2,
+        sectionGroup: "Sec 1",
+      });
+      expect(updatedWithExplicitSec.sectionGroup).toBe("Sec 1");
+    });
   });
 
   describe("Bilingual Day Labels and Metadata", () => {

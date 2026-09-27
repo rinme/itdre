@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
+import Link from "next/link";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import type { DegreeLevel, DayOfWeek } from "@prisma/client";
 import {
@@ -19,6 +20,8 @@ import {
   MapPin,
   User,
   Info,
+  Home,
+  ChevronRight,
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { programs } from "@/data/programs";
@@ -183,6 +186,19 @@ export default function PublicScheduleViewer() {
     return Array.from(sections).sort();
   }, [schedules]);
 
+  // Active check: if filters.sectionGroup is set but not present in availableSections, reset filters.sectionGroup = undefined
+  useEffect(() => {
+    if (filters.sectionGroup && !isLoading) {
+      if (!availableSections.includes(filters.sectionGroup)) {
+        setFilters((prev) => {
+          const updated = { ...prev, sectionGroup: undefined };
+          updateUrlParams(updated, viewMode);
+          return updated;
+        });
+      }
+    }
+  }, [availableSections, filters.sectionGroup, isLoading, updateUrlParams, viewMode]);
+
   // Selected schedule(s)
   const activeSchedules = useMemo(() => {
     if (!filters.sectionGroup) {
@@ -282,6 +298,33 @@ export default function PublicScheduleViewer() {
           </div>
         </div>
       </div>
+
+      {/* =========================================================================
+          BREADCRUMB (Screen Only, Bilingual)
+          ========================================================================= */}
+      <nav
+        aria-label="Breadcrumb"
+        className="no-print flex items-center gap-1.5 text-xs text-slate-500 pb-1"
+      >
+        <Link
+          href="/"
+          className="hover:text-brand-orange transition-colors flex items-center gap-1"
+        >
+          <Home className="w-3.5 h-3.5" />
+          <span>{t("หน้าหลัก", "Home")}</span>
+        </Link>
+        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+        <Link
+          href="/services"
+          className="hover:text-brand-orange transition-colors"
+        >
+          {t("บริการและดาวน์โหลด", "Services & Downloads")}
+        </Link>
+        <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+        <span className="font-semibold text-slate-900">
+          {t("ตารางเรียนและตารางสอน", "Class Timetable")}
+        </span>
+      </nav>
 
       {/* =========================================================================
           PAGE HEADER & CONTROLS (Screen Only)

@@ -34,35 +34,6 @@ function ScheduleViewerSkeleton() {
 export default function SchedulesPage() {
   return (
     <div className="w-full flex flex-col bg-[#F8F9FA] min-h-screen">
-      {/* Breadcrumb Navigation (Screen Only) */}
-      <div className="no-print w-full bg-white border-b border-slate-200/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <nav
-            aria-label="Breadcrumb"
-            className="flex items-center gap-1.5 text-xs text-slate-500"
-          >
-            <Link
-              href="/"
-              className="hover:text-brand-orange transition-colors flex items-center gap-1"
-            >
-              <Home className="w-3.5 h-3.5" />
-              <span>หน้าหลัก</span>
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <Link
-              href="/services"
-              className="hover:text-brand-orange transition-colors"
-            >
-              บริการและดาวน์โหลด
-            </Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="font-semibold text-slate-900">
-              ตารางเรียนและตารางสอน
-            </span>
-          </nav>
-        </div>
-      </div>
-
       {/* Main Content Area */}
       <main className="flex-1">
         <Suspense fallback={<ScheduleViewerSkeleton />}>

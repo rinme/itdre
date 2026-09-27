@@ -75,6 +75,17 @@ export function cascadeFilterUpdate(
 ): ScheduleFilterState {
   const next: ScheduleFilterState = { ...current, ...change };
 
+  // If cohort (degreeLevel, programId, yearLevel) changed and sectionGroup was not explicitly provided in change,
+  // reset sectionGroup to undefined to prevent orphaned section selections
+  const cohortChanged =
+    (change.degreeLevel && change.degreeLevel !== current.degreeLevel) ||
+    (change.programId && change.programId !== current.programId) ||
+    (change.yearLevel !== undefined && change.yearLevel !== current.yearLevel);
+
+  if (cohortChanged && !("sectionGroup" in change)) {
+    next.sectionGroup = undefined;
+  }
+
   // If degree level changed, ensure programId matches degree level
   if (change.degreeLevel && change.degreeLevel !== current.degreeLevel) {
     const targetDegree = change.degreeLevel.toLowerCase();

@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import type { DegreeLevel, ScheduleStatus } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -27,6 +29,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ schedules });
   } catch (error) {
+    console.error("GET /api/admin/schedules error:", error);
     return NextResponse.json({ error: "FAILED_TO_FETCH_SCHEDULES" }, { status: 500 });
   }
 }

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request, { params }: { params: { id: string } }) {
   try {
     const schedule = await prisma.schedule.findUnique({
@@ -18,6 +20,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
     return NextResponse.json({ schedule });
   } catch (error) {
+    console.error("GET /api/admin/schedules/[id] error:", error);
     return NextResponse.json({ error: "FAILED_TO_FETCH_SCHEDULE" }, { status: 500 });
   }
 }

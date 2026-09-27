@@ -117,4 +117,29 @@ describe("Admin Schedule UI Helpers & Logic", () => {
     expect(filtered).toContain("degreeLevel=BACHELOR");
     expect(filtered).toContain("status=PUBLISHED");
   });
+
+  it("sanitizes login redirect URLs to prevent open redirect vulnerabilities", () => {
+    const { getSafeRedirect } = require("../src/lib/auth");
+
+    // Valid internal relative paths should be preserved
+    expect(getSafeRedirect("/admin/schedules")).toBe("/admin/schedules");
+    expect(getSafeRedirect("/admin/schedules/cls-12345")).toBe("/admin/schedules/cls-12345");
+    expect(getSafeRedirect("/schedules?year=2567")).toBe("/schedules?year=2567");
+
+    // Null or empty strings should fallback to default
+    expect(getSafeRedirect(null)).toBe("/admin/schedules");
+    expect(getSafeRedirect("")).toBe("/admin/schedules");
+
+    // External URLs with protocol should be blocked and sanitized
+    expect(getSafeRedirect("https://evil.com")).toBe("/admin/schedules");
+    expect(getSafeRedirect("http://evil.com/phishing")).toBe("/admin/schedules");
+    expect(getSafeRedirect("javascript:alert(1)")).toBe("/admin/schedules");
+
+    // Protocol-relative URLs should be blocked and sanitized
+    expect(getSafeRedirect("//evil.com")).toBe("/admin/schedules");
+    expect(getSafeRedirect("//evil.com/fake-admin")).toBe("/admin/schedules");
+
+    // Embedded protocols without leading slash
+    expect(getSafeRedirect("ftp://attacker.com")).toBe("/admin/schedules");
+  });
 });

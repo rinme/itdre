@@ -14,11 +14,12 @@ import {
   Shield,
   CheckCircle2,
 } from "lucide-react";
+import { getSafeRedirect } from "@/lib/auth";
 
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const from = searchParams.get("from") || "/admin/schedules";
+  const redirectTarget = getSafeRedirect(searchParams.get("from"));
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -60,7 +61,7 @@ function LoginForm() {
       }
 
       // Success: redirect to intended destination or schedules dashboard
-      router.push(from);
+      router.push(redirectTarget);
       router.refresh();
     } catch (err: any) {
       console.error("Login error:", err);

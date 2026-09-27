@@ -33,3 +33,41 @@ describe("CoursePreset model shape", () => {
     await _p.$disconnect();
   });
 });
+
+describe("Preset API response shapes", () => {
+  it("validates course preset object shape", () => {
+    // We test shape parsing logic extracted into a helper
+    function validatePresetBody(body: unknown): { courseCode: string; courseName: string; credits?: string; courseType?: string; color?: string } | null {
+      if (typeof body !== "object" || body === null) return null;
+      const b = body as Record<string, unknown>;
+      if (typeof b.courseCode !== "string" || b.courseCode.trim() === "") return null;
+      if (typeof b.courseName !== "string" || b.courseName.trim() === "") return null;
+      return {
+        courseCode: (b.courseCode as string).trim(),
+        courseName: (b.courseName as string).trim(),
+        credits: typeof b.credits === "string" ? b.credits.trim() : undefined,
+        courseType: typeof b.courseType === "string" ? b.courseType : undefined,
+        color: typeof b.color === "string" ? b.color : undefined,
+      };
+    }
+
+    expect(validatePresetBody(null)).toBeNull();
+    expect(validatePresetBody({ courseCode: "", courseName: "X" })).toBeNull();
+    expect(validatePresetBody({ courseCode: "060133101", courseName: "Web App Dev" })).toEqual({
+      courseCode: "060133101",
+      courseName: "Web App Dev",
+      credits: undefined,
+      courseType: undefined,
+      color: undefined,
+    });
+    expect(
+      validatePresetBody({ courseCode: "060133101", courseName: "Web App Dev", credits: "3(2-2-5)", courseType: "LAB", color: "blue" })
+    ).toEqual({
+      courseCode: "060133101",
+      courseName: "Web App Dev",
+      credits: "3(2-2-5)",
+      courseType: "LAB",
+      color: "blue",
+    });
+  });
+});

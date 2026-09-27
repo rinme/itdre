@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Calendar,
+  BookMarked,
   LogOut,
   ExternalLink,
   ShieldCheck,
@@ -70,6 +71,13 @@ export default function AdminHeader({
       href: "/admin/schedules",
       icon: Calendar,
       active: pathname.startsWith("/admin/schedules"),
+    },
+    {
+      nameTh: "Presets",
+      nameEn: "Presets",
+      href: "/admin/presets",
+      icon: BookMarked,
+      active: pathname.startsWith("/admin/presets"),
     },
   ];
 

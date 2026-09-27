@@ -283,4 +283,29 @@ describe("Weekly Grid Calculations & Helpers", () => {
       expect(roomConflict?.message).toContain("79-5A01");
     });
   });
+
+  describe("Grid Scale Alignment & Color Swatches", () => {
+    it("matches 12 hourly intervals with total grid minutes (720px = 720min)", () => {
+      const markers: string[] = [];
+      for (let h = GRID_START_HOUR; h < GRID_END_HOUR; h++) {
+        markers.push(`${String(h).padStart(2, "0")}:00`);
+      }
+
+      // Exactly 12 hourly rows
+      expect(markers.length).toBe(12);
+      expect(markers[0]).toBe("08:00");
+      expect(markers[11]).toBe("19:00");
+
+      // 12 rows of 60px = 720px height exactly matching GRID_TOTAL_MINUTES (720 min)
+      const totalPixels = markers.length * 60;
+      expect(totalPixels).toBe(GRID_TOTAL_MINUTES);
+    });
+
+    it("verifies all color themes have valid swatchBg Tailwind classes", () => {
+      COLOR_TOKEN_KEYS.forEach((token) => {
+        const theme = COLOR_THEMES[token];
+        expect(theme.swatchBg).toMatch(/^bg-[a-z]+-500$/);
+      });
+    });
+  });
 });

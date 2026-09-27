@@ -218,13 +218,7 @@ export default function ScheduleTableView({
                     <td className="py-3.5 px-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <span
-                          className="w-2.5 h-2.5 rounded-full shrink-0"
-                          style={{
-                            backgroundColor:
-                              theme.accentBar.replace("bg-", "") === "bg-orange-500"
-                                ? "#F97316"
-                                : theme.name,
-                          }}
+                          className={`w-2.5 h-2.5 rounded-full shrink-0 ${theme.swatchBg}`}
                         />
                         <span className="font-mono font-bold text-white">
                           {slot.courseCode}

@@ -47,10 +47,10 @@ export default function WeeklyGridEditor({
   onAddSlot,
   className = "",
 }: WeeklyGridEditorProps) {
-  // Generate hour markers from 08:00 to 20:00 (13 markers)
+  // Generate hour markers for the 12 hourly intervals (08:00 to 19:00)
   const hourMarkers = useMemo(() => {
     const list: string[] = [];
-    for (let h = GRID_START_HOUR; h <= GRID_END_HOUR; h++) {
+    for (let h = GRID_START_HOUR; h < GRID_END_HOUR; h++) {
       list.push(`${String(h).padStart(2, "0")}:00`);
     }
     return list;
@@ -153,19 +153,20 @@ export default function WeeklyGridEditor({
 
           {/* Grid Canvas */}
           <div className="relative grid grid-cols-[72px_repeat(7,1fr)] bg-[#141518]">
-            {/* Left Time Column */}
+            {/* Left Time Column (Exactly 12 hourly rows matching the 12 rows of 60px = 720px total) */}
             <div className="relative border-r border-white/10 bg-[#17181C]/70">
-              {hourMarkers.map((time, idx) => {
-                const isLast = idx === hourMarkers.length - 1;
-                return (
-                  <div
-                    key={time}
-                    className="h-[60px] flex items-start justify-center pr-1.5 pt-1 border-b border-white/5 text-[11px] font-mono text-slate-400"
-                  >
-                    <span>{time}</span>
-                  </div>
-                );
-              })}
+              {hourMarkers.map((time) => (
+                <div
+                  key={time}
+                  className="h-[60px] flex items-start justify-center pr-1.5 pt-1 border-b border-white/5 text-[11px] font-mono text-slate-400"
+                >
+                  <span>{time}</span>
+                </div>
+              ))}
+              {/* Bottom 20:00 marker aligned with the bottom edge (720px) */}
+              <div className="absolute bottom-0.5 left-0 right-0 flex justify-center pr-1.5 text-[10px] font-mono text-slate-500 pointer-events-none">
+                <span>{`${String(GRID_END_HOUR).padStart(2, "0")}:00`}</span>
+              </div>
             </div>
 
             {/* 7 Day Columns */}

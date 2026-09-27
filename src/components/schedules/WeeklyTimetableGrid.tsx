@@ -32,7 +32,7 @@ export interface PublicCourseSlot {
   startTime: string;
   endTime: string;
   room?: string | null;
-  instructor?: string | null;
+  instructors?: string[] | null;
   courseType: CourseType;
   color?: string | null;
 }
@@ -274,14 +274,14 @@ export default function WeeklyTimetableGrid({
                                 </span>
                               )}
 
-                              {slot.instructor && (
+                              {slot.instructors && slot.instructors.length > 0 && (
                                 <span
                                   className="flex items-center gap-0.5 text-slate-700 truncate max-w-[130px]"
-                                  title={`อาจารย์ผู้สอน: ${slot.instructor}`}
+                                  title={`อาจารย์ผู้สอน: ${slot.instructors.join(", ")}`}
                                 >
                                   <User className="w-2.5 h-2.5 text-slate-400 shrink-0" />
                                   <span className="truncate">
-                                    {slot.instructor}
+                                    {slot.instructors.join(", ")}
                                   </span>
                                 </span>
                               )}

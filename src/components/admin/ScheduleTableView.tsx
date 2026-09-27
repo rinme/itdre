@@ -67,7 +67,7 @@ export default function ScheduleTableView({
           s.courseCode.toLowerCase().includes(q) ||
           s.courseName.toLowerCase().includes(q) ||
           (s.room && s.room.toLowerCase().includes(q)) ||
-          (s.instructor && s.instructor.toLowerCase().includes(q)) ||
+          (s.instructors && s.instructors.some((i) => i.toLowerCase().includes(q))) ||
           (s.section && s.section.toLowerCase().includes(q))
       );
     }
@@ -275,13 +275,13 @@ export default function ScheduleTableView({
 
                     {/* Instructor */}
                     <td className="py-3.5 px-4 max-w-[180px] truncate">
-                      {slot.instructor ? (
+                      {slot.instructors && slot.instructors.length > 0 ? (
                         <span
                           className="inline-flex items-center gap-1 text-slate-300 truncate"
-                          title={slot.instructor}
+                          title={slot.instructors.join(", ")}
                         >
                           <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                          <span className="truncate">{slot.instructor}</span>
+                          <span className="truncate">{slot.instructors.join(", ")}</span>
                         </span>
                       ) : (
                         <span className="text-slate-500 italic">-</span>

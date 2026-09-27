@@ -34,7 +34,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
             startTime: slot.startTime,
             endTime: slot.endTime,
             room: slot.room,
-            instructor: slot.instructor,
+            instructors: slot.instructors,
             courseType: slot.courseType,
             color: slot.color,
           })),

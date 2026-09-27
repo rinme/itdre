@@ -52,7 +52,7 @@ export default function ScheduleListView({
           s.courseCode.toLowerCase().includes(q) ||
           s.courseName.toLowerCase().includes(q) ||
           (s.room && s.room.toLowerCase().includes(q)) ||
-          (s.instructor && s.instructor.toLowerCase().includes(q)) ||
+          (s.instructors && s.instructors.some((i) => i.toLowerCase().includes(q))) ||
           (s.section && s.section.toLowerCase().includes(q))
       );
     }
@@ -279,7 +279,9 @@ export default function ScheduleListView({
                           <div className="flex items-center gap-1.5 min-w-[120px] max-w-[200px]">
                             <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
                             <span className="truncate text-slate-700 font-medium">
-                              {slot.instructor || t("ไม่ระบุผู้สอน", "No lecturer")}
+                              {slot.instructors && slot.instructors.length > 0
+                                ? slot.instructors.join(", ")
+                                : t("ไม่ระบุผู้สอน", "No lecturer")}
                             </span>
                           </div>
                         </div>

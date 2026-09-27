@@ -48,7 +48,9 @@ export async function PUT(request: Request, { params }: { params: { id: string; 
         ...(data.startTime && { startTime: data.startTime }),
         ...(data.endTime && { endTime: data.endTime }),
         ...(data.room !== undefined && { room: data.room }),
-        ...(data.instructor !== undefined && { instructor: data.instructor }),
+        ...(data.instructors !== undefined && {
+          instructors: Array.isArray(data.instructors) ? data.instructors : [],
+        }),
         ...(data.courseType && { courseType: data.courseType }),
         ...(data.color && { color: data.color }),
       },

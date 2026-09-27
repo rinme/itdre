@@ -65,11 +65,24 @@ model CourseSlot {
   startTime   String
   endTime     String
   room        String?
-  instructor  String?
+  instructors String[]
   courseType  CourseType @default(LECTURE)
   color       String?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 
   @@index([scheduleId, dayOfWeek])
+}
+
+model CoursePreset {
+  id         String     @id @default(cuid())
+  courseCode String
+  courseName String
+  credits    String?
+  courseType CourseType @default(LECTURE)
+  color      String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  @@index([courseCode])
 }

@@ -106,7 +106,7 @@ describe("Admin API Auth & Validation", () => {
         startTime: "09:00",
         endTime: "12:00",
         room: "79-5A01",
-        instructor: "Dr. Smith",
+        instructors: ["Dr. Smith"],
         courseType: "LECTURE" as const,
         color: "orange",
         createdAt: new Date(),
@@ -155,7 +155,7 @@ describe("Admin API Auth & Validation", () => {
         startTime: "09:00",
         endTime: "12:00",
         room: "79-5A01",
-        instructor: "Dr. Smith",
+        instructors: ["Dr. Smith"],
         courseType: "LECTURE" as const,
         color: "orange",
         createdAt: new Date(),
@@ -180,12 +180,12 @@ describe("Admin API Auth & Validation", () => {
       const req = new Request("http://localhost:3000/api/admin/schedules/sched-1/slots/slot-1", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ instructor: "Prof. Jones" }),
+        body: JSON.stringify({ instructors: ["Prof. Jones"] }),
       });
       const res = await updateSlotPut(req, { params: { id: "sched-1", slotId: "slot-1" } });
       expect(res.status).toBe(200);
       const json = await res.json();
-      expect(json.slot.instructor).toBe("Prof. Jones");
+      expect(json.slot.instructors).toEqual(["Prof. Jones"]);
       expect(json.conflicts).toEqual([]);
     });
   });

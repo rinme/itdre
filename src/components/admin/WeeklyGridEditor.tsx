@@ -333,14 +333,14 @@ export default function WeeklyGridEditor({
                                 </span>
                               )}
 
-                              {slot.instructor && (
+                              {slot.instructors && slot.instructors.length > 0 && (
                                 <span
                                   className="flex items-center gap-0.5 text-slate-300 truncate max-w-[120px]"
-                                  title={`ผู้สอน: ${slot.instructor}`}
+                                  title={`ผู้สอน: ${slot.instructors.join(", ")}`}
                                 >
                                   <User className="w-2.5 h-2.5 text-slate-400 shrink-0" />
                                   <span className="truncate">
-                                    {slot.instructor}
+                                    {slot.instructors.join(", ")}
                                   </span>
                                 </span>
                               )}

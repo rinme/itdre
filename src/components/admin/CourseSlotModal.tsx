@@ -40,7 +40,7 @@ export interface CourseSlotData {
   startTime: string;
   endTime: string;
   room?: string | null;
-  instructor?: string | null;
+  instructors?: string[] | null;
   courseType: CourseType;
   color?: string | null;
 }
@@ -85,7 +85,7 @@ export default function CourseSlotModal({
   const [startTime, setStartTime] = useState<string>("09:00");
   const [endTime, setEndTime] = useState<string>("12:00");
   const [room, setRoom] = useState<string>("");
-  const [instructor, setInstructor] = useState<string>("");
+  const [instructors, setInstructors] = useState<string>("");
   const [courseType, setCourseType] = useState<CourseType>("LECTURE");
   const [color, setColor] = useState<ColorToken>("orange");
 
@@ -105,7 +105,7 @@ export default function CourseSlotModal({
       setStartTime(slot.startTime || "09:00");
       setEndTime(slot.endTime || "12:00");
       setRoom(slot.room || "");
-      setInstructor(slot.instructor || "");
+      setInstructors((slot.instructors ?? []).join(", "));
       setCourseType(slot.courseType || "LECTURE");
       setColor((slot.color as ColorToken) || "orange");
     } else {
@@ -116,7 +116,7 @@ export default function CourseSlotModal({
       setStartTime(initialSlot?.startTime || "09:00");
       setEndTime(initialSlot?.endTime || "12:00");
       setRoom("");
-      setInstructor("");
+      setInstructors("");
       setCourseType("LECTURE");
       setColor("orange");
     }
@@ -172,7 +172,9 @@ export default function CourseSlotModal({
         startTime,
         endTime,
         room: room.trim() || null,
-        instructor: instructor.trim() || null,
+        instructors: instructors.trim()
+          ? instructors.split(",").map((s) => s.trim()).filter(Boolean)
+          : [],
         courseType,
         color,
       };
@@ -443,9 +445,9 @@ export default function CourseSlotModal({
                 <User className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="เช่น ดร. อานนท์ วงศ์สมบูรณ์"
-                  value={instructor}
-                  onChange={(e) => setInstructor(e.target.value)}
+                  placeholder="เช่น ดร. อานนท์ วงศ์สมบูรณ์, อ.สมชาย"
+                  value={instructors}
+                  onChange={(e) => setInstructors(e.target.value)}
                   className="w-full pl-9 pr-3 py-2.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-brand-orange transition-colors"
                 />
               </div>

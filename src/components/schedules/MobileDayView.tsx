@@ -249,14 +249,13 @@ export default function MobileDayView({
                       </div>
                     )}
 
-                    {slot.instructors && slot.instructors.length > 0 && (
-                      <div className="flex items-center gap-1.5 text-slate-700">
-                        <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                        <span>
-                          {t("ผู้สอน", "Lecturer")}: {slot.instructors.join(", ")}
-                        </span>
-                      </div>
-                    )}
+                    <div className="flex items-center gap-1.5 text-slate-700">
+                      <User className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                      <span>
+                        {t("ผู้สอน", "Lecturer")}:{" "}
+                        {(slot.instructors ?? []).join(", ") || t("ไม่ระบุผู้สอน", "No lecturer")}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

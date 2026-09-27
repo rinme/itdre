@@ -14,6 +14,9 @@ import {
   Calendar,
   AlertCircle,
   Check,
+  ChevronDown,
+  ChevronUp,
+  Users,
 } from "lucide-react";
 import {
   DAYS_ORDER,
@@ -29,6 +32,7 @@ import {
   type ConflictResult,
 } from "@/lib/schedule-conflict";
 import ConflictBanner from "./ConflictBanner";
+import { useAdminPresets } from "@/context/AdminPresetsContext";
 
 export interface CourseSlotData {
   id?: string;
@@ -89,6 +93,25 @@ export default function CourseSlotModal({
   const [courseType, setCourseType] = useState<CourseType>("LECTURE");
   const [color, setColor] = useState<ColorToken>("orange");
 
+  // Presets State
+  const { coursePresets, instructors: presetInstructors } = useAdminPresets();
+  const [showCoursePresets, setShowCoursePresets] = useState(false);
+  const [showInstructorPresets, setShowInstructorPresets] = useState(false);
+  const [coursePresetQuery, setCoursePresetQuery] = useState("");
+  const [instructorQuery, setInstructorQuery] = useState("");
+
+  const filteredCoursePresets = coursePresets.filter(
+    (p) =>
+      p.courseCode.toLowerCase().includes(coursePresetQuery.toLowerCase()) ||
+      p.courseName.toLowerCase().includes(coursePresetQuery.toLowerCase())
+  );
+
+  const filteredInstructors = presetInstructors.filter(
+    (i) =>
+      i.nameTh.toLowerCase().includes(instructorQuery.toLowerCase()) ||
+      (i.nameEn?.toLowerCase().includes(instructorQuery.toLowerCase()) ?? false)
+  );
+
   // Status state
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [formError, setFormError] = useState<string | null>(null);
@@ -96,6 +119,11 @@ export default function CourseSlotModal({
   // Initialize or reset form values when opening modal
   useEffect(() => {
     if (!isOpen) return;
+
+    setShowCoursePresets(false);
+    setShowInstructorPresets(false);
+    setCoursePresetQuery("");
+    setInstructorQuery("");
 
     if (slot) {
       setCourseCode(slot.courseCode || "");
@@ -267,6 +295,108 @@ export default function CourseSlotModal({
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-5 sm:p-6 space-y-4 sm:space-y-5">
+          {/* ── Course Preset Picker ── */}
+          <div className="border border-white/10 rounded-xl overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setShowCoursePresets((v) => !v)}
+              className="w-full flex items-center justify-between px-4 py-2.5 bg-white/5 hover:bg-white/8 text-sm text-slate-300 transition-colors"
+            >
+              <span className="flex items-center gap-2">
+                <BookOpen className="w-4 h-4 text-brand-orange" />
+                เลือกรายวิชาจาก Presets ({coursePresets.length})
+              </span>
+              {showCoursePresets ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+            {showCoursePresets && (
+              <div className="p-3 space-y-2 border-t border-white/10">
+                <input
+                  type="text"
+                  value={coursePresetQuery}
+                  onChange={(e) => setCoursePresetQuery(e.target.value)}
+                  placeholder="ค้นหารหัส/ชื่อวิชา..."
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange/50"
+                />
+                <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto">
+                  {filteredCoursePresets.length === 0 && (
+                    <p className="text-xs text-slate-500 py-2">ไม่พบ preset</p>
+                  )}
+                  {filteredCoursePresets.map((p) => {
+                    const theme = COLOR_THEMES[(p.color as ColorToken) ?? "orange"] ?? COLOR_THEMES["orange"];
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => {
+                          setCourseCode(p.courseCode);
+                          setCourseName(p.courseName);
+                          setCourseType(p.courseType as CourseType);
+                          setColor((p.color as ColorToken) ?? "orange");
+                          setShowCoursePresets(false);
+                          setCoursePresetQuery("");
+                        }}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-medium transition-all hover:scale-105 ${theme.cardBg} ${theme.cardBorder} ${theme.cardText}`}
+                      >
+                        <span className={`w-2 h-2 rounded-full ${theme.swatchBg} flex-shrink-0`} />
+                        <span className="font-mono">{p.courseCode}</span>
+                        <span className="text-slate-400">—</span>
+                        <span className="truncate max-w-[100px]">{p.courseName}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* ── Instructor Preset Picker ── */}
+          <div className="border border-white/10 rounded-xl overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setShowInstructorPresets((v) => !v)}
+              className="w-full flex items-center justify-between px-4 py-2.5 bg-white/5 hover:bg-white/8 text-sm text-slate-300 transition-colors"
+            >
+              <span className="flex items-center gap-2">
+                <Users className="w-4 h-4 text-blue-400" />
+                เลือกผู้สอนจาก Presets ({presetInstructors.length})
+              </span>
+              {showInstructorPresets ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+            {showInstructorPresets && (
+              <div className="p-3 space-y-2 border-t border-white/10">
+                <input
+                  type="text"
+                  value={instructorQuery}
+                  onChange={(e) => setInstructorQuery(e.target.value)}
+                  placeholder="ค้นหาชื่ออาจารย์..."
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-orange/50"
+                />
+                <div className="flex flex-wrap gap-2 max-h-36 overflow-y-auto">
+                  {filteredInstructors.length === 0 && (
+                    <p className="text-xs text-slate-500 py-2">ไม่พบผู้สอน</p>
+                  )}
+                  {filteredInstructors.map((inst) => (
+                    <button
+                      key={inst.id}
+                      type="button"
+                      onClick={() => {
+                        // APPEND to existing comma-separated instructors string
+                        setInstructors((prev) => {
+                          const current = prev.trim();
+                          return current ? `${current}, ${inst.nameTh}` : inst.nameTh;
+                        });
+                        setInstructorQuery("");
+                      }}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-blue-500/20 bg-blue-500/10 text-blue-300 text-xs font-medium hover:bg-blue-500/20 transition-all hover:scale-105"
+                    >
+                      {inst.nameTh}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
           {/* Day of Week Selector */}
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-2">

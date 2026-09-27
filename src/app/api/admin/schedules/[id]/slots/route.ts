@@ -26,7 +26,7 @@ export async function POST(request: Request, { params }: { params: { id: string 
         startTime: data.startTime,
         endTime: data.endTime,
         room: data.room || null,
-        instructors: Array.isArray(data.instructors) ? data.instructors : [],
+        instructors: Array.isArray(data.instructors) ? data.instructors.filter(Boolean) : [],
         courseType: data.courseType || "LECTURE",
         color: data.color || "orange",
       },

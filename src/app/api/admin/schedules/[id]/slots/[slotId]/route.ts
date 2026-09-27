@@ -49,7 +49,7 @@ export async function PUT(request: Request, { params }: { params: { id: string; 
         ...(data.endTime && { endTime: data.endTime }),
         ...(data.room !== undefined && { room: data.room }),
         ...(data.instructors !== undefined && {
-          instructors: Array.isArray(data.instructors) ? data.instructors : [],
+          instructors: Array.isArray(data.instructors) ? data.instructors.filter(Boolean) : [],
         }),
         ...(data.courseType && { courseType: data.courseType }),
         ...(data.color && { color: data.color }),

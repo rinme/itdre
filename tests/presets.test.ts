@@ -87,3 +87,49 @@ describe("AdminPresetsContext instructor list", () => {
     }
   });
 });
+
+describe("Multi-Instructor slot handling & formatting", () => {
+  it("appends instructor to existing comma-separated string correctly", () => {
+    function appendInstructor(prev: string, newName: string): string {
+      const current = prev.trim();
+      return current ? `${current}, ${newName}` : newName;
+    }
+
+    let instString = "";
+    instString = appendInstructor(instString, "ผศ.ดร. อานนท์ วงศ์สมบูรณ์");
+    expect(instString).toBe("ผศ.ดร. อานนท์ วงศ์สมบูรณ์");
+
+    instString = appendInstructor(instString, "ดร. สมเกียรติ จารุวัฒนพันธ์");
+    expect(instString).toBe("ผศ.ดร. อานนท์ วงศ์สมบูรณ์, ดร. สมเกียรติ จารุวัฒนพันธ์");
+
+    instString = appendInstructor(instString, "อ. สุภาวดี สิทธิชัย");
+    expect(instString).toBe(
+      "ผศ.ดร. อานนท์ วงศ์สมบูรณ์, ดร. สมเกียรติ จารุวัฒนพันธ์, อ. สุภาวดี สิทธิชัย"
+    );
+  });
+
+  it("splits comma-separated string into clean instructors array and filters empty items", () => {
+    function parseInstructors(raw: string): string[] {
+      return raw.trim()
+        ? raw.split(",").map((s) => s.trim()).filter(Boolean)
+        : [];
+    }
+
+    expect(parseInstructors("")).toEqual([]);
+    expect(parseInstructors("   ")).toEqual([]);
+    expect(parseInstructors("ผศ.ดร. ก, ดร. ข")).toEqual(["ผศ.ดร. ก", "ดร. ข"]);
+    expect(parseInstructors("  ผศ.ดร. ก , , ดร. ข  ")).toEqual(["ผศ.ดร. ก", "ดร. ข"]);
+  });
+
+  it("formats instructors for display with fallback for empty or missing", () => {
+    function formatInstructors(instructors?: string[] | null, fallback = "ไม่ระบุผู้สอน"): string {
+      return (instructors ?? []).join(", ") || fallback;
+    }
+
+    expect(formatInstructors(undefined)).toBe("ไม่ระบุผู้สอน");
+    expect(formatInstructors(null)).toBe("ไม่ระบุผู้สอน");
+    expect(formatInstructors([])).toBe("ไม่ระบุผู้สอน");
+    expect(formatInstructors(["ผศ.ดร. ก"])).toBe("ผศ.ดร. ก");
+    expect(formatInstructors(["ผศ.ดร. ก", "ดร. ข"])).toBe("ผศ.ดร. ก, ดร. ข");
+  });
+});

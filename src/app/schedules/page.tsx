@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ChevronRight, Home, Calendar } from "lucide-react";
 import PublicScheduleViewer from "@/components/schedules/PublicScheduleViewer";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "ตารางเรียนและตารางสอน | คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มจพ.",
   description:

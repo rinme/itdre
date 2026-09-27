@@ -40,6 +40,8 @@ export default function MainNavbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
 
+  const isSchedulesActive = pathname === "/schedules" || pathname.startsWith("/schedules");
+
   // Close mobile menu and dropdowns on route change
   useEffect(() => {
     setMobileOpen(false);
@@ -503,16 +505,24 @@ export default function MainNavbar() {
                 href="/schedules"
                 onClick={() => setMobileOpen(false)}
                 className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-medium transition-colors ${
-                  pathname === "/schedules" || pathname.startsWith("/schedules")
+                  isSchedulesActive
                     ? "bg-brand-orange text-white font-semibold shadow-md"
                     : "bg-white/5 hover:bg-white/10 text-slate-300"
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <CalendarDays className="w-4 h-4 text-brand-orange" />
+                  <CalendarDays
+                    className={`w-4 h-4 ${
+                      isSchedulesActive ? "text-white" : "text-brand-orange"
+                    }`}
+                  />
                   <span>{t("ตารางเรียน", "Class Schedules")}</span>
                 </div>
-                <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
+                <ChevronRight
+                  className={`w-3.5 h-3.5 ${
+                    isSchedulesActive ? "text-white/80" : "text-slate-500"
+                  }`}
+                />
               </Link>
 
               <Link

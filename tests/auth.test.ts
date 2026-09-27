@@ -23,6 +23,45 @@ describe("Admin Authentication", () => {
     expect(wrongPass).toBe(false);
   });
 
+  it("handles missing, empty, or undefined credentials safely", async () => {
+    expect(await verifyCredentials("", "SecretPassword123!")).toBe(false);
+    expect(await verifyCredentials("test_admin", "")).toBe(false);
+    expect(await verifyCredentials(undefined, undefined)).toBe(false);
+    expect(await verifyCredentials("test_admin", undefined)).toBe(false);
+    expect(await verifyCredentials(undefined, "SecretPassword123!")).toBe(false);
+  });
+
+  it("throws error in production when ADMIN_JWT_SECRET is missing", async () => {
+    const originalEnv = process.env.NODE_ENV;
+    const originalSecret = process.env.ADMIN_JWT_SECRET;
+    try {
+      (process.env as any).NODE_ENV = "production";
+      delete process.env.ADMIN_JWT_SECRET;
+      await expect(signAdminJWT("test_admin")).rejects.toThrow(
+        "ADMIN_JWT_SECRET environment variable is required in production"
+      );
+    } finally {
+      (process.env as any).NODE_ENV = originalEnv;
+      process.env.ADMIN_JWT_SECRET = originalSecret;
+    }
+  });
+
+  it("falls back to default secret when ADMIN_JWT_SECRET is missing in development/test", async () => {
+    const originalEnv = process.env.NODE_ENV;
+    const originalSecret = process.env.ADMIN_JWT_SECRET;
+    try {
+      (process.env as any).NODE_ENV = "development";
+      delete process.env.ADMIN_JWT_SECRET;
+      const token = await signAdminJWT("fallback_admin");
+      expect(typeof token).toBe("string");
+      const verified = await verifyAdminJWT(token);
+      expect(verified?.username).toBe("fallback_admin");
+    } finally {
+      (process.env as any).NODE_ENV = originalEnv;
+      process.env.ADMIN_JWT_SECRET = originalSecret;
+    }
+  });
+
   it("signs and verifies a valid JWT session", async () => {
     const token = await signAdminJWT("test_admin");
     expect(typeof token).toBe("string");

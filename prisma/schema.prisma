@@ -1,0 +1,75 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum DegreeLevel {
+  BACHELOR
+  MASTER
+  DOCTOR
+}
+
+enum ScheduleStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum CourseType {
+  LECTURE
+  LAB
+  BOTH
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+model Schedule {
+  id           String         @id @default(cuid())
+  academicYear Int
+  semester     Int
+  degreeLevel  DegreeLevel
+  programId    String
+  programName  String
+  yearLevel    Int
+  sectionGroup String?
+  status       ScheduleStatus @default(DRAFT)
+  note         String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  slots CourseSlot[]
+
+  @@unique([academicYear, semester, degreeLevel, programId, yearLevel, sectionGroup], name: "unique_cohort_schedule")
+  @@index([academicYear, semester, degreeLevel, status])
+}
+
+model CourseSlot {
+  id          String     @id @default(cuid())
+  scheduleId  String
+  schedule    Schedule   @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  courseCode  String
+  courseName  String
+  section     String?
+  dayOfWeek   DayOfWeek
+  startTime   String
+  endTime     String
+  room        String?
+  instructor  String?
+  courseType  CourseType @default(LECTURE)
+  color       String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([scheduleId, dayOfWeek])
+}

@@ -39,15 +39,27 @@ export const AdminPresetsContext = createContext<AdminPresetsContextValue>({
   refreshPresets: async () => {},
 });
 
-// Build instructor list from personnel.ts (lecturer & administrator categories)
-const INSTRUCTOR_LIST: InstructorOption[] = personnel
-  .filter((p) => p.category === "lecturer" || p.category === "administrator")
-  .map((p) => ({
-    id: p.id,
-    nameTh: p.nameTh,
-    nameEn: getPersonEnglishName(p),
-    role: p.role,
-  }));
+// Build instructor list from personnel.ts (deduplicated by nameTh, sorted alphabetically)
+const seenInstructorNames = new Set<string>();
+const INSTRUCTOR_LIST: InstructorOption[] = [];
+
+for (const p of personnel) {
+  const isTeachingFaculty =
+    p.category === "lecturer" ||
+    (p.category === "administrator" && !p.role.includes("หัวหน้าสำนักงาน"));
+
+  if (isTeachingFaculty && !seenInstructorNames.has(p.nameTh)) {
+    seenInstructorNames.add(p.nameTh);
+    INSTRUCTOR_LIST.push({
+      id: p.id,
+      nameTh: p.nameTh,
+      nameEn: getPersonEnglishName(p),
+      role: p.role,
+    });
+  }
+}
+
+INSTRUCTOR_LIST.sort((a, b) => a.nameTh.localeCompare(b.nameTh, "th"));
 
 export function AdminPresetsProvider({ children }: { children: React.ReactNode }) {
   const [coursePresets, setCoursePresets] = useState<CoursePreset[]>([]);

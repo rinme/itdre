@@ -73,17 +73,30 @@ describe("Preset API response shapes", () => {
 });
 
 describe("AdminPresetsContext instructor list", () => {
-  it("builds instructor list from personnel module", async () => {
+  it("builds instructor list from personnel module without duplicates", async () => {
     const { personnel } = await import("../src/data/personnel");
-    const instructors = personnel.filter(
-      (p) => p.category === "lecturer" || p.category === "administrator"
-    );
-    // Must be non-empty
-    expect(instructors.length).toBeGreaterThan(0);
-    // Every item has nameTh
-    for (const inst of instructors) {
-      expect(typeof inst.nameTh).toBe("string");
-      expect(inst.nameTh.length).toBeGreaterThan(0);
+    const seenNames = new Set<string>();
+    const instructors: string[] = [];
+
+    for (const p of personnel) {
+      const isTeachingFaculty =
+        p.category === "lecturer" ||
+        (p.category === "administrator" && !p.role.includes("หัวหน้าสำนักงาน"));
+
+      if (isTeachingFaculty && !seenNames.has(p.nameTh)) {
+        seenNames.add(p.nameTh);
+        instructors.push(p.nameTh);
+      }
+    }
+
+    // Must have all faculty members without duplicates
+    expect(instructors.length).toBe(26);
+    expect(new Set(instructors).size).toBe(instructors.length);
+
+    // Every item has valid nameTh
+    for (const name of instructors) {
+      expect(typeof name).toBe("string");
+      expect(name.length).toBeGreaterThan(0);
     }
   });
 });

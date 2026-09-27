@@ -94,6 +94,25 @@ describe("Admin API Auth & Validation", () => {
     });
 
     it("PUT /api/admin/schedules/[id]/slots/[slotId] rejects invalid time range", async () => {
+      const { prisma } = await import("../src/lib/prisma");
+      // @ts-expect-error mock for test
+      prisma.courseSlot.findFirst = async () => ({
+        id: "slot-1",
+        scheduleId: "sched-1",
+        courseCode: "060133101",
+        courseName: "Programming I",
+        section: "1",
+        dayOfWeek: "MONDAY" as const,
+        startTime: "09:00",
+        endTime: "12:00",
+        room: "79-5A01",
+        instructor: "Dr. Smith",
+        courseType: "LECTURE" as const,
+        color: "orange",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+
       const req = new Request("http://localhost:3000/api/admin/schedules/sched-1/slots/slot-1", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -106,6 +125,68 @@ describe("Admin API Auth & Validation", () => {
       expect(res.status).toBe(400);
       const json = await res.json();
       expect(json.error).toBe("INVALID_TIME_RANGE");
+    });
+
+    it("PUT /api/admin/schedules/[id]/slots/[slotId] returns 404 if slot not found in schedule", async () => {
+      const { prisma } = await import("../src/lib/prisma");
+      // @ts-expect-error mock for test
+      prisma.courseSlot.findFirst = async () => null;
+
+      const req = new Request("http://localhost:3000/api/admin/schedules/sched-1/slots/nonexistent", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ room: "79-5A02" }),
+      });
+      const res = await updateSlotPut(req, { params: { id: "sched-1", slotId: "nonexistent" } });
+      expect(res.status).toBe(404);
+      const json = await res.json();
+      expect(json.error).toBe("NOT_FOUND");
+    });
+
+    it("PUT /api/admin/schedules/[id]/slots/[slotId] handles partial update without full slot data", async () => {
+      const { prisma } = await import("../src/lib/prisma");
+      const existing = {
+        id: "slot-1",
+        scheduleId: "sched-1",
+        courseCode: "060133101",
+        courseName: "Programming I",
+        section: "1",
+        dayOfWeek: "MONDAY" as const,
+        startTime: "09:00",
+        endTime: "12:00",
+        room: "79-5A01",
+        instructor: "Dr. Smith",
+        courseType: "LECTURE" as const,
+        color: "orange",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+
+      // @ts-expect-error mock for test
+      prisma.courseSlot.findFirst = async ({ where }: any) => {
+        if (where.id === "slot-1" && where.scheduleId === "sched-1") return existing;
+        return null;
+      };
+
+      // @ts-expect-error mock for test
+      prisma.courseSlot.findMany = async () => [existing];
+
+      // @ts-expect-error mock for test
+      prisma.courseSlot.update = async ({ data }: any) => ({
+        ...existing,
+        ...data,
+      });
+
+      const req = new Request("http://localhost:3000/api/admin/schedules/sched-1/slots/slot-1", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ instructor: "Prof. Jones" }),
+      });
+      const res = await updateSlotPut(req, { params: { id: "sched-1", slotId: "slot-1" } });
+      expect(res.status).toBe(200);
+      const json = await res.json();
+      expect(json.slot.instructor).toBe("Prof. Jones");
+      expect(json.conflicts).toEqual([]);
     });
   });
 });

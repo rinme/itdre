@@ -6,15 +6,37 @@ export async function PUT(request: Request, { params }: { params: { id: string; 
   try {
     const data = await request.json();
 
-    if (data.startTime && data.endTime && data.startTime >= data.endTime) {
+    const existingSlot = await prisma.courseSlot.findFirst({
+      where: { id: params.slotId, scheduleId: params.id },
+    });
+
+    if (!existingSlot) {
+      return NextResponse.json({ error: "NOT_FOUND" }, { status: 404 });
+    }
+
+    const effectiveStartTime = data.startTime ?? existingSlot.startTime;
+    const effectiveEndTime = data.endTime ?? existingSlot.endTime;
+    const effectiveDayOfWeek = data.dayOfWeek ?? existingSlot.dayOfWeek;
+    const effectiveRoom = data.room !== undefined ? data.room : existingSlot.room;
+
+    if (!effectiveStartTime || !effectiveEndTime || effectiveStartTime >= effectiveEndTime) {
       return NextResponse.json({ error: "INVALID_TIME_RANGE" }, { status: 400 });
     }
 
-    const existingSlots = await prisma.courseSlot.findMany({
+    const otherSlots = await prisma.courseSlot.findMany({
       where: { scheduleId: params.id },
     });
 
-    const conflicts = detectCourseSlotConflicts({ ...data, id: params.slotId }, existingSlots);
+    const conflicts = detectCourseSlotConflicts(
+      {
+        id: params.slotId,
+        dayOfWeek: effectiveDayOfWeek,
+        startTime: effectiveStartTime,
+        endTime: effectiveEndTime,
+        room: effectiveRoom,
+      },
+      otherSlots
+    );
 
     const updated = await prisma.courseSlot.update({
       where: { id: params.slotId },
@@ -40,6 +62,14 @@ export async function PUT(request: Request, { params }: { params: { id: string; 
 
 export async function DELETE(request: Request, { params }: { params: { id: string; slotId: string } }) {
   try {
+    const existingSlot = await prisma.courseSlot.findFirst({
+      where: { id: params.slotId, scheduleId: params.id },
+    });
+
+    if (!existingSlot) {
+      return NextResponse.json({ error: "NOT_FOUND" }, { status: 404 });
+    }
+
     await prisma.courseSlot.delete({
       where: { id: params.slotId },
     });

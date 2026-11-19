@@ -48,3 +48,6 @@ Thumbs.db
 # Assistant & Agent Tooling
 .superpowers/
 .gemini/
+
+# SvelteKit
+.svelte-kit/

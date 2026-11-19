@@ -1,5 +1,5 @@
-import { describe, expect, it } from "bun:test";
-import { detectCourseSlotConflicts } from "../src/lib/schedule-conflict";
+import { describe, expect, it } from "vitest";
+import { detectCourseSlotConflicts } from "$lib/utils/schedule-conflict";
 import type { DayOfWeek } from "@prisma/client";
 
 describe("Course Slot Conflict Detection", () => {

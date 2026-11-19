@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it } from "vitest";
 import {
   GRID_START_HOUR,
   GRID_END_HOUR,
@@ -14,9 +14,9 @@ import {
   calculateSlotPosition,
   sortCourseSlots,
   detectAllScheduleConflicts,
-} from "../src/lib/weekly-grid";
+} from "$lib/utils/weekly-grid";
 import type { DayOfWeek, CourseType } from "@prisma/client";
-import type { ExistingSlot } from "../src/lib/schedule-conflict";
+import type { ExistingSlot } from "$lib/utils/schedule-conflict";
 
 describe("Weekly Grid Calculations & Helpers", () => {
   describe("timeToMinutes & minutesToTime", () => {

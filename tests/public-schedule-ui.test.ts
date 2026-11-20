@@ -1,11 +1,11 @@
-import { describe, it, expect } from "bun:test";
+import { describe, it, expect } from "vitest";
 import type { DayOfWeek, DegreeLevel, CourseType } from "@prisma/client";
 import {
   cascadeFilterUpdate,
   type ScheduleFilterState,
   DEGREE_OPTIONS,
   SEMESTER_OPTIONS,
-} from "../src/components/schedules/ScheduleFilterBar";
+} from "../src/lib/components/schedules/ScheduleFilterBar.svelte";
 import {
   DAYS_ORDER,
   DAY_METADATA,
@@ -16,9 +16,9 @@ import {
   getCurrentDayOfWeek,
   sortCourseSlots,
   calculateSlotPosition,
-} from "../src/lib/weekly-grid";
-import { programs } from "../src/data/programs";
-import type { PublicCourseSlot } from "../src/components/schedules/WeeklyTimetableGrid";
+} from "../src/lib/utils/weekly-grid";
+import { programs } from "../src/lib/data/programs";
+import type { PublicCourseSlot } from "../src/lib/components/schedules/WeeklyTimetableGrid.svelte";
 
 describe("Public Schedule UI & Cascading Logic", () => {
   describe("Filter Cascading Transitions", () => {

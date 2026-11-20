@@ -13,6 +13,13 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+
+	namespace svelteHTML {
+		interface IntrinsicElements {
+			'swiper-container': any;
+			'swiper-slide': any;
+		}
+	}
 }
 
 export {};

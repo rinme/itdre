@@ -171,19 +171,19 @@ Run `bunx vitest run tests/api-endpoints.test.ts`.
 - Consumes: `languageState` from `$lib/state/language.svelte`
 - Produces: Standard responsive shell with active link detection, language switching, and mobile drawer.
 
-- [ ] **Step 1: Port globals.css to src/app.css**
+- [x] **Step 1: Port globals.css to src/app.css**
 Import `@import "tailwindcss";` and preserve `@theme` tokens, glassmorphism, scrollbars, and print styles.
 
-- [ ] **Step 2: Implement TopHeader, MainNavbar, and Footer in Svelte 5**
+- [x] **Step 2: Implement TopHeader, MainNavbar, and Footer in Svelte 5**
 Convert React JSX to Svelte 5 runes (`$props()`, `$state()`, snippets). Replace `lucide-react` with `lucide-svelte`.
 
-- [ ] **Step 3: Implement DemoBanner and DemoFeedbackModal**
+- [x] **Step 3: Implement DemoBanner and DemoFeedbackModal**
 Convert interactive banner and feedback modal with Svelte 5 state bindings.
 
-- [ ] **Step 4: Implement src/routes/+layout.svelte**
+- [x] **Step 4: Implement src/routes/+layout.svelte**
 Assemble the global layout with navigation, slot `<slot />` / `{@render children()}`, and demo banners.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 `git add src/app.css src/lib/components/layout/ src/lib/components/demo/ src/routes/+layout.svelte`
 `git commit -m "feat(ui): port global layout, css, and navigation components"`
 

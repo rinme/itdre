@@ -18,7 +18,8 @@
     "jose": "^6.2.12",
     "lucide-svelte": "^0.469.0",
     "prisma": "^6.19.3",
-    "swiper": "^14.2.0"
+    "swiper": "^14.2.0",
+    "unpdf": "^2.2.1"
   },
   "devDependencies": {
     "@sveltejs/adapter-vercel": "5.10.3",

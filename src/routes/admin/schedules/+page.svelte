@@ -17,11 +17,13 @@
     Loader2,
     Table as TableIcon,
     LayoutGrid,
+    FileSpreadsheet,
   } from "lucide-svelte";
   import ScheduleModal from "$lib/components/admin/ScheduleModal.svelte";
   import CloneScheduleModal, {
     type SourceScheduleInfo,
   } from "$lib/components/admin/CloneScheduleModal.svelte";
+  import RegImportModal from "$lib/components/admin/RegImportModal.svelte";
 
   interface ScheduleWithCount {
     id: string;
@@ -62,6 +64,7 @@
   // Modals state
   let isCreateModalOpen = $state(false);
   let cloneSourceSchedule = $state<SourceScheduleInfo | null>(null);
+  let isRegImportModalOpen = $state(false);
 
   // Action in-progress state
   let actionInProgressId = $state<string | null>(null);
@@ -256,6 +259,16 @@
     </div>
 
     <div class="flex items-center gap-3">
+      <button
+        type="button"
+        onclick={() => (isRegImportModalOpen = true)}
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold text-xs sm:text-sm active:scale-95 transition-all cursor-pointer"
+        title="นำเข้าตารางเรียนจากไฟล์ PDF ของ KMUTNB Reg หรือ JSON"
+      >
+        <FileSpreadsheet class="w-4 h-4 text-brand-orange" />
+        <span>นำเข้าจาก Reg</span>
+      </button>
+
       <button
         type="button"
         onclick={() => (isCreateModalOpen = true)}
@@ -794,6 +807,19 @@
     notification = {
       type: "success",
       message: `คัดลอกตารางเรียนไปยังปีการศึกษา ${clonedSchedule.academicYear}/${clonedSchedule.semester} สำเร็จ`,
+    };
+    fetchSchedules();
+  }}
+/>
+
+<!-- Reg Timetable Importer Modal -->
+<RegImportModal
+  isOpen={isRegImportModalOpen}
+  onClose={() => (isRegImportModalOpen = false)}
+  onSuccess={(scheduleId, message) => {
+    notification = {
+      type: "success",
+      message,
     };
     fetchSchedules();
   }}

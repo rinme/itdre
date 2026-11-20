@@ -17,6 +17,7 @@
     Eye,
     EyeOff,
     RefreshCw,
+    FileSpreadsheet,
   } from "lucide-svelte";
   import WeeklyGridEditor from "$lib/components/admin/WeeklyGridEditor.svelte";
   import ScheduleTableView from "$lib/components/admin/ScheduleTableView.svelte";
@@ -24,6 +25,7 @@
     type CourseSlotData,
   } from "$lib/components/admin/CourseSlotModal.svelte";
   import ConflictBanner from "$lib/components/admin/ConflictBanner.svelte";
+  import RegImportModal from "$lib/components/admin/RegImportModal.svelte";
   import {
     detectAllScheduleConflicts,
     type ExistingSlot,
@@ -57,6 +59,7 @@
   let isTogglingStatus = $state<boolean>(false);
 
   let isSlotModalOpen = $state<boolean>(false);
+  let isRegImportModalOpen = $state<boolean>(false);
   let editingSlot = $state<CourseSlotData | null>(null);
   let initialSlotPrefill = $state<{
     dayOfWeek?: DayOfWeek;
@@ -386,6 +389,17 @@
             </button>
           </div>
 
+          <!-- Import from Reg Button -->
+          <button
+            type="button"
+            onclick={() => (isRegImportModalOpen = true)}
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-medium text-xs sm:text-sm transition-all cursor-pointer"
+            title="นำเข้าตารางเรียนจาก KMUTNB Reg สู่ตารางเรียนนี้โดยตรง"
+          >
+            <FileSpreadsheet class="w-4 h-4 text-brand-orange" />
+            <span>นำเข้าจาก Reg</span>
+          </button>
+
           <!-- Add Course Slot Button -->
           <button
             type="button"
@@ -468,6 +482,20 @@
     slot={editingSlot}
     initialSlot={initialSlotPrefill}
     onSuccess={handleSlotSaved}
+  />
+
+  <!-- Reg Timetable Importer Modal -->
+  <RegImportModal
+    isOpen={isRegImportModalOpen}
+    targetSchedule={schedule}
+    onClose={() => (isRegImportModalOpen = false)}
+    onSuccess={(scheduleId, message) => {
+      notification = {
+        type: "success",
+        message,
+      };
+      fetchScheduleData();
+    }}
   />
 {/if}
 

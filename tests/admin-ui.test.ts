@@ -1,5 +1,6 @@
-import { describe, expect, it } from "bun:test";
-import { programs } from "../src/data/programs";
+import { describe, expect, it } from "vitest";
+import { programs } from "$lib/data/programs";
+import { getSafeRedirect } from "$lib/auth";
 import type { DegreeLevel, ScheduleStatus } from "@prisma/client";
 
 describe("Admin Schedule UI Helpers & Logic", () => {
@@ -119,8 +120,6 @@ describe("Admin Schedule UI Helpers & Logic", () => {
   });
 
   it("sanitizes login redirect URLs to prevent open redirect vulnerabilities", () => {
-    const { getSafeRedirect } = require("../src/lib/auth");
-
     // Valid internal relative paths should be preserved
     expect(getSafeRedirect("/admin/schedules")).toBe("/admin/schedules");
     expect(getSafeRedirect("/admin/schedules/cls-12345")).toBe("/admin/schedules/cls-12345");

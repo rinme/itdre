@@ -1,4 +1,4 @@
-import { describe, it, expect } from "bun:test";
+import { describe, it, expect } from "vitest";
 
 describe("CoursePreset model shape", () => {
   it("CoursePreset type has required fields", async () => {
@@ -74,7 +74,7 @@ describe("Preset API response shapes", () => {
 
 describe("AdminPresetsContext instructor list", () => {
   it("builds instructor list from personnel module without duplicates", async () => {
-    const { personnel } = await import("../src/data/personnel");
+    const { personnel } = await import("$lib/data/personnel");
     const seenNames = new Set<string>();
     const instructors: string[] = [];
 

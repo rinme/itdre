@@ -1,5 +1,4 @@
 import { SignJWT, jwtVerify } from "jose";
-import { timingSafeEqual } from "crypto";
 
 export const COOKIE_NAME = "admin_session";
 
@@ -14,21 +13,22 @@ function getJwtSecret(): Uint8Array {
   return new TextEncoder().encode(secret);
 }
 
+function safeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return result === 0;
+}
+
 export async function verifyCredentials(username?: string, password?: string): Promise<boolean> {
   const expectedUser = process.env.ADMIN_USERNAME || "admin";
   const expectedPass = process.env.ADMIN_PASSWORD || "admin1234";
 
   if (!username || !password) return false;
 
-  const bufUser = Buffer.from(username);
-  const bufExpUser = Buffer.from(expectedUser);
-  const userValid = bufUser.length === bufExpUser.length && timingSafeEqual(bufUser, bufExpUser);
-
-  const bufPass = Buffer.from(password);
-  const bufExpPass = Buffer.from(expectedPass);
-  const passValid = bufPass.length === bufExpPass.length && timingSafeEqual(bufPass, bufExpPass);
-
-  return userValid && passValid;
+  return safeEqual(username, expectedUser) && safeEqual(password, expectedPass);
 }
 
 export async function signAdminJWT(username: string): Promise<string> {

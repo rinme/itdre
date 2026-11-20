@@ -34,7 +34,15 @@
 
   let { article, relatedArticles }: Props = $props();
 
-  let imgSrc = $state(article.thumbnail || "/assets/news/placeholder-news.svg");
+  let fallbackImg = "/assets/news/placeholder-news.svg";
+  let hasImgError = $state(false);
+  let imgSrc = $derived(hasImgError ? fallbackImg : (article.thumbnail || fallbackImg));
+
+  $effect(() => {
+    if (article.thumbnail) {
+      hasImgError = false;
+    }
+  });
   let copied = $state(false);
   let currentUrl = $state("");
 
@@ -261,7 +269,7 @@
             src={imgSrc}
             alt={article.title}
             class="w-full h-full object-contain sm:object-cover"
-            onerror={() => (imgSrc = "/assets/news/placeholder-news.svg")}
+            onerror={() => (hasImgError = true)}
           />
         </div>
       {/if}

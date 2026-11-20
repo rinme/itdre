@@ -16,7 +16,7 @@
     timeToMinutes,
     calculateTotalHours
   } from '$lib/utils/weekly-grid';
-  import { languageStore } from '$lib/stores/language';
+  import { languageState, t } from '$lib/state/language.svelte';
   import type { PublicCourseSlot } from '$lib/components/schedules/WeeklyTimetableGrid.svelte';
 
   interface Props {
@@ -84,7 +84,7 @@
       <Search class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
       <input
         type="text"
-        placeholder={$languageStore === 'en'
+        placeholder={languageState.language === 'en'
           ? 'Search course code, name, instructor, room...'
           : 'ค้นหารหัสวิชา, ชื่อวิชา, อาจารย์ผู้สอน, ห้องเรียน...'}
         bind:value={searchQuery}
@@ -103,7 +103,7 @@
             : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
         }`}
       >
-        {$languageStore === 'en' ? 'All Days' : 'ทุกวัน'} ({slots.length})
+        {languageState.language === 'en' ? 'All Days' : 'ทุกวัน'} ({slots.length})
       </button>
       {#each DAYS_ORDER as day}
         {@const meta = DAY_METADATA[day]}
@@ -122,7 +122,7 @@
               class="w-2 h-2 rounded-full shrink-0"
               style={`background-color: ${meta.colorHex}`}
             ></span>
-            <span>{$languageStore === 'en' ? meta.shortEn : meta.shortTh}</span>
+            <span>{languageState.language === 'en' ? meta.shortEn : meta.shortTh}</span>
             <span class="text-[10px] opacity-75">({daySlots.length})</span>
           </button>
         {/if}
@@ -148,20 +148,20 @@
                 style={`background-color: ${meta.colorHex}`}
               ></span>
               <h3 class="text-sm sm:text-base font-bold text-slate-900">
-                {$languageStore === 'en' ? meta.en : meta.th}
+                {languageState.language === 'en' ? meta.en : meta.th}
               </h3>
               <span class="text-xs text-slate-500 font-medium">
-                ({$languageStore === 'en' ? meta.shortTh : meta.shortEn})
+                ({languageState.language === 'en' ? meta.shortTh : meta.shortEn})
               </span>
             </div>
 
             <div class="flex items-center gap-3 text-xs text-slate-500">
               <span class="font-semibold text-slate-700">
-                {$languageStore === 'en' ? `${daySlots.length} Courses` : `${daySlots.length} รายวิชา`}
+                {languageState.language === 'en' ? `${daySlots.length} Courses` : `${daySlots.length} รายวิชา`}
               </span>
               <span>•</span>
               <span class="font-mono">
-                {dayHours} {$languageStore === 'en' ? 'Hours' : 'ชั่วโมง'}
+                {dayHours} {languageState.language === 'en' ? 'Hours' : 'ชั่วโมง'}
               </span>
             </div>
           </div>
@@ -193,7 +193,7 @@
                       </span>
                     </div>
                     <div class="text-[10px] text-slate-500 mt-1 pl-1">
-                      {durationH} {$languageStore === 'en' ? 'hrs' : 'ชม.'}
+                      {durationH} {languageState.language === 'en' ? 'hrs' : 'ชม.'}
                     </div>
                   </div>
 
@@ -217,7 +217,7 @@
                             : 'bg-blue-50 text-blue-800 border-blue-300'
                         }`}
                       >
-                        {$languageStore === 'en' ? typeMeta.en : typeMeta.th}
+                        {languageState.language === 'en' ? typeMeta.en : typeMeta.th}
                       </span>
                     </div>
 
@@ -238,7 +238,7 @@
                       </span>
                     {:else}
                       <span class="text-slate-400 italic">
-                        {$languageStore === 'en' ? 'No room' : 'ไม่ระบุห้อง'}
+                        {languageState.language === 'en' ? 'No room' : 'ไม่ระบุห้อง'}
                       </span>
                     {/if}
                   </div>
@@ -249,7 +249,7 @@
                     <span class="truncate text-slate-700 font-medium">
                       {slot.instructors && slot.instructors.length > 0
                         ? slot.instructors.join(', ')
-                        : ($languageStore === 'en' ? 'No lecturer' : 'ไม่ระบุผู้สอน')}
+                        : (languageState.language === 'en' ? 'No lecturer' : 'ไม่ระบุผู้สอน')}
                     </span>
                   </div>
                 </div>
@@ -266,10 +266,10 @@
         <Search class="w-6 h-6" />
       </div>
       <h4 class="text-sm font-bold text-slate-800">
-        {$languageStore === 'en' ? 'No courses match your search' : 'ไม่พบรายวิชาตามคำค้นหา'}
+        {languageState.language === 'en' ? 'No courses match your search' : 'ไม่พบรายวิชาตามคำค้นหา'}
       </h4>
       <p class="text-xs text-slate-500 mt-1">
-        {$languageStore === 'en'
+        {languageState.language === 'en'
           ? "Try adjusting your search terms or select 'All Days' to see all courses."
           : "ลองเปลี่ยนคำค้นหา หรือกดเลือก 'ทุกวัน' เพื่อดูวิชาทั้งหมด"}
       </p>
@@ -283,7 +283,7 @@
         <div class="flex items-center gap-1.5">
           <BookOpen class="w-4 h-4 text-brand-orange" />
           <span>
-            {$languageStore === 'en' ? 'Total Courses' : 'วิชาทั้งหมด'}:{' '}
+            {languageState.language === 'en' ? 'Total Courses' : 'วิชาทั้งหมด'}:{' '}
             <strong class="text-slate-900 font-bold">
               {slots.length}
             </strong>
@@ -293,7 +293,7 @@
         <div class="flex items-center gap-1.5">
           <span class="w-2 h-2 rounded-full bg-blue-500"></span>
           <span>
-            {$languageStore === 'en' ? 'Lecture' : 'ทฤษฎี'}:{' '}
+            {languageState.language === 'en' ? 'Lecture' : 'ทฤษฎี'}:{' '}
             <strong class="text-slate-900 font-bold">
               {lectureCount}
             </strong>
@@ -303,7 +303,7 @@
         <div class="flex items-center gap-1.5">
           <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
           <span>
-            {$languageStore === 'en' ? 'Lab' : 'ปฏิบัติ'}:{' '}
+            {languageState.language === 'en' ? 'Lab' : 'ปฏิบัติ'}:{' '}
             <strong class="text-slate-900 font-bold">{labCount}</strong>
           </span>
         </div>
@@ -312,11 +312,11 @@
       <div class="flex items-center gap-1.5 font-mono text-slate-700">
         <Clock class="w-4 h-4 text-brand-orange" />
         <span>
-          {$languageStore === 'en' ? 'Total Hours' : 'เวลารวมในตาราง'}:{' '}
+          {languageState.language === 'en' ? 'Total Hours' : 'เวลารวมในตาราง'}:{' '}
           <strong class="text-slate-900 font-bold text-sm">
             {totalHours}
           </strong>{' '}
-          {$languageStore === 'en' ? 'hrs/week' : 'ชั่วโมง/สัปดาห์'}
+          {languageState.language === 'en' ? 'hrs/week' : 'ชั่วโมง/สัปดาห์'}
         </span>
       </div>
     </div>

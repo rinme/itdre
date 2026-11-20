@@ -45,10 +45,14 @@
     pageSubtitleEn
   }: Props = $props();
 
-  let selectedCategory = $state<string>(initialCategoryFilter);
+  let selectedCategory = $state<string>("all");
   let selectedFloor = $state<string>("all");
   let searchQuery = $state<string>("");
   let activeModalFacility = $state<FacilityItem | null>(null);
+
+  $effect(() => {
+    selectedCategory = initialCategoryFilter;
+  });
 
   onMount(() => {
     const urlCategory = page.url.searchParams.get("category");

@@ -6,7 +6,7 @@
     type PhoneDirectoryItem,
     type TransportGuideItem
   } from '$lib/data/contact';
-  import { languageStore } from '$lib/stores/language';
+  import { languageState, t } from '$lib/state/language.svelte';
   import {
     MapPin,
     Phone,
@@ -70,18 +70,18 @@
   function validateForm() {
     const errors: Record<string, string> = {};
     if (!formData.name.trim()) {
-      errors.name = $languageStore === 'en' ? 'Please enter your full name' : 'กรุณากรอกชื่อ-นามสกุล';
+      errors.name = languageState.language === 'en' ? 'Please enter your full name' : 'กรุณากรอกชื่อ-นามสกุล';
     }
     if (!formData.email.trim()) {
-      errors.email = $languageStore === 'en' ? 'Please enter your email' : 'กรุณากรอกอีเมล';
+      errors.email = languageState.language === 'en' ? 'Please enter your email' : 'กรุณากรอกอีเมล';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
-      errors.email = $languageStore === 'en' ? 'Please enter a valid email address' : 'รูปแบบอีเมลไม่ถูกต้อง';
+      errors.email = languageState.language === 'en' ? 'Please enter a valid email address' : 'รูปแบบอีเมลไม่ถูกต้อง';
     }
     if (!formData.subject.trim()) {
-      errors.subject = $languageStore === 'en' ? 'Please enter a subject' : 'กรุณากรอกหัวข้อเรื่อง';
+      errors.subject = languageState.language === 'en' ? 'Please enter a subject' : 'กรุณากรอกหัวข้อเรื่อง';
     }
     if (!formData.message.trim()) {
-      errors.message = $languageStore === 'en' ? 'Please enter your message' : 'กรุณากรอกข้อความที่ต้องการติดต่อ';
+      errors.message = languageState.language === 'en' ? 'Please enter your message' : 'กรุณากรอกข้อความที่ต้องการติดต่อ';
     }
     formErrors = errors;
     return Object.keys(errors).length === 0;
@@ -122,11 +122,11 @@
           class="inline-flex items-center gap-1.5 hover:text-brand-orange transition-colors"
         >
           <Home class="w-3.5 h-3.5" />
-          <span>{$languageStore === 'en' ? 'Home' : 'หน้าหลัก'}</span>
+          <span>{languageState.language === 'en' ? 'Home' : 'หน้าหลัก'}</span>
         </a>
         <ChevronRight class="w-3.5 h-3.5 text-gray-600" />
         <span class="text-brand-orange font-medium">
-          {$languageStore === 'en' ? 'Contact Us' : 'ติดต่อเรา'}
+          {languageState.language === 'en' ? 'Contact Us' : 'ติดต่อเรา'}
         </span>
       </nav>
 
@@ -137,10 +137,10 @@
           <span>FACULTY CONTACT & LOCATION</span>
         </div>
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
-          {$languageStore === 'en' ? 'Contact & Campus Location' : 'ติดต่อคณะและช่องทางการสื่อสาร'}
+          {languageState.language === 'en' ? 'Contact & Campus Location' : 'ติดต่อคณะและช่องทางการสื่อสาร'}
         </h1>
         <p class="text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl">
-          {$languageStore === 'en'
+          {languageState.language === 'en'
             ? 'Find our campus address at Navamindra Rajini Building (Bldg 79), interactive map directions, departmental extension directory, and inquiry form.'
             : 'ที่ตั้งอาคารนวมินทรราชินี (อาคาร 79) มจพ., แผนที่การเดินทาง, หมายเลขโทรศัพท์ภายในทุกหน่วยงาน และแบบฟอร์มส่งข้อความสอบถาม'}
         </p>
@@ -150,7 +150,7 @@
       <div class="pt-2 flex flex-wrap items-center gap-3 text-xs sm:text-sm">
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-gray-200">
           <Phone class="w-4 h-4 text-brand-orange" />
-          <span>{contactInfo.phoneMain} ({$languageStore === 'en' ? 'ext 2708' : 'ต่อ 2708'})</span>
+          <span>{contactInfo.phoneMain} ({languageState.language === 'en' ? 'ext 2708' : 'ต่อ 2708'})</span>
         </div>
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-gray-200">
           <Mail class="w-4 h-4 text-sky-400" />
@@ -158,7 +158,7 @@
         </div>
         <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/10 text-gray-200">
           <Building2 class="w-4 h-4 text-emerald-400" />
-          <span>{$languageStore === 'en' ? 'Bldg 79 Fl 3, 4, 5, 7' : 'อาคาร 79 ชั้น 3, 4, 5, 7'}</span>
+          <span>{languageState.language === 'en' ? 'Bldg 79 Fl 3, 4, 5, 7' : 'อาคาร 79 ชั้น 3, 4, 5, 7'}</span>
         </div>
       </div>
     </div>
@@ -174,13 +174,13 @@
           <div class="space-y-2">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-brand-orange text-xs font-semibold">
               <Building2 class="w-3.5 h-3.5" />
-              <span>{$languageStore === 'en' ? 'LOCATION & OFFICE' : 'ข้อมูลที่ตั้งและสำนักงาน'}</span>
+              <span>{languageState.language === 'en' ? 'LOCATION & OFFICE' : 'ข้อมูลที่ตั้งและสำนักงาน'}</span>
             </div>
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
-              {$languageStore === 'en' ? contactInfo.facultyNameEn : contactInfo.facultyNameTh}
+              {languageState.language === 'en' ? contactInfo.facultyNameEn : contactInfo.facultyNameTh}
             </h2>
             <p class="text-xs sm:text-sm text-brand-orange font-semibold">
-              {$languageStore === 'en' ? contactInfo.universityNameEn : contactInfo.universityNameTh}
+              {languageState.language === 'en' ? contactInfo.universityNameEn : contactInfo.universityNameTh}
             </p>
           </div>
 
@@ -192,10 +192,10 @@
               </div>
               <div class="space-y-0.5">
                 <strong class="text-gray-900 block font-semibold">
-                  {$languageStore === 'en' ? contactInfo.buildingEn : contactInfo.buildingTh}
+                  {languageState.language === 'en' ? contactInfo.buildingEn : contactInfo.buildingTh}
                 </strong>
                 <p class="text-gray-600 text-xs">
-                  {$languageStore === 'en' ? contactInfo.addressEn : contactInfo.addressTh}
+                  {languageState.language === 'en' ? contactInfo.addressEn : contactInfo.addressTh}
                 </p>
               </div>
             </div>
@@ -206,13 +206,13 @@
               </div>
               <div class="space-y-0.5">
                 <strong class="text-gray-900 block font-semibold">
-                  {$languageStore === 'en' ? 'Main Telephone' : 'หมายเลขโทรศัพท์หลัก'}
+                  {languageState.language === 'en' ? 'Main Telephone' : 'หมายเลขโทรศัพท์หลัก'}
                 </strong>
                 <p class="text-gray-600 text-xs">
-                  {contactInfo.phoneMain} ({$languageStore === 'en' ? 'KMUTNB Switchboard' : 'เบอร์กลาง มจพ.'})
+                  {contactInfo.phoneMain} ({languageState.language === 'en' ? 'KMUTNB Switchboard' : 'เบอร์กลาง มจพ.'})
                 </p>
                 <p class="text-brand-orange text-xs font-semibold">
-                  {$languageStore === 'en' ? 'Direct Line:' : 'โทรตรงสำนักงานคณบดี:'} {contactInfo.phoneDirect}
+                  {languageState.language === 'en' ? 'Direct Line:' : 'โทรตรงสำนักงานคณบดี:'} {contactInfo.phoneDirect}
                 </p>
               </div>
             </div>
@@ -223,13 +223,13 @@
               </div>
               <div class="space-y-0.5">
                 <strong class="text-gray-900 block font-semibold">
-                  {$languageStore === 'en' ? 'Official Emails' : 'ไปรษณีย์อิเล็กทรอนิกส์ (Email)'}
+                  {languageState.language === 'en' ? 'Official Emails' : 'ไปรษณีย์อิเล็กทรอนิกส์ (Email)'}
                 </strong>
                 <p class="text-gray-600 text-xs">
-                  {$languageStore === 'en' ? 'General:' : 'ติดต่อทั่วไป:'} <span class="text-brand-orange font-medium">{contactInfo.emailGeneral}</span>
+                  {languageState.language === 'en' ? 'General:' : 'ติดต่อทั่วไป:'} <span class="text-brand-orange font-medium">{contactInfo.emailGeneral}</span>
                 </p>
                 <p class="text-gray-600 text-xs">
-                  {$languageStore === 'en' ? 'Academic:' : 'บริการการศึกษา:'} <span class="text-brand-orange font-medium">{contactInfo.emailAcademic}</span>
+                  {languageState.language === 'en' ? 'Academic:' : 'บริการการศึกษา:'} <span class="text-brand-orange font-medium">{contactInfo.emailAcademic}</span>
                 </p>
               </div>
             </div>
@@ -240,10 +240,10 @@
               </div>
               <div class="space-y-0.5">
                 <strong class="text-gray-900 block font-semibold">
-                  {$languageStore === 'en' ? 'Operating Hours' : 'เวลาทำการ (Office Hours)'}
+                  {languageState.language === 'en' ? 'Operating Hours' : 'เวลาทำการ (Office Hours)'}
                 </strong>
                 <p class="text-gray-600 text-xs leading-relaxed">
-                  {$languageStore === 'en' ? contactInfo.officeHoursEn : contactInfo.officeHoursTh}
+                  {languageState.language === 'en' ? contactInfo.officeHoursEn : contactInfo.officeHoursTh}
                 </p>
               </div>
             </div>
@@ -252,7 +252,7 @@
           <!-- Social Channels Connection Cards -->
           <div class="pt-2 border-t border-gray-100 space-y-3">
             <h3 class="text-xs font-bold text-gray-900 uppercase tracking-wider">
-              {$languageStore === 'en' ? 'Official Social Media' : 'ช่องทางการติดตามโซเชียลมีเดีย'}
+              {languageState.language === 'en' ? 'Official Social Media' : 'ช่องทางการติดตามโซเชียลมีเดีย'}
             </h3>
 
             <div class="grid grid-cols-3 gap-2">
@@ -307,13 +307,13 @@
         <div class="space-y-2">
           <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-50 border border-orange-200 text-brand-orange text-xs font-semibold">
             <MessageSquare class="w-3.5 h-3.5" />
-            <span>{$languageStore === 'en' ? 'ONLINE INQUIRY FORM' : 'แบบฟอร์มติดต่อสอบถาม'}</span>
+            <span>{languageState.language === 'en' ? 'ONLINE INQUIRY FORM' : 'แบบฟอร์มติดต่อสอบถาม'}</span>
           </div>
           <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
-            {$languageStore === 'en' ? 'Send Us a Message' : 'ส่งข้อความถึงคณะ ITD'}
+            {languageState.language === 'en' ? 'Send Us a Message' : 'ส่งข้อความถึงคณะ ITD'}
           </h2>
           <p class="text-xs sm:text-sm text-gray-500">
-            {$languageStore === 'en'
+            {languageState.language === 'en'
               ? 'Fill out the form below and our administrative team will get back to you promptly.'
               : 'กรอกข้อมูลและข้อความที่ต้องการสอบถาม เจ้าหน้าที่ฝ่ายที่เกี่ยวข้องจะติดต่อกลับโดยเร็วที่สุด'}
           </p>
@@ -325,7 +325,7 @@
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2 font-bold text-emerald-800 text-sm">
                 <CheckCircle2 class="w-5 h-5 text-emerald-600" />
-                <span>{$languageStore === 'en' ? 'Message Sent Successfully!' : 'ส่งข้อความสำเร็จเรียบร้อยแล้ว!'}</span>
+                <span>{languageState.language === 'en' ? 'Message Sent Successfully!' : 'ส่งข้อความสำเร็จเรียบร้อยแล้ว!'}</span>
               </div>
               <button
                 type="button"
@@ -337,7 +337,7 @@
               </button>
             </div>
             <p class="text-xs text-emerald-700 leading-relaxed">
-              {$languageStore === 'en'
+              {languageState.language === 'en'
                 ? 'We have received your inquiry. Our team will review and respond via your provided email or phone shortly.'
                 : 'ทางคณะได้รับข้อความสอบถามของท่านแล้ว เจ้าหน้าที่จะดำเนินการตรวจสอบและติดต่อกลับผ่านทางอีเมลหรือเบอร์โทรศัพท์ที่ท่านระบุไว้'}
             </p>
@@ -349,14 +349,15 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <!-- Full Name -->
             <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-gray-700">
-                {$languageStore === 'en' ? 'Full Name' : 'ชื่อ-นามสกุล'} <span class="text-red-500">*</span>
+              <label for="contact-name" class="block text-xs font-semibold text-gray-700">
+                {languageState.language === 'en' ? 'Full Name' : 'ชื่อ-นามสกุล'} <span class="text-red-500">*</span>
               </label>
               <input
+                id="contact-name"
                 type="text"
                 name="name"
                 bind:value={formData.name}
-                placeholder={$languageStore === 'en' ? 'e.g. John Doe' : 'เช่น สมชาย ใจดี'}
+                placeholder={languageState.language === 'en' ? 'e.g. John Doe' : 'เช่น สมชาย ใจดี'}
                 class={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-hidden focus:ring-2 ${
                   formErrors.name
                     ? 'border-red-400 bg-red-50/30 focus:ring-red-300'
@@ -370,14 +371,15 @@
 
             <!-- Email -->
             <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-gray-700">
-                {$languageStore === 'en' ? 'Email Address' : 'อีเมลติดต่อ'} <span class="text-red-500">*</span>
+              <label for="contact-email" class="block text-xs font-semibold text-gray-700">
+                {languageState.language === 'en' ? 'Email Address' : 'อีเมลติดต่อ'} <span class="text-red-500">*</span>
               </label>
               <input
+                id="contact-email"
                 type="email"
                 name="email"
                 bind:value={formData.email}
-                placeholder={$languageStore === 'en' ? 'e.g. user@example.com' : 'เช่น email@example.com'}
+                placeholder={languageState.language === 'en' ? 'e.g. user@example.com' : 'เช่น email@example.com'}
                 class={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-hidden focus:ring-2 ${
                   formErrors.email
                     ? 'border-red-400 bg-red-50/30 focus:ring-red-300'
@@ -393,48 +395,51 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <!-- Phone -->
             <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-gray-700">
-                {$languageStore === 'en' ? 'Phone Number' : 'หมายเลขโทรศัพท์'}
+              <label for="contact-phone" class="block text-xs font-semibold text-gray-700">
+                {languageState.language === 'en' ? 'Phone Number' : 'หมายเลขโทรศัพท์'}
               </label>
               <input
+                id="contact-phone"
                 type="tel"
                 name="phone"
                 bind:value={formData.phone}
-                placeholder={$languageStore === 'en' ? 'e.g. 081-234-5678' : 'เช่น 081-234-5678'}
+                placeholder={languageState.language === 'en' ? 'e.g. 081-234-5678' : 'เช่น 081-234-5678'}
                 class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:border-brand-orange focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-brand-orange/20 transition-all"
               />
             </div>
 
             <!-- Inquiry Category -->
             <div class="space-y-1.5">
-              <label class="block text-xs font-semibold text-gray-700">
-                {$languageStore === 'en' ? 'Inquiry Department' : 'เรื่องที่ต้องการติดต่อ'}
+              <label for="contact-category" class="block text-xs font-semibold text-gray-700">
+                {languageState.language === 'en' ? 'Inquiry Department' : 'เรื่องที่ต้องการติดต่อ'}
               </label>
               <select
+                id="contact-category"
                 name="category"
                 bind:value={formData.category}
                 class="w-full px-3.5 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:border-brand-orange focus:bg-white focus:outline-hidden focus:ring-2 focus:ring-brand-orange/20 transition-all cursor-pointer"
               >
-                <option value="general">{$languageStore === 'en' ? 'General Inquiries' : 'สอบถามข้อมูลทั่วไป / ประชาสัมพันธ์'}</option>
-                <option value="admission">{$languageStore === 'en' ? 'Student Admissions' : 'การรับสมัครเข้าศึกษาต่อ (Admissions)'}</option>
-                <option value="academic">{$languageStore === 'en' ? 'Academic & Registrar Support' : 'งานบริการการศึกษาและวิชาการ'}</option>
-                <option value="pearson-vue">{$languageStore === 'en' ? 'Pearson VUE Certification' : 'ศูนย์ทดสอบสากล Pearson VUE'}</option>
-                <option value="lab-booking">{$languageStore === 'en' ? 'Facility & Lab Reservation' : 'ขอใช้ห้องปฏิบัติการ / สัมมนา'}</option>
-                <option value="research">{$languageStore === 'en' ? 'Research & Collaboration' : 'ความร่วมมือทางวิจัยและอุตสาหกรรม'}</option>
+                <option value="general">{languageState.language === 'en' ? 'General Inquiries' : 'สอบถามข้อมูลทั่วไป / ประชาสัมพันธ์'}</option>
+                <option value="admission">{languageState.language === 'en' ? 'Student Admissions' : 'การรับสมัครเข้าศึกษาต่อ (Admissions)'}</option>
+                <option value="academic">{languageState.language === 'en' ? 'Academic & Registrar Support' : 'งานบริการการศึกษาและวิชาการ'}</option>
+                <option value="pearson-vue">{languageState.language === 'en' ? 'Pearson VUE Certification' : 'ศูนย์ทดสอบสากล Pearson VUE'}</option>
+                <option value="lab-booking">{languageState.language === 'en' ? 'Facility & Lab Reservation' : 'ขอใช้ห้องปฏิบัติการ / สัมมนา'}</option>
+                <option value="research">{languageState.language === 'en' ? 'Research & Collaboration' : 'ความร่วมมือทางวิจัยและอุตสาหกรรม'}</option>
               </select>
             </div>
           </div>
 
           <!-- Subject -->
           <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700">
-              {$languageStore === 'en' ? 'Subject' : 'หัวข้อเรื่อง'} <span class="text-red-500">*</span>
+            <label for="contact-subject" class="block text-xs font-semibold text-gray-700">
+              {languageState.language === 'en' ? 'Subject' : 'หัวข้อเรื่อง'} <span class="text-red-500">*</span>
             </label>
             <input
+              id="contact-subject"
               type="text"
               name="subject"
               bind:value={formData.subject}
-              placeholder={$languageStore === 'en' ? 'Enter message subject' : 'ระบุหัวข้อที่ต้องการสอบถาม'}
+              placeholder={languageState.language === 'en' ? 'Enter message subject' : 'ระบุหัวข้อที่ต้องการสอบถาม'}
               class={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-hidden focus:ring-2 ${
                 formErrors.subject
                   ? 'border-red-400 bg-red-50/30 focus:ring-red-300'
@@ -448,14 +453,15 @@
 
           <!-- Message Body -->
           <div class="space-y-1.5">
-            <label class="block text-xs font-semibold text-gray-700">
-              {$languageStore === 'en' ? 'Message Details' : 'รายละเอียดข้อความ'} <span class="text-red-500">*</span>
+            <label for="contact-message" class="block text-xs font-semibold text-gray-700">
+              {languageState.language === 'en' ? 'Message Details' : 'รายละเอียดข้อความ'} <span class="text-red-500">*</span>
             </label>
             <textarea
+              id="contact-message"
               name="message"
               rows={4}
               bind:value={formData.message}
-              placeholder={$languageStore === 'en' ? 'Type your message or inquiry here...' : 'พิมพ์ข้อความคำถามหรือรายละเอียดที่ต้องการติดต่อที่นี่...'}
+              placeholder={languageState.language === 'en' ? 'Type your message or inquiry here...' : 'พิมพ์ข้อความคำถามหรือรายละเอียดที่ต้องการติดต่อที่นี่...'}
               class={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-hidden focus:ring-2 ${
                 formErrors.message
                   ? 'border-red-400 bg-red-50/30 focus:ring-red-300'
@@ -470,7 +476,7 @@
           <!-- Submit Button -->
           <div class="pt-2 flex items-center justify-between">
             <p class="text-[11px] text-gray-400">
-              * {$languageStore === 'en' ? 'Your data is kept confidential' : 'ข้อมูลของท่านจะถูกเก็บเป็นความลับเพื่อการให้บริการเท่านั้น'}
+              * {languageState.language === 'en' ? 'Your data is kept confidential' : 'ข้อมูลของท่านจะถูกเก็บเป็นความลับเพื่อการให้บริการเท่านั้น'}
             </p>
 
             <button
@@ -480,10 +486,10 @@
             >
               {#if isSubmitting}
                 <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>{$languageStore === 'en' ? 'Sending message...' : 'กำลังส่งข้อความ...'}</span>
+                <span>{languageState.language === 'en' ? 'Sending message...' : 'กำลังส่งข้อความ...'}</span>
               {:else}
                 <Send class="w-4 h-4" />
-                <span>{$languageStore === 'en' ? 'Submit Inquiry' : 'ส่งข้อความ'}</span>
+                <span>{languageState.language === 'en' ? 'Submit Inquiry' : 'ส่งข้อความ'}</span>
               {/if}
             </button>
           </div>
@@ -500,10 +506,10 @@
           </div>
           <div>
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
-              {$languageStore === 'en' ? 'Departmental Extension Directory' : 'สมุดโทรศัพท์และเบอร์ต่อภายในคณะ'}
+              {languageState.language === 'en' ? 'Departmental Extension Directory' : 'สมุดโทรศัพท์และเบอร์ต่อภายในคณะ'}
             </h2>
             <p class="text-xs text-gray-500">
-              {$languageStore === 'en' ? 'Call 02-555-2000 followed by the 4-digit extension' : 'โทร. 02-555-2000 ตามด้วยหมายเลขต่อภายใน 4 หลัก'}
+              {languageState.language === 'en' ? 'Call 02-555-2000 followed by the 4-digit extension' : 'โทร. 02-555-2000 ตามด้วยหมายเลขต่อภายใน 4 หลัก'}
             </p>
           </div>
         </div>
@@ -514,7 +520,7 @@
           <input
             type="text"
             bind:value={phoneSearch}
-            placeholder={$languageStore === 'en' ? 'Search unit, room, ext...' : 'ค้นหาหน่วยงาน, ห้อง, หรือเบอร์ต่อ...'}
+            placeholder={languageState.language === 'en' ? 'Search unit, room, ext...' : 'ค้นหาหน่วยงาน, ห้อง, หรือเบอร์ต่อ...'}
             class="w-full pl-9 pr-8 py-2 rounded-xl border border-gray-200 bg-gray-50 text-xs sm:text-sm focus:bg-white focus:border-brand-orange focus:outline-hidden"
           />
           {#if phoneSearch}
@@ -539,20 +545,20 @@
             <div class="space-y-1.5">
               <div class="flex items-center justify-between">
                 <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-gray-100 text-gray-700">
-                  {$languageStore === 'en' ? item.roomEn : item.roomTh}
+                  {languageState.language === 'en' ? item.roomEn : item.roomTh}
                 </span>
                 <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-50 text-brand-orange border border-orange-200">
-                  {$languageStore === 'en' ? `Fl ${item.floor}` : `ชั้น ${item.floor}`}
+                  {languageState.language === 'en' ? `Fl ${item.floor}` : `ชั้น ${item.floor}`}
                 </span>
               </div>
 
               <h3 class="font-bold text-sm sm:text-base text-gray-900">
-                {$languageStore === 'en' ? item.unitEn : item.unitTh}
+                {languageState.language === 'en' ? item.unitEn : item.unitTh}
               </h3>
 
               {#if item.headNameTh}
                 <p class="text-xs text-gray-500">
-                  {$languageStore === 'en' ? item.headNameEn : item.headNameTh}
+                  {languageState.language === 'en' ? item.headNameEn : item.headNameTh}
                 </p>
               {/if}
             </div>
@@ -560,7 +566,7 @@
             <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
               <div class="flex items-center gap-1.5 text-brand-orange font-bold text-sm">
                 <Phone class="w-3.5 h-3.5 text-brand-orange" />
-                <span>{$languageStore === 'en' ? 'Ext.' : 'ต่อ'} {item.extension}</span>
+                <span>{languageState.language === 'en' ? 'Ext.' : 'ต่อ'} {item.extension}</span>
               </div>
 
               <a
@@ -584,10 +590,10 @@
           </div>
           <div>
             <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
-              {$languageStore === 'en' ? 'Campus Map & Getting Here' : 'แผนที่และการเดินทางมายังคณะ ITD'}
+              {languageState.language === 'en' ? 'Campus Map & Getting Here' : 'แผนที่และการเดินทางมายังคณะ ITD'}
             </h2>
             <p class="text-xs text-gray-500">
-              {$languageStore === 'en'
+              {languageState.language === 'en'
                 ? 'Navamindra Rajini Building, Pracharat 1 Rd, Bang Sue, Bangkok'
                 : 'อาคารนวมินทรราชินี (อาคาร 79) ถนนประชาราษฎร์ 1 เขตบางซื่อ กรุงเทพฯ'}
             </p>
@@ -600,7 +606,7 @@
           rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-900 hover:bg-brand-orange text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs shrink-0"
         >
-          <span>{$languageStore === 'en' ? 'Open in Google Maps' : 'เปิดใน Google Maps'}</span>
+          <span>{languageState.language === 'en' ? 'Open in Google Maps' : 'เปิดใน Google Maps'}</span>
           <ExternalLink class="w-3.5 h-3.5" />
         </a>
       </div>
@@ -632,15 +638,15 @@
                 <TransIcon class="w-5 h-5" />
               </div>
               <h3 class="font-bold text-sm sm:text-base text-gray-900">
-                {$languageStore === 'en' ? guide.titleEn : guide.titleTh}
+                {languageState.language === 'en' ? guide.titleEn : guide.titleTh}
               </h3>
               <p class="text-xs text-gray-600 leading-relaxed">
-                {$languageStore === 'en' ? guide.descriptionEn : guide.descriptionTh}
+                {languageState.language === 'en' ? guide.descriptionEn : guide.descriptionTh}
               </p>
             </div>
 
             <div class="pt-2 border-t border-gray-100 space-y-1 text-[11px] text-gray-500">
-              {#each ($languageStore === 'en' ? guide.detailsEn : guide.detailsTh) as detail, dIdx}
+              {#each (languageState.language === 'en' ? guide.detailsEn : guide.detailsTh) as detail, dIdx}
                 <div class="flex items-start gap-1.5">
                   <span class="text-brand-orange font-bold">•</span>
                   <span>{detail}</span>

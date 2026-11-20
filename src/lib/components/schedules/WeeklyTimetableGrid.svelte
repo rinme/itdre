@@ -34,7 +34,7 @@
     getPublicColorTheme,
     COURSE_TYPE_META
   } from '$lib/utils/weekly-grid';
-  import { languageStore } from '$lib/stores/language';
+  import { languageState, t } from '$lib/state/language.svelte';
 
   interface Props {
     slots: PublicCourseSlot[];
@@ -75,14 +75,14 @@
     <div class="flex items-center gap-2">
       <Clock class="w-4 h-4 text-brand-orange" />
       <span class="font-medium">
-        {$languageStore === 'en'
+        {languageState.language === 'en'
           ? 'Weekly Class Schedule (08:00 - 20:00)'
           : 'ตารางเรียนรายสัปดาห์ (08:00 - 20:00 น.)'}
       </span>
     </div>
     <div class="flex items-center gap-3">
       <span class="text-slate-500 font-mono">
-        {$languageStore === 'en' ? `Total ${slots.length} Courses` : `รวมทั้งหมด ${slots.length} รายวิชา`}
+        {languageState.language === 'en' ? `Total ${slots.length} Courses` : `รวมทั้งหมด ${slots.length} รายวิชา`}
       </span>
     </div>
   </div>
@@ -94,7 +94,7 @@
       <div class="grid grid-cols-[76px_repeat(7,1fr)] border-b border-slate-200 bg-slate-100/90 text-slate-700">
         <!-- Time Axis Header -->
         <div class="flex items-center justify-center p-3 text-[11px] font-bold text-slate-500 border-r border-slate-200 uppercase tracking-wider">
-          {$languageStore === 'en' ? 'Time' : 'เวลา'}
+          {languageState.language === 'en' ? 'Time' : 'เวลา'}
         </div>
 
         <!-- 7 Day Columns -->
@@ -108,17 +108,17 @@
                 style={`background-color: ${meta.colorHex}`}
               ></span>
               <span class="text-xs font-bold text-slate-900">
-                {$languageStore === 'en' ? meta.en : meta.th}
+                {languageState.language === 'en' ? meta.en : meta.th}
               </span>
               <span class="text-[10px] text-slate-500 font-medium">
-                ({$languageStore === 'en' ? meta.shortTh : meta.shortEn})
+                ({languageState.language === 'en' ? meta.shortTh : meta.shortEn})
               </span>
             </div>
             <div class="text-[10px] font-medium text-slate-500 mt-0.5">
               {#if daySlots.length > 0}
-                {$languageStore === 'en' ? `${daySlots.length} Courses` : `${daySlots.length} วิชา`}
+                {languageState.language === 'en' ? `${daySlots.length} Courses` : `${daySlots.length} วิชา`}
               {:else}
-                {$languageStore === 'en' ? 'No class' : 'ไม่มีเรียน'}
+                {languageState.language === 'en' ? 'No class' : 'ไม่มีเรียน'}
               {/if}
             </div>
           </div>
@@ -207,7 +207,7 @@
                             : 'bg-blue-100 text-blue-800 border border-blue-300'
                         }`}
                       >
-                        {$languageStore === 'en' ? typeMeta.en : typeMeta.th}
+                        {languageState.language === 'en' ? typeMeta.en : typeMeta.th}
                       </span>
                     </div>
 
@@ -242,7 +242,7 @@
                         </span>
                       {:else}
                         <span class="text-slate-400 italic text-[9px]">
-                          {$languageStore === 'en' ? 'No room' : 'ไม่ระบุห้อง'}
+                          {languageState.language === 'en' ? 'No room' : 'ไม่ระบุห้อง'}
                         </span>
                       {/if}
 

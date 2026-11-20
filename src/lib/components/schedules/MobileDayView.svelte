@@ -16,7 +16,7 @@
     COURSE_TYPE_META,
     timeToMinutes
   } from '$lib/utils/weekly-grid';
-  import { languageStore } from '$lib/stores/language';
+  import { languageState, t } from '$lib/state/language.svelte';
   import type { PublicCourseSlot } from '$lib/components/schedules/WeeklyTimetableGrid.svelte';
 
   interface Props {
@@ -92,7 +92,7 @@
 
           <!-- Day Short Name -->
           <span class="text-xs font-bold leading-tight">
-            {$languageStore === 'en' ? meta.shortEn : meta.shortTh}
+            {languageState.language === 'en' ? meta.shortEn : meta.shortTh}
           </span>
 
           <!-- Course Count Pill -->
@@ -118,7 +118,7 @@
       type="button"
       onclick={handlePrevDay}
       class="no-print p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-      title={$languageStore === 'en' ? 'Previous day' : 'วันก่อนหน้า'}
+      title={languageState.language === 'en' ? 'Previous day' : 'วันก่อนหน้า'}
       aria-label="Previous day"
     >
       <ChevronLeft class="w-5 h-5" />
@@ -131,16 +131,16 @@
           style={`background-color: ${activeDayMeta.colorHex}`}
         ></span>
         <h3 class="text-base sm:text-lg font-bold text-slate-900">
-          {$languageStore === 'en' ? activeDayMeta.en : activeDayMeta.th}
+          {languageState.language === 'en' ? activeDayMeta.en : activeDayMeta.th}
         </h3>
       </div>
       <span class="text-xs font-medium text-slate-500 mt-0.5">
         {#if currentDaySlots.length > 0}
-          {$languageStore === 'en'
+          {languageState.language === 'en'
             ? `${currentDaySlots.length} courses scheduled`
             : `มีการเรียนการสอน ${currentDaySlots.length} รายวิชา`}
         {:else}
-          {$languageStore === 'en' ? 'No classes scheduled' : 'ไม่มีการเรียนการสอนในวันนี้'}
+          {languageState.language === 'en' ? 'No classes scheduled' : 'ไม่มีการเรียนการสอนในวันนี้'}
         {/if}
       </span>
     </div>
@@ -149,7 +149,7 @@
       type="button"
       onclick={handleNextDay}
       class="no-print p-2 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-      title={$languageStore === 'en' ? 'Next day' : 'วันถัดไป'}
+      title={languageState.language === 'en' ? 'Next day' : 'วันถัดไป'}
       aria-label="Next day"
     >
       <ChevronRight class="w-5 h-5" />
@@ -182,7 +182,7 @@
                   {slot.startTime} - {slot.endTime} น.
                 </span>
                 <span class="text-[10px] text-slate-500 font-normal">
-                  ({durationH} {$languageStore === 'en' ? 'hrs' : 'ชม.'})
+                  ({durationH} {languageState.language === 'en' ? 'hrs' : 'ชม.'})
                 </span>
               </div>
 
@@ -195,7 +195,7 @@
                     : 'bg-blue-50 text-blue-800 border-blue-300'
                 }`}
               >
-                {$languageStore === 'en' ? typeMeta.en : typeMeta.th}
+                {languageState.language === 'en' ? typeMeta.en : typeMeta.th}
               </span>
             </div>
 
@@ -222,7 +222,7 @@
                 <div class="flex items-center gap-1.5 text-slate-800 font-medium">
                   <MapPin class="w-3.5 h-3.5 text-brand-orange shrink-0" />
                   <span>
-                    {$languageStore === 'en' ? 'Room' : 'ห้องเรียน'}:{' '}
+                    {languageState.language === 'en' ? 'Room' : 'ห้องเรียน'}:{' '}
                     <strong class="font-semibold text-slate-900">
                       {slot.room}
                     </strong>
@@ -231,15 +231,15 @@
               {:else}
                 <div class="flex items-center gap-1.5 text-slate-400 italic">
                   <MapPin class="w-3.5 h-3.5 text-slate-300 shrink-0" />
-                  <span>{$languageStore === 'en' ? 'No room assigned' : 'ไม่ระบุห้องเรียน'}</span>
+                  <span>{languageState.language === 'en' ? 'No room assigned' : 'ไม่ระบุห้องเรียน'}</span>
                 </div>
               {/if}
 
               <div class="flex items-center gap-1.5 text-slate-700">
                 <User class="w-3.5 h-3.5 text-slate-400 shrink-0" />
                 <span>
-                  {$languageStore === 'en' ? 'Lecturer' : 'ผู้สอน'}:{' '}
-                  {(slot.instructors ?? []).join(', ') || ($languageStore === 'en' ? 'No lecturer' : 'ไม่ระบุผู้สอน')}
+                  {languageState.language === 'en' ? 'Lecturer' : 'ผู้สอน'}:{' '}
+                  {(slot.instructors ?? []).join(', ') || (languageState.language === 'en' ? 'No lecturer' : 'ไม่ระบุผู้สอน')}
                 </span>
               </div>
             </div>
@@ -254,10 +254,10 @@
         <Calendar class="w-6 h-6" />
       </div>
       <h4 class="text-sm font-bold text-slate-700">
-        {$languageStore === 'en' ? 'No classes on this day' : 'ไม่มีตารางเรียนในวันนี้'}
+        {languageState.language === 'en' ? 'No classes on this day' : 'ไม่มีตารางเรียนในวันนี้'}
       </h4>
       <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-        {$languageStore === 'en'
+        {languageState.language === 'en'
           ? `There are no scheduled courses on ${activeDayMeta.en}. Select other days from the bar above.`
           : `ไม่มีรายวิชาที่ต้องเข้าเรียนใน${activeDayMeta.th} คุณสามารถเลือกดูวันอื่นๆ จากแถบด้านบน`}
       </p>

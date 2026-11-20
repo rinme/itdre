@@ -24,7 +24,16 @@
     priority = false
   }: Props = $props();
 
-  let imgSrc = $state(person.image || "/assets/faculty/placeholder-avatar.svg");
+  let fallbackImg = "/assets/faculty/placeholder-avatar.svg";
+  let hasImgError = $state(false);
+  let imgSrc = $derived(hasImgError ? fallbackImg : (person.image || fallbackImg));
+
+  $effect(() => {
+    // reset error flag if person image changes
+    if (person.image) {
+      hasImgError = false;
+    }
+  });
 
   let badge = $derived(getCategoryBadgeStyle(person.category));
   let departmentName = $derived(getDepartmentName(person.department, languageState.language));
@@ -51,7 +60,7 @@
         alt={person.nameTh}
         loading={priority ? "eager" : "lazy"}
         class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
-        onerror={() => (imgSrc = "/assets/faculty/placeholder-avatar.svg")}
+        onerror={() => (hasImgError = true)}
       />
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden"></div>
       <div class="absolute bottom-3 left-3 z-10 md:hidden text-white">
@@ -137,7 +146,7 @@
         alt={person.nameTh}
         loading={priority ? "eager" : "lazy"}
         class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 ease-out"
-        onerror={() => (imgSrc = "/assets/faculty/placeholder-avatar.svg")}
+        onerror={() => (hasImgError = true)}
       />
 
       <!-- Category Pill Tag -->

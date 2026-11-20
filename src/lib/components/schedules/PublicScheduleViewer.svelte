@@ -13,7 +13,7 @@
     Home,
     ChevronRight
   } from 'lucide-svelte';
-  import { languageStore } from '$lib/stores/language';
+  import { languageState, t } from '$lib/state/language.svelte';
   import { programs } from '$lib/data/programs';
   import {
     getCurrentDayOfWeek,
@@ -136,7 +136,7 @@
       }
     } catch {
       fetchError =
-        $languageStore === 'en'
+        languageState.language === 'en'
           ? 'Unable to load class schedules. Please check your internet connection.'
           : 'ไม่สามารถโหลดข้อมูลตารางเรียนได้ โปรดตรวจสอบการเชื่อมต่ออินเทอร์เน็ต';
     } finally {
@@ -261,18 +261,18 @@
       class="hover:text-brand-orange transition-colors flex items-center gap-1"
     >
       <Home class="w-3.5 h-3.5" />
-      <span>{$languageStore === 'en' ? 'Home' : 'หน้าหลัก'}</span>
+      <span>{languageState.language === 'en' ? 'Home' : 'หน้าหลัก'}</span>
     </a>
     <ChevronRight class="w-3.5 h-3.5 text-slate-400" />
     <a
       href="/services"
       class="hover:text-brand-orange transition-colors"
     >
-      {$languageStore === 'en' ? 'Services & Downloads' : 'บริการและดาวน์โหลด'}
+      {languageState.language === 'en' ? 'Services & Downloads' : 'บริการและดาวน์โหลด'}
     </a>
     <ChevronRight class="w-3.5 h-3.5 text-slate-400" />
     <span class="font-semibold text-slate-900">
-      {$languageStore === 'en' ? 'Class Timetable' : 'ตารางเรียนและตารางสอน'}
+      {languageState.language === 'en' ? 'Class Timetable' : 'ตารางเรียนและตารางสอน'}
     </span>
   </nav>
 
@@ -281,13 +281,13 @@
     <div>
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 border border-brand-orange/20 text-brand-orange text-xs font-bold mb-2">
         <Calendar class="w-3.5 h-3.5" />
-        <span>{$languageStore === 'en' ? 'Class Timetable System' : 'ระบบตารางเรียนตารางสอน'}</span>
+        <span>{languageState.language === 'en' ? 'Class Timetable System' : 'ระบบตารางเรียนตารางสอน'}</span>
       </div>
       <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-        {$languageStore === 'en' ? 'Class & Teaching Schedules' : 'ตารางเรียนและตารางสอน'}
+        {languageState.language === 'en' ? 'Class & Teaching Schedules' : 'ตารางเรียนและตารางสอน'}
       </h1>
       <p class="text-xs sm:text-sm text-slate-600 mt-1 max-w-2xl">
-        {$languageStore === 'en'
+        {languageState.language === 'en'
           ? 'Search and view course schedules, classrooms, and instructors for ITD KMUTNB.'
           : 'ตรวจสอบตารางเวลาเรียน รายวิชา ห้องเรียน และอาจารย์ผู้สอน คณะเทคโนโลยีสารสนเทศและนวัตกรรมดิจิทัล มจพ.'}
       </p>
@@ -304,10 +304,10 @@
               ? 'bg-white text-slate-900 shadow-xs border border-slate-200'
               : 'text-slate-600 hover:text-slate-900'
           }`}
-          title={$languageStore === 'en' ? 'Weekly Grid View' : 'มุมมองตารางรายสัปดาห์'}
+          title={languageState.language === 'en' ? 'Weekly Grid View' : 'มุมมองตารางรายสัปดาห์'}
         >
           <Grid3X3 class="w-3.5 h-3.5 text-brand-orange" />
-          <span>{$languageStore === 'en' ? 'Weekly Grid' : 'ตารางรายสัปดาห์'}</span>
+          <span>{languageState.language === 'en' ? 'Weekly Grid' : 'ตารางรายสัปดาห์'}</span>
         </button>
 
         <button
@@ -318,10 +318,10 @@
               ? 'bg-white text-slate-900 shadow-xs border border-slate-200'
               : 'text-slate-600 hover:text-slate-900'
           }`}
-          title={$languageStore === 'en' ? 'Course List View' : 'มุมมองรายการวิชา'}
+          title={languageState.language === 'en' ? 'Course List View' : 'มุมมองรายการวิชา'}
         >
           <List class="w-3.5 h-3.5 text-brand-orange" />
-          <span>{$languageStore === 'en' ? 'List View' : 'รายการรายวิชา'}</span>
+          <span>{languageState.language === 'en' ? 'List View' : 'รายการรายวิชา'}</span>
         </button>
       </div>
 
@@ -330,13 +330,13 @@
         onclick={handlePrint}
         disabled={activeSlots.length === 0}
         class="inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 text-xs font-bold shadow-xs hover:shadow transition-all active:scale-95 disabled:opacity-40 disabled:pointer-events-none cursor-pointer"
-        title={$languageStore === 'en' ? 'Print or Save as PDF' : 'พิมพ์หรือบันทึกเป็น PDF'}
+        title={languageState.language === 'en' ? 'Print or Save as PDF' : 'พิมพ์หรือบันทึกเป็น PDF'}
       >
         <Printer class="w-4 h-4 text-brand-orange" />
         <span class="hidden sm:inline">
-          {$languageStore === 'en' ? 'Print / PDF' : 'พิมพ์ / บันทึก PDF'}
+          {languageState.language === 'en' ? 'Print / PDF' : 'พิมพ์ / บันทึก PDF'}
         </span>
-        <span class="sm:hidden">{$languageStore === 'en' ? 'Print' : 'พิมพ์'}</span>
+        <span class="sm:hidden">{languageState.language === 'en' ? 'Print' : 'พิมพ์'}</span>
       </button>
     </div>
   </div>
@@ -356,10 +356,10 @@
       <div class="space-y-1.5">
         <div class="flex items-center gap-2 flex-wrap">
           <span class="px-2.5 py-0.5 rounded-full bg-brand-orange text-white text-[11px] font-bold">
-            {$languageStore === 'en' ? currentDegreeMeta.en : currentDegreeMeta.th}
+            {languageState.language === 'en' ? currentDegreeMeta.en : currentDegreeMeta.th}
           </span>
           <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-200 text-[11px] font-semibold">
-            {$languageStore === 'en' ? `Year ${filters.yearLevel}` : `ชั้นปีที่ ${filters.yearLevel}`}
+            {languageState.language === 'en' ? `Year ${filters.yearLevel}` : `ชั้นปีที่ ${filters.yearLevel}`}
           </span>
           {#if filters.sectionGroup}
             <span class="px-2.5 py-0.5 rounded-full bg-white/20 text-white text-[11px] font-mono font-bold">
@@ -369,11 +369,11 @@
         </div>
 
         <h2 class="text-base sm:text-xl font-bold tracking-tight text-white">
-          {$languageStore === 'en' ? currentProgram.titleEn : currentProgram.titleTh}
+          {languageState.language === 'en' ? currentProgram.titleEn : currentProgram.titleTh}
         </h2>
 
         <p class="text-xs text-slate-300">
-          {$languageStore === 'en'
+          {languageState.language === 'en'
             ? `Class Schedule for Semester ${filters.semester}, Academic Year ${filters.academicYear}`
             : `ตารางเรียนภาคการศึกษาที่ ${filters.semester} ปีการศึกษา ${filters.academicYear}`}
         </p>
@@ -382,7 +382,7 @@
       <div class="flex items-center gap-4 sm:gap-6 border-t md:border-t-0 md:border-l border-white/10 pt-3 md:pt-0 md:pl-6 shrink-0">
         <div>
           <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-            {$languageStore === 'en' ? 'Courses' : 'จำนวนวิชา'}
+            {languageState.language === 'en' ? 'Courses' : 'จำนวนวิชา'}
           </div>
           <div class="text-xl sm:text-2xl font-extrabold text-white font-mono">
             {activeSlots.length}
@@ -391,7 +391,7 @@
 
         <div>
           <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">
-            {$languageStore === 'en' ? 'Hrs/Week' : 'ชั่วโมง/สัปดาห์'}
+            {languageState.language === 'en' ? 'Hrs/Week' : 'ชั่วโมง/สัปดาห์'}
           </div>
           <div class="text-xl sm:text-2xl font-extrabold text-brand-orange font-mono">
             {totalWeeklyHours}
@@ -406,10 +406,10 @@
     <div class="bg-white rounded-3xl border border-slate-200 p-16 sm:p-20 text-center shadow-xs">
       <Loader2 class="w-8 h-8 text-brand-orange animate-spin mx-auto mb-3" />
       <h3 class="text-sm font-bold text-slate-800">
-        {$languageStore === 'en' ? 'Loading schedule details...' : 'กำลังค้นหาตารางเรียน...'}
+        {languageState.language === 'en' ? 'Loading schedule details...' : 'กำลังค้นหาตารางเรียน...'}
       </h3>
       <p class="text-xs text-slate-500 mt-1">
-        {$languageStore === 'en'
+        {languageState.language === 'en'
           ? 'Please wait while fetching classes and rooms.'
           : 'โปรดรอสักครู่ ระบบกำลังดึงข้อมูลรายวิชาและห้องเรียน'}
       </p>
@@ -423,7 +423,7 @@
         <Info class="w-6 h-6" />
       </div>
       <h3 class="text-base font-bold text-red-900">
-        {$languageStore === 'en' ? 'Unable to load schedule data' : 'เกิดข้อผิดพลาดในการโหลดข้อมูล'}
+        {languageState.language === 'en' ? 'Unable to load schedule data' : 'เกิดข้อผิดพลาดในการโหลดข้อมูล'}
       </h3>
       <p class="text-xs sm:text-sm text-red-700 mt-1 max-w-md mx-auto">
         {fetchError}
@@ -434,7 +434,7 @@
         class="mt-4 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
       >
         <RefreshCw class="w-3.5 h-3.5" />
-        <span>{$languageStore === 'en' ? 'Try again' : 'ลองใหม่อีกครั้ง'}</span>
+        <span>{languageState.language === 'en' ? 'Try again' : 'ลองใหม่อีกครั้ง'}</span>
       </button>
     </div>
   {/if}
@@ -446,12 +446,12 @@
         <CalendarX2 class="w-8 h-8" />
       </div>
       <h3 class="text-base sm:text-lg font-bold text-slate-900">
-        {$languageStore === 'en'
+        {languageState.language === 'en'
           ? 'No Published Timetable Found'
           : 'ไม่พบตารางเรียนที่เผยแพร่สำหรับเงื่อนไขที่เลือก'}
       </h3>
       <p class="text-xs sm:text-sm text-slate-500 mt-2 max-w-lg mx-auto leading-relaxed">
-        {$languageStore === 'en'
+        {languageState.language === 'en'
           ? `No timetable has been published for this program in Semester ${filters.semester}/${filters.academicYear} (Year ${filters.yearLevel}) yet. Please try selecting a different semester or academic year.`
           : `ยังไม่มีการเผยแพร่ตารางเรียนสำหรับหลักสูตรนี้ ในภาคการศึกษาที่ ${filters.semester}/${filters.academicYear} (ชั้นปีที่ ${filters.yearLevel}) โปรดลองเลือกปีการศึกษาอื่น หรือตรวจสอบภาคเรียนถัดไป`}
       </p>
@@ -468,7 +468,7 @@
           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
         >
           <span>
-            {$languageStore === 'en'
+            {languageState.language === 'en'
               ? `Switch to Semester ${filters.semester === 1 ? 2 : 1}`
               : `สลับเป็นภาคการศึกษาที่ ${filters.semester === 1 ? 2 : 1}`}
           </span>
@@ -486,7 +486,7 @@
           }
           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all cursor-pointer"
         >
-          <span>{$languageStore === 'en' ? 'Reset to Bachelor Yr 1' : 'รีเซ็ตเป็น ป.ตรี ปี 1'}</span>
+          <span>{languageState.language === 'en' ? 'Reset to Bachelor Yr 1' : 'รีเซ็ตเป็น ป.ตรี ปี 1'}</span>
         </button>
       </div>
     </div>

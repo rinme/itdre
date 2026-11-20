@@ -8,7 +8,7 @@
     type EServiceItem,
     type DownloadItem
   } from '$lib/data/services';
-  import { languageStore } from '$lib/stores/language';
+  import { languageState, t } from '$lib/state/language.svelte';
   import {
     GraduationCap,
     UserPlus,
@@ -113,7 +113,7 @@
   );
 
   function handleDownloadClick(doc: DownloadItem) {
-    const title = $languageStore === 'en' ? doc.titleEn : doc.titleTh;
+    const title = languageState.language === 'en' ? doc.titleEn : doc.titleTh;
     downloadToast = { show: true, title };
     setTimeout(() => {
       downloadToast = null;
@@ -130,7 +130,7 @@
       </div>
       <div class="text-xs sm:text-sm">
         <div class="font-semibold text-white">
-          {$languageStore === 'en' ? 'Downloading file...' : 'กำลังดาวน์โหลดไฟล์'}
+          {languageState.language === 'en' ? 'Downloading file...' : 'กำลังดาวน์โหลดไฟล์'}
         </div>
         <div class="text-gray-300 line-clamp-1 max-w-xs sm:max-w-md">
           {downloadToast.title}
@@ -161,11 +161,11 @@
           class="inline-flex items-center gap-1.5 hover:text-brand-orange transition-colors"
         >
           <Home class="w-3.5 h-3.5" />
-          <span>{$languageStore === 'en' ? 'Home' : 'หน้าหลัก'}</span>
+          <span>{languageState.language === 'en' ? 'Home' : 'หน้าหลัก'}</span>
         </a>
         <ChevronRight class="w-3.5 h-3.5 text-gray-600" />
         <span class="text-brand-orange font-medium">
-          {$languageStore === 'en' ? 'Services & Downloads' : 'บริการและดาวน์โหลด'}
+          {languageState.language === 'en' ? 'Services & Downloads' : 'บริการและดาวน์โหลด'}
         </span>
       </nav>
 
@@ -176,10 +176,10 @@
           <span>DIGITAL SERVICES & DOWNLOAD CENTER</span>
         </div>
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">
-          {$languageStore === 'en' ? 'E-Services & Download Center' : 'ระบบบริการดิจิทัลและศูนย์ดาวน์โหลดเอกสาร'}
+          {languageState.language === 'en' ? 'E-Services & Download Center' : 'ระบบบริการดิจิทัลและศูนย์ดาวน์โหลดเอกสาร'}
         </h1>
         <p class="text-sm sm:text-base text-gray-300 leading-relaxed max-w-2xl">
-          {$languageStore === 'en'
+          {languageState.language === 'en'
             ? 'Access student portals, registration systems, Microsoft 365, licensed software, semester timetables, and academic petition forms in one place.'
             : 'รวมลิงก์ระบบสารสนเทศสำหรับการศึกษา การลงทะเบียน บัญชีผู้ใช้ ซอฟต์แวร์ลิขสิทธิ์ ตารางสอน-สอบ และแบบฟอร์มคำร้องสำหรับนักศึกษาและบุคลากร'}
         </p>
@@ -196,7 +196,7 @@
               : 'bg-white/10 hover:bg-white/20 text-gray-200 border border-white/10'
           }`}
         >
-          {$languageStore === 'en' ? 'All Services & Downloads' : 'แสดงทั้งหมด'}
+          {languageState.language === 'en' ? 'All Services & Downloads' : 'แสดงทั้งหมด'}
         </button>
         <button
           type="button"
@@ -208,7 +208,7 @@
           }`}
         >
           <Sparkles class="w-4 h-4" />
-          <span>{$languageStore === 'en' ? 'E-Services Portal' : 'ระบบสารสนเทศ E-Services'} ({eServices.length})</span>
+          <span>{languageState.language === 'en' ? 'E-Services Portal' : 'ระบบสารสนเทศ E-Services'} ({eServices.length})</span>
         </button>
         <button
           type="button"
@@ -220,7 +220,7 @@
           }`}
         >
           <Download class="w-4 h-4" />
-          <span>{$languageStore === 'en' ? 'Document Downloads' : 'ศูนย์ดาวน์โหลดแบบฟอร์ม'} ({downloadDocuments.length})</span>
+          <span>{languageState.language === 'en' ? 'Document Downloads' : 'ศูนย์ดาวน์โหลดแบบฟอร์ม'} ({downloadDocuments.length})</span>
         </button>
         <button
           type="button"
@@ -235,7 +235,7 @@
           }`}
         >
           <CalendarDays class="w-4 h-4" />
-          <span>{$languageStore === 'en' ? 'Timetables & Schedules' : 'ตารางสอน & ตารางสอบ'}</span>
+          <span>{languageState.language === 'en' ? 'Timetables & Schedules' : 'ตารางสอน & ตารางสอบ'}</span>
         </button>
       </div>
     </div>
@@ -250,7 +250,7 @@
         <input
           type="text"
           bind:value={searchQuery}
-          placeholder={$languageStore === 'en'
+          placeholder={languageState.language === 'en'
             ? 'Search e-services (REG, VPN, Teams) or downloadable files (Add/Drop, Timetable, Handbook)...'
             : 'ค้นหาระบบบริการ (เช่น REG, VPN, Teams) หรือเอกสารดาวน์โหลด (เช่น เพิ่ม-ถอน, ตารางสอน, คู่มือ)...'}
           class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 focus:bg-white focus:border-brand-orange focus:outline-hidden focus:ring-2 focus:ring-brand-orange/20 transition-all"
@@ -278,10 +278,10 @@
             </div>
             <div>
               <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
-                {$languageStore === 'en' ? 'Student & Staff E-Services' : 'ระบบสารสนเทศและบริการดิจิทัล'}
+                {languageState.language === 'en' ? 'Student & Staff E-Services' : 'ระบบสารสนเทศและบริการดิจิทัล'}
               </h2>
               <p class="text-xs text-gray-500">
-                {$languageStore === 'en' ? 'Online digital portals for students, faculty, and researchers' : 'บริการออนไลน์สำหรับนักศึกษา อาจารย์ และบุคลากร มจพ.'}
+                {languageState.language === 'en' ? 'Online digital portals for students, faculty, and researchers' : 'บริการออนไลน์สำหรับนักศึกษา อาจารย์ และบุคลากร มจพ.'}
               </p>
             </div>
           </div>
@@ -299,7 +299,7 @@
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900'
                 }`}
               >
-                {$languageStore === 'en' ? cat.nameEn : cat.nameTh}
+                {languageState.language === 'en' ? cat.nameEn : cat.nameTh}
               </button>
             {/each}
           </div>
@@ -327,23 +327,23 @@
                           srv.badgeColor || 'bg-gray-50 text-gray-600 border-gray-200'
                         }`}
                       >
-                        {$languageStore === 'en' ? srv.tagEn : srv.tagTh}
+                        {languageState.language === 'en' ? srv.tagEn : srv.tagTh}
                       </span>
                     {/if}
                   </div>
 
                   <div class="space-y-1">
                     <h3 class="font-bold text-sm sm:text-base text-gray-900 group-hover:text-brand-orange transition-colors">
-                      {$languageStore === 'en' ? srv.titleEn : srv.titleTh}
+                      {languageState.language === 'en' ? srv.titleEn : srv.titleTh}
                     </h3>
                     <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">
-                      {$languageStore === 'en' ? srv.descriptionEn : srv.descriptionTh}
+                      {languageState.language === 'en' ? srv.descriptionEn : srv.descriptionTh}
                     </p>
                   </div>
                 </div>
 
                 <div class="pt-4 mt-3 border-t border-gray-100 flex items-center justify-between text-xs font-semibold text-brand-orange">
-                  <span>{$languageStore === 'en' ? 'Launch Service' : 'เข้าสู่ระบบบริการ'}</span>
+                  <span>{languageState.language === 'en' ? 'Launch Service' : 'เข้าสู่ระบบบริการ'}</span>
                   <ArrowUpRight class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </div>
               </a>
@@ -351,7 +351,7 @@
           </div>
         {:else}
           <div class="py-12 px-4 text-center bg-white rounded-2xl border border-dashed border-gray-300 text-gray-500 text-xs sm:text-sm">
-            {$languageStore === 'en' ? 'No e-services matching your criteria' : 'ไม่พบบริการดิจิทัลที่ตรงกับคำค้นหา'}
+            {languageState.language === 'en' ? 'No e-services matching your criteria' : 'ไม่พบบริการดิจิทัลที่ตรงกับคำค้นหา'}
           </div>
         {/if}
       </section>
@@ -368,11 +368,11 @@
             <div>
               <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
                 {activeSection === 'timetable'
-                  ? ($languageStore === 'en' ? 'Timetables & Schedules' : 'ตารางสอนและตารางสอบ')
-                  : ($languageStore === 'en' ? 'Download Center & Forms' : 'ศูนย์ดาวน์โหลดเอกสารและแบบฟอร์มคำร้อง')}
+                  ? (languageState.language === 'en' ? 'Timetables & Schedules' : 'ตารางสอนและตารางสอบ')
+                  : (languageState.language === 'en' ? 'Download Center & Forms' : 'ศูนย์ดาวน์โหลดเอกสารและแบบฟอร์มคำร้อง')}
               </h2>
               <p class="text-xs text-gray-500">
-                {$languageStore === 'en'
+                {languageState.language === 'en'
                   ? 'Academic petitions, graduate request forms, semester timetables, and student handbooks'
                   : 'แบบฟอร์มคำร้องปริญญาตรี บัณฑิตศึกษา ตารางสอน-ตารางสอบ และคู่มือนักศึกษา'}
               </p>
@@ -393,7 +393,7 @@
                       : 'bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900'
                   }`}
                 >
-                  {$languageStore === 'en' ? cat.nameEn : cat.nameTh}
+                  {languageState.language === 'en' ? cat.nameEn : cat.nameTh}
                 </button>
               {/each}
             </div>
@@ -425,20 +425,20 @@
                   <!-- Title & Details -->
                   <div class="space-y-1 flex-1">
                     <h3 class="font-bold text-sm text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
-                      {$languageStore === 'en' ? doc.titleEn : doc.titleTh}
+                      {languageState.language === 'en' ? doc.titleEn : doc.titleTh}
                     </h3>
                     {#if doc.descriptionTh}
                       <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">
-                        {$languageStore === 'en' ? doc.descriptionEn : doc.descriptionTh}
+                        {languageState.language === 'en' ? doc.descriptionEn : doc.descriptionTh}
                       </p>
                     {/if}
                     <div class="flex flex-wrap items-center gap-3 pt-1 text-[11px] text-gray-400">
-                      <span>{$languageStore === 'en' ? 'Size:' : 'ขนาด:'} <strong class="text-gray-600">{doc.fileSize}</strong></span>
+                      <span>{languageState.language === 'en' ? 'Size:' : 'ขนาด:'} <strong class="text-gray-600">{doc.fileSize}</strong></span>
                       <span>•</span>
-                      <span>{$languageStore === 'en' ? 'Updated:' : 'อัปเดต:'} <strong class="text-gray-600">{doc.updatedDate}</strong></span>
+                      <span>{languageState.language === 'en' ? 'Updated:' : 'อัปเดต:'} <strong class="text-gray-600">{doc.updatedDate}</strong></span>
                       {#if doc.downloadsCount}
                         <span>•</span>
-                        <span>{doc.downloadsCount.toLocaleString()} {$languageStore === 'en' ? 'downloads' : 'ดาวน์โหลด'}</span>
+                        <span>{doc.downloadsCount.toLocaleString()} {languageState.language === 'en' ? 'downloads' : 'ดาวน์โหลด'}</span>
                       {/if}
                     </div>
                   </div>
@@ -447,7 +447,7 @@
                 <!-- Download Button -->
                 <div class="pt-3 border-t border-gray-100 flex items-center justify-between">
                   <span class="text-xs font-semibold text-gray-500">
-                    {$languageStore === 'en' ? 'Ready for download' : 'พร้อมดาวน์โหลด'}
+                    {languageState.language === 'en' ? 'Ready for download' : 'พร้อมดาวน์โหลด'}
                   </span>
 
                   <button
@@ -456,7 +456,7 @@
                     class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-900 hover:bg-blue-600 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
                   >
                     <Download class="w-3.5 h-3.5" />
-                    <span>{$languageStore === 'en' ? 'Download File' : 'ดาวน์โหลดไฟล์'}</span>
+                    <span>{languageState.language === 'en' ? 'Download File' : 'ดาวน์โหลดไฟล์'}</span>
                   </button>
                 </div>
               </div>
@@ -464,7 +464,7 @@
           </div>
         {:else}
           <div class="py-12 px-4 text-center bg-white rounded-2xl border border-dashed border-gray-300 text-gray-500 text-xs sm:text-sm">
-            {$languageStore === 'en' ? 'No documents found matching criteria' : 'ไม่พบเอกสารที่ตรงกับเงื่อนไขการค้นหา'}
+            {languageState.language === 'en' ? 'No documents found matching criteria' : 'ไม่พบเอกสารที่ตรงกับเงื่อนไขการค้นหา'}
           </div>
         {/if}
       </section>
@@ -478,10 +478,10 @@
         </div>
         <div class="space-y-1">
           <h3 class="text-lg sm:text-xl font-bold">
-            {$languageStore === 'en' ? 'KMUTNB University Academic Calendar' : 'ปฏิทินการศึกษามหาวิทยาลัย มจพ. (Academic Calendar)'}
+            {languageState.language === 'en' ? 'KMUTNB University Academic Calendar' : 'ปฏิทินการศึกษามหาวิทยาลัย มจพ. (Academic Calendar)'}
           </h3>
           <p class="text-xs sm:text-sm text-white/80">
-            {$languageStore === 'en'
+            {languageState.language === 'en'
               ? 'View official semester dates, enrollment periods, and graduation schedules from the KMUTNB Registrar Office.'
               : 'ตรวจสอบกำหนดการลงทะเบียน วันเปิด-ปิดภาคเรียน วันสอบกลางภาค และวันสอบปลายภาค จากสำนักส่งเสริมวิชาการและงานทะเบียน'}
           </p>
@@ -494,7 +494,7 @@
         rel="noopener noreferrer"
         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-blue-700 font-bold text-xs sm:text-sm shadow-md hover:bg-gray-100 transition-colors shrink-0"
       >
-        <span>{$languageStore === 'en' ? 'Open Academic Calendar' : 'เปิดปฏิทินการศึกษา มจพ.'}</span>
+        <span>{languageState.language === 'en' ? 'Open Academic Calendar' : 'เปิดปฏิทินการศึกษา มจพ.'}</span>
         <ExternalLink class="w-4 h-4" />
       </a>
     </section>
@@ -507,10 +507,10 @@
         </div>
         <div class="space-y-0.5">
           <h4 class="font-bold text-sm text-gray-900">
-            {$languageStore === 'en' ? 'Need technical assistance or custom forms?' : 'ต้องการความช่วยเหลือหรือแบบฟอร์มเฉพาะทาง?'}
+            {languageState.language === 'en' ? 'Need technical assistance or custom forms?' : 'ต้องการความช่วยเหลือหรือแบบฟอร์มเฉพาะทาง?'}
           </h4>
           <p class="text-xs text-gray-500">
-            {$languageStore === 'en' ? 'Contact Dean Office Floor 4, Building 79, Tel: 02-555-2000 ext 2708' : 'ติดต่อสำนักงานคณบดี ชั้น 4 อาคาร 79 หรือโทร 02-555-2000 ต่อ 2708'}
+            {languageState.language === 'en' ? 'Contact Dean Office Floor 4, Building 79, Tel: 02-555-2000 ext 2708' : 'ติดต่อสำนักงานคณบดี ชั้น 4 อาคาร 79 หรือโทร 02-555-2000 ต่อ 2708'}
           </p>
         </div>
       </div>
@@ -519,7 +519,7 @@
         href="/contact"
         class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-900 hover:bg-brand-orange text-white text-xs sm:text-sm font-semibold transition-colors shrink-0"
       >
-        <span>{$languageStore === 'en' ? 'Contact Helpdesk' : 'ติดต่อศูนย์ช่วยเหลือ'}</span>
+        <span>{languageState.language === 'en' ? 'Contact Helpdesk' : 'ติดต่อศูนย์ช่วยเหลือ'}</span>
       </a>
     </div>
   </div>

@@ -11,7 +11,15 @@
 
   let { item, featured = false, className = "" }: Props = $props();
 
-  let imgSrc = $state(item.thumbnail || "/assets/news/placeholder-news.svg");
+  let fallbackImg = "/assets/news/placeholder-news.svg";
+  let hasImgError = $state(false);
+  let imgSrc = $derived(hasImgError ? fallbackImg : (item.thumbnail || fallbackImg));
+
+  $effect(() => {
+    if (item.thumbnail) {
+      hasImgError = false;
+    }
+  });
 
   const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
     "ข่าวทั่วไป": { bg: "bg-orange-50", text: "text-brand-orange", border: "border-orange-200" },
@@ -52,7 +60,7 @@
       alt={item.title}
       loading="lazy"
       class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-      onerror={() => (imgSrc = "/assets/news/placeholder-news.svg")}
+      onerror={() => (hasImgError = true)}
     />
 
     <!-- Gradient Overlay -->

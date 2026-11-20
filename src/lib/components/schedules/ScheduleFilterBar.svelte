@@ -96,7 +96,7 @@
 </script>
 
 <script lang="ts">
-  import { languageStore } from '$lib/stores/language';
+  import { languageState, t } from '$lib/state/language.svelte';
   import {
     Calendar,
     GraduationCap,
@@ -152,10 +152,10 @@
   <div class="flex items-center gap-2 mb-4 pb-3 border-b border-slate-100 text-slate-700">
     <Filter class="w-4 h-4 text-brand-orange" />
     <h3 class="text-sm font-bold tracking-tight">
-      {$languageStore === 'en' ? 'Filter Timetable' : 'ค้นหาและกรองตารางเรียน'}
+      {languageState.language === 'en' ? 'Filter Timetable' : 'ค้นหาและกรองตารางเรียน'}
     </h3>
     <span class="text-xs text-slate-400 ml-auto hidden sm:inline">
-      {$languageStore === 'en' ? 'Select criteria to view schedules' : 'เลือกเงื่อนไขเพื่อแสดงตารางเรียนที่เกี่ยวข้อง'}
+      {languageState.language === 'en' ? 'Select criteria to view schedules' : 'เลือกเงื่อนไขเพื่อแสดงตารางเรียนที่เกี่ยวข้อง'}
     </span>
   </div>
 
@@ -166,7 +166,7 @@
       <div class="md:col-span-4">
         <label class="block text-xs font-semibold text-slate-600 mb-1.5 flex items-center gap-1.5">
           <Calendar class="w-3.5 h-3.5 text-brand-orange" />
-          <span>{$languageStore === 'en' ? 'Academic Year' : 'ปีการศึกษา'}</span>
+          <span>{languageState.language === 'en' ? 'Academic Year' : 'ปีการศึกษา'}</span>
         </label>
         <select
           value={filters.academicYear}
@@ -178,7 +178,7 @@
         >
           {#each yearsList as year}
             <option value={year}>
-              {$languageStore === 'en' ? `Academic Year ${year}` : `ปีการศึกษา ${year}`}
+              {languageState.language === 'en' ? `Academic Year ${year}` : `ปีการศึกษา ${year}`}
             </option>
           {/each}
         </select>
@@ -188,7 +188,7 @@
       <div class="md:col-span-8">
         <label class="block text-xs font-semibold text-slate-600 mb-1.5 flex items-center gap-1.5">
           <Layers class="w-3.5 h-3.5 text-brand-orange" />
-          <span>{$languageStore === 'en' ? 'Semester' : 'ภาคการศึกษา'}</span>
+          <span>{languageState.language === 'en' ? 'Semester' : 'ภาคการศึกษา'}</span>
         </label>
         <div class="grid grid-cols-3 gap-1.5 sm:gap-2 bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
           {#each SEMESTER_OPTIONS as sem}
@@ -203,9 +203,9 @@
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
               } disabled:opacity-50 cursor-pointer`}
             >
-              <span>{$languageStore === 'en' ? sem.shortEn : sem.shortTh}</span>
+              <span>{languageState.language === 'en' ? sem.shortEn : sem.shortTh}</span>
               <span class="hidden sm:inline text-[11px] opacity-75">
-                ({$languageStore === 'en' ? sem.en : sem.th})
+                ({languageState.language === 'en' ? sem.en : sem.th})
               </span>
             </button>
           {/each}
@@ -217,7 +217,7 @@
     <div>
       <label class="block text-xs font-semibold text-slate-600 mb-1.5 flex items-center gap-1.5">
         <GraduationCap class="w-3.5 h-3.5 text-brand-orange" />
-        <span>{$languageStore === 'en' ? 'Degree Level' : 'ระดับการศึกษา'}</span>
+        <span>{languageState.language === 'en' ? 'Degree Level' : 'ระดับการศึกษา'}</span>
       </label>
       <div class="grid grid-cols-3 gap-2 bg-slate-100/80 p-1.5 rounded-2xl border border-slate-200/60">
         {#each DEGREE_OPTIONS as deg}
@@ -232,7 +232,7 @@
                 : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
             } disabled:opacity-50 cursor-pointer`}
           >
-            <span>{$languageStore === 'en' ? deg.en : deg.th}</span>
+            <span>{languageState.language === 'en' ? deg.en : deg.th}</span>
             <span
               class={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                 isActive
@@ -253,7 +253,7 @@
       <div class="md:col-span-7">
         <label class="block text-xs font-semibold text-slate-600 mb-1.5 flex items-center gap-1.5">
           <BookOpen class="w-3.5 h-3.5 text-brand-orange" />
-          <span>{$languageStore === 'en' ? 'Curriculum / Program' : 'หลักสูตรการศึกษา'}</span>
+          <span>{languageState.language === 'en' ? 'Curriculum / Program' : 'หลักสูตรการศึกษา'}</span>
         </label>
         <select
           value={filters.programId}
@@ -263,7 +263,7 @@
         >
           {#each filteredPrograms as prog}
             <option value={prog.id}>
-              {$languageStore === 'en' ? prog.titleEn : prog.titleTh}
+              {languageState.language === 'en' ? prog.titleEn : prog.titleTh}
             </option>
           {/each}
         </select>
@@ -273,7 +273,7 @@
       <div class={availableSections.length > 0 ? 'md:col-span-3' : 'md:col-span-5'}>
         <label class="block text-xs font-semibold text-slate-600 mb-1.5 flex items-center gap-1.5">
           <Users class="w-3.5 h-3.5 text-brand-orange" />
-          <span>{$languageStore === 'en' ? 'Study Year' : 'ชั้นปี'}</span>
+          <span>{languageState.language === 'en' ? 'Study Year' : 'ชั้นปี'}</span>
         </label>
         <div class="flex items-center gap-1 sm:gap-1.5 bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
           {#each studyYearOptions as yearNum}
@@ -288,7 +288,7 @@
                   : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
               } disabled:opacity-50`}
             >
-              <span>{$languageStore === 'en' ? `Yr ${yearNum}` : `ปี ${yearNum}`}</span>
+              <span>{languageState.language === 'en' ? `Yr ${yearNum}` : `ปี ${yearNum}`}</span>
             </button>
           {/each}
         </div>
@@ -299,7 +299,7 @@
         <div class="md:col-span-2">
           <label class="block text-xs font-semibold text-slate-600 mb-1.5 flex items-center gap-1.5">
             <Layers class="w-3.5 h-3.5 text-brand-orange" />
-            <span>{$languageStore === 'en' ? 'Section' : 'กลุ่มเรียน'}</span>
+            <span>{languageState.language === 'en' ? 'Section' : 'กลุ่มเรียน'}</span>
           </label>
           <select
             value={filters.sectionGroup || ''}
@@ -309,7 +309,7 @@
             }
             class="w-full h-10 px-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-slate-900 text-xs sm:text-sm font-medium focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-orange/30 focus:border-brand-orange transition-all cursor-pointer disabled:opacity-50"
           >
-            <option value="">{$languageStore === 'en' ? 'All Sec' : 'ทุกกลุ่ม'}</option>
+            <option value="">{languageState.language === 'en' ? 'All Sec' : 'ทุกกลุ่ม'}</option>
             {#each availableSections as sec}
               <option value={sec}>
                 {sec}

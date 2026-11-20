@@ -5,7 +5,7 @@
 [![Runtime](https://img.shields.io/badge/Runtime-Bun-f472b6?style=flat-square&logo=bun)](https://bun.sh)
 [![Framework](https://img.shields.io/badge/Framework-SvelteKit%202%20%7C%20Svelte%205-ff3e00?style=flat-square&logo=svelte)](https://svelte.dev/)
 [![Language](https://img.shields.io/badge/Language-TypeScript%205-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Database](https://img.shields.io/badge/Database-Prisma%20%2B%20SQLite-2d3748?style=flat-square&logo=prisma)](https://www.prisma.io/)
+[![Database](https://img.shields.io/badge/Database-Prisma%20%2B%20PostgreSQL-2d3748?style=flat-square&logo=prisma)](https://www.prisma.io/)
 [![Styling](https://img.shields.io/badge/Styling-Tailwind%20CSS%204-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
 [![Testing](https://img.shields.io/badge/Testing-Vitest-729b1b?style=flat-square&logo=vitest)](https://vitest.dev/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
@@ -32,7 +32,7 @@
 This project is a modern rebuild of the official ITD KMUTNB web portal ([https://itd.kmutnb.ac.th](https://itd.kmutnb.ac.th)) powered by **SvelteKit 2** and **Svelte 5 Runes**. It provides a fast, accessible, bilingual (Thai / English), and responsive user experience for prospective students, undergraduates, postgraduates, faculty members, researchers, campus visitors, and administrators.
 
 ### Core Objectives
-- **Zero External Dependencies at Runtime:** All images, faculty portraits, news media, and facilities photos are archived locally under `public/assets/`, eliminating broken external hotlinks and CORS issues.
+- **Zero External Dependencies at Runtime:** All images, faculty portraits, news media, and facilities photos are archived locally under `static/assets/`, eliminating broken external hotlinks and CORS issues.
 - **Svelte 5 Runes Reactivity:** Modern declarative state (`$state`, `$derived`, `$props`) with zero runtime overhead and ultra-lightweight client bundles.
 - **Interactive Academic Schedule Management:** Complete public timetable viewer with cascading academic year/semester/program filters, weekly grid and list views, and a secure admin management portal with live conflict detection.
 - **Seamless Bilingual Localization:** Reactive Thai (`TH`) and English (`EN`) language switching across every layout, page, card, and modal with persistent client state.
@@ -75,7 +75,7 @@ This project is a modern rebuild of the official ITD KMUTNB web portal ([https:/
                                        ▼
                        ┌───────────────────────────────┐
                        │    Local Asset Storehouse     │
-                       │       (public/assets/)        │
+                       │       (static/assets/)        │
                        │  • logos/   • banners/        │
                        │  • news/    • faculty/        │
                        │  • facilities/                │
@@ -113,7 +113,7 @@ This project is a modern rebuild of the official ITD KMUTNB web portal ([https:/
 - **Runtime & Package Manager:** [Bun](https://bun.sh) (v1.0+)
 - **Framework:** [SvelteKit 2](https://svelte.dev) + [Svelte 5](https://svelte.dev) (Runes)
 - **Bundler & Tooling:** [Vite 6](https://vite.dev) + [Tailwind CSS 4](https://tailwindcss.com)
-- **Database & ORM:** [Prisma](https://www.prisma.io) + SQLite
+- **Database & ORM:** [Prisma](https://www.prisma.io) + PostgreSQL
 - **Authentication:** [jose](https://github.com/panva/jose) (HMAC SHA-256 JWT & Secure Cookies)
 - **Icons:** [Lucide Svelte](https://lucide.dev)
 - **Testing:** [Vitest 3](https://vitest.dev) + [JSDOM](https://github.com/jsdom/jsdom)
@@ -128,7 +128,7 @@ itd-kmutnb/
 ├── prisma/
 │   ├── schema.prisma               # Prisma schema (Schedule, CourseSlot, CoursePreset)
 │   └── seed.ts                     # Database seeder for schedules & presets
-├── public/
+├── static/
 │   └── assets/                     # Self-hosted media assets (no external hotlinks)
 │       ├── banners/                # 7 homepage banner slides & animated GIFs
 │       ├── facilities/             # 19 facility photos & fallback SVGs
@@ -256,7 +256,7 @@ bun run scripts/scrape-and-archive.ts
 
 ### What the Pipeline Does:
 1. **Target:** Scrapes the live portal at `https://itd.kmutnb.ac.th`.
-2. **Asset Archival:** Concurrently downloads media files with retry logic into `public/assets/`.
+2. **Asset Archival:** Concurrently downloads media files with retry logic into `static/assets/`.
 3. **Data Generation:** Generates strongly-typed datasets under `src/lib/data/`.
 4. **Fallback Protection:** Automatically creates standardized fallback graphics if an asset fails to download or is missing remotely.
 

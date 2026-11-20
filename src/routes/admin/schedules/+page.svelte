@@ -54,7 +54,7 @@
   let filterSemester = $state<string>("ALL");
   let filterDegree = $state<string>("ALL");
   let filterStatus = $state<string>("ALL");
-  let searchQuery = $state<string>(" ");
+  let searchQuery = $state("");
 
   // View mode
   let viewMode = $state<"table" | "grid">("table");
@@ -99,7 +99,6 @@
 
   onMount(() => {
     searchQuery = "";
-    fetchSchedules();
   });
 
   $effect(() => {

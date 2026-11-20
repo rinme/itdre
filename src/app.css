@@ -25,6 +25,8 @@
 
 @layer base {
   :root {
+    --font-mitr: 'Mitr', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
     --background: #f8f9fa;
     --foreground: #1e293b;
     --brand-orange: #FF6B00;

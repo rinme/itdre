@@ -11,8 +11,8 @@ import type {
 } from "../src/types";
 
 const BASE_URL = "https://itd.kmutnb.ac.th";
-const PUBLIC_DIR = path.resolve(process.cwd(), "public");
-const ASSETS_DIR = path.join(PUBLIC_DIR, "assets");
+const STATIC_DIR = path.resolve(process.cwd(), "static");
+const ASSETS_DIR = path.join(STATIC_DIR, "assets");
 const DATA_DIR = path.resolve(process.cwd(), "src", "data");
 
 const DIRS = {

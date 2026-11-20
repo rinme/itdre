@@ -41,7 +41,7 @@ describe("API Endpoints Migration to SvelteKit", () => {
   describe("1. Public Schedules: /api/schedules", () => {
     it("GET returns published schedules and availableYears with filters", async () => {
       let capturedWhere: any = null;
-      vi.spyOn(prisma.schedule, "findMany").mockImplementation(async (args: any) => {
+      vi.spyOn(prisma.schedule as any, "findMany").mockImplementation(async (args: any) => {
         if (args?.distinct) {
           return [{ academicYear: 2567 }, { academicYear: 2566 }] as any;
         }
@@ -376,7 +376,7 @@ describe("API Endpoints Migration to SvelteKit", () => {
   describe("8. Admin Schedules: /api/admin/schedules", () => {
     it("GET returns schedules with slot counts and filters", async () => {
       let capturedWhere: any = null;
-      vi.spyOn(prisma.schedule, "findMany").mockImplementation(async (args: any) => {
+      vi.spyOn(prisma.schedule as any, "findMany").mockImplementation(async (args: any) => {
         capturedWhere = args?.where;
         return [
           {

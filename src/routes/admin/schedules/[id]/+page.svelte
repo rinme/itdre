@@ -28,7 +28,7 @@
     detectAllScheduleConflicts,
     type ExistingSlot,
     type ConflictResult,
-  } from "$lib/weekly-grid";
+  } from "$lib/utils/weekly-grid";
 
   interface ScheduleDetails {
     id: string;

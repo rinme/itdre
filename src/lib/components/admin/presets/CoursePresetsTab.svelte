@@ -2,7 +2,7 @@
   import { Plus, Pencil, Trash2, BookOpen, Loader2 } from "lucide-svelte";
   import { adminPresetsState, type CoursePreset } from "$lib/state/admin-presets.svelte";
   import CoursePresetModal from "./CoursePresetModal.svelte";
-  import { COLOR_THEMES, type ColorToken } from "$lib/weekly-grid";
+  import { COLOR_THEMES, type ColorToken } from "$lib/utils/weekly-grid";
 
   const COURSE_TYPE_LABELS: Record<string, string> = {
     LECTURE: "บรรยาย",

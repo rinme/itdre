@@ -8,7 +8,7 @@
   import {
     getRoleName,
     getPersonEnglishName
-  } from "$lib/personnel-utils";
+  } from "$lib/utils/personnel-utils";
   import {
     GraduationCap,
     Home,

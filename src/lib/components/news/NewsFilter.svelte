@@ -1,6 +1,6 @@
 <script lang="ts">
   import { languageState } from "$lib/state/language.svelte";
-  import { CATEGORY_LIST } from "$lib/news-utils";
+  import { CATEGORY_LIST } from "$lib/utils/news-utils";
   import {
     Search,
     X,

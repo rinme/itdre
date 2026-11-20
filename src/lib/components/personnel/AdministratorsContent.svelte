@@ -5,7 +5,7 @@
   import {
     getRoleName,
     getPersonEnglishName
-  } from "$lib/personnel-utils";
+  } from "$lib/utils/personnel-utils";
   import {
     Award,
     Home,

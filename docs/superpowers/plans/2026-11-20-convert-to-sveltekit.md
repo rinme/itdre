@@ -213,19 +213,19 @@ Assemble the global layout with navigation, slot `<slot />` / `{@render children
 - Consumes: SvelteKit `$lib/data`, `$lib/state/language.svelte`, `lucide-svelte`, `swiper/element/bundle`
 - Produces: Full public-facing departmental portal.
 
-- [ ] **Step 1: Port HeroBannerSlider and Home page components**
+- [x] **Step 1: Port HeroBannerSlider and Home page components**
 Implement `HeroBannerSlider.svelte` with `swiper-container` custom element, and home sections in `src/routes/+page.svelte`.
 
-- [ ] **Step 2: Port About, Facilities, News, Personnel, Services, and Contact pages**
+- [x] **Step 2: Port About, Facilities, News, Personnel, Services, and Contact pages**
 Port static/dynamic page components to Svelte 5.
 
-- [ ] **Step 3: Port Public Schedule Viewer and timetable grid**
+- [x] **Step 3: Port Public Schedule Viewer and timetable grid**
 Convert `PublicScheduleViewer.svelte`, `WeeklyTimetableGrid.svelte`, and filter components to Svelte 5.
 
-- [ ] **Step 4: Verify build for public pages**
+- [x] **Step 4: Verify build for public pages**
 Run `bun run check` / build preview.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 `git add src/lib/components/ src/routes/`
 `git commit -m "feat(pages): port all public departmental pages and schedule viewer to svelte 5"`
 
@@ -246,19 +246,19 @@ Run `bun run check` / build preview.
 - Consumes: Admin API endpoints, `adminPresetsState`, `languageState`
 - Produces: Protected admin dashboard for timetable scheduling, conflict detection, presets management, and authentication.
 
-- [ ] **Step 1: Port Admin layout and Login page**
+- [x] **Step 1: Port Admin layout and Login page**
 Implement `src/routes/admin/+layout.svelte` and `src/routes/admin/login/+page.svelte` with form submission and redirect handling.
 
-- [ ] **Step 2: Port Admin schedules dashboard and detail timetable editor**
+- [x] **Step 2: Port Admin schedules dashboard and detail timetable editor**
 Convert `src/components/admin/*` to Svelte 5 in `src/lib/components/admin/`, and hook up `schedules` dashboard and `schedules/[id]` page.
 
-- [ ] **Step 3: Port Admin Presets management tab**
+- [x] **Step 3: Port Admin Presets management tab**
 Convert course presets and instructors tabs/modals to Svelte 5.
 
-- [ ] **Step 4: Verify admin flows**
+- [x] **Step 4: Verify admin flows**
 Run `bunx vitest run`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 `git add src/lib/components/admin/ src/routes/admin/`
 `git commit -m "feat(admin): port admin dashboard, schedule timetable editor, and presets"`
 
@@ -273,15 +273,15 @@ Run `bunx vitest run`.
 **Interfaces:**
 - Produces: Clean, pure SvelteKit repository passing all type checks, lint checks, and test suites.
 
-- [ ] **Step 1: Remove legacy Next.js files**
+- [x] **Step 1: Remove legacy Next.js files**
 Remove leftover Next.js App Router files and React components.
 
-- [ ] **Step 2: Run test suite**
+- [x] **Step 2: Run test suite**
 Run `bun run test` (Vitest) to verify all tests pass.
 
-- [ ] **Step 3: Run production build**
+- [x] **Step 3: Run production build**
 Run `bun run build` to verify SvelteKit generates a production build without errors or warnings.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 `git add -A`
 `git commit -m "chore: clean up legacy next.js files and verify sveltekit build"`

@@ -41,12 +41,12 @@
     COLOR_TOKEN_KEYS,
     COURSE_TYPE_META,
     type ColorToken,
-  } from "$lib/weekly-grid";
+  } from "$lib/utils/weekly-grid";
   import {
     detectCourseSlotConflicts,
     type ExistingSlot,
     type ConflictResult,
-  } from "$lib/schedule-conflict";
+  } from "$lib/utils/schedule-conflict";
   import ConflictBanner from "./ConflictBanner.svelte";
   import { adminPresetsState } from "$lib/state/admin-presets.svelte";
 

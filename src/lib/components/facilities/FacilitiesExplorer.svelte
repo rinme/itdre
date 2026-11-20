@@ -10,7 +10,7 @@
     FACILITY_CATEGORIES,
     FACILITY_FLOORS,
     filterFacilities
-  } from "$lib/facility-utils";
+  } from "$lib/utils/facility-utils";
   import {
     Building2,
     Monitor,

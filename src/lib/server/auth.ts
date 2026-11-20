@@ -1,6 +1,8 @@
 import { SignJWT, jwtVerify } from "jose";
 import { timingSafeEqual } from "crypto";
+import { getSafeRedirect } from "$lib/utils/auth";
 
+export { getSafeRedirect };
 export const COOKIE_NAME = "admin_session";
 
 function getJwtSecret(): Uint8Array {
@@ -52,12 +54,4 @@ export async function verifyAdminJWT(token: string): Promise<{ username: string;
   } catch {
     return null;
   }
-}
-
-export function getSafeRedirect(url: string | null | undefined): string {
-  if (!url) return "/admin/schedules";
-  if (url.startsWith("/") && !url.startsWith("//") && !url.includes("://")) {
-    return url;
-  }
-  return "/admin/schedules";
 }

@@ -30,7 +30,7 @@
   import MobileDayView from '$lib/components/schedules/MobileDayView.svelte';
   import ScheduleListView from '$lib/components/schedules/ScheduleListView.svelte';
 
-  export interface ScheduleItem {
+  interface ScheduleItem {
     id: string;
     academicYear: number;
     semester: number;

@@ -21,9 +21,9 @@
     getColorTheme,
     COURSE_TYPE_META,
     type ColorToken,
-  } from "$lib/weekly-grid";
+  } from "$lib/utils/weekly-grid";
   import type { CourseSlotData } from "./CourseSlotModal.svelte";
-  import type { ConflictResult } from "$lib/schedule-conflict";
+  import type { ConflictResult } from "$lib/utils/schedule-conflict";
 
   interface Props {
     slots: CourseSlotData[];

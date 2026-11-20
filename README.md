@@ -3,9 +3,11 @@
 > Modern, high-performance web portal for the **Faculty of Information Technology and Digital Innovation (ITD)**, King Mongkut's University of Technology North Bangkok (KMUTNB).
 
 [![Runtime](https://img.shields.io/badge/Runtime-Bun-f472b6?style=flat-square&logo=bun)](https://bun.sh)
-[![Framework](https://img.shields.io/badge/Framework-Next.js%2014-000000?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![Framework](https://img.shields.io/badge/Framework-SvelteKit%202%20%7C%20Svelte%205-ff3e00?style=flat-square&logo=svelte)](https://svelte.dev/)
 [![Language](https://img.shields.io/badge/Language-TypeScript%205-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Styling](https://img.shields.io/badge/Styling-Tailwind%20CSS-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![Database](https://img.shields.io/badge/Database-Prisma%20%2B%20SQLite-2d3748?style=flat-square&logo=prisma)](https://www.prisma.io/)
+[![Styling](https://img.shields.io/badge/Styling-Tailwind%20CSS%204-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![Testing](https://img.shields.io/badge/Testing-Vitest-729b1b?style=flat-square&logo=vitest)](https://vitest.dev/)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
 ---
@@ -18,20 +20,21 @@
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
+- [Testing & Quality Verification](#testing--quality-verification)
 - [Scraper & Asset Pipeline](#scraper--asset-pipeline)
 - [Feature Walkthrough](#feature-walkthrough)
-- [Static Site Generation (SSG) & Build](#static-site-generation-ssg--build)
 - [Contributing & Maintenance](#contributing--maintenance)
 
 ---
 
 ## Overview
 
-This project is a modern rebuild of the official ITD KMUTNB web portal ([https://itd.kmutnb.ac.th](https://itd.kmutnb.ac.th)). It provides a fast, accessible, bilingual (Thai / English), and responsive user experience for prospective students, current undergraduates and postgraduates, faculty members, researchers, and campus visitors.
+This project is a modern rebuild of the official ITD KMUTNB web portal ([https://itd.kmutnb.ac.th](https://itd.kmutnb.ac.th)) powered by **SvelteKit 2** and **Svelte 5 Runes**. It provides a fast, accessible, bilingual (Thai / English), and responsive user experience for prospective students, undergraduates, postgraduates, faculty members, researchers, campus visitors, and administrators.
 
 ### Core Objectives
 - **Zero External Dependencies at Runtime:** All images, faculty portraits, news media, and facilities photos are archived locally under `public/assets/`, eliminating broken external hotlinks and CORS issues.
-- **Full Static Site Generation (SSG):** Pre-renders all 140+ routes—including 130+ dynamic news article pages—for lightning-fast delivery and optimal SEO.
+- **Svelte 5 Runes Reactivity:** Modern declarative state (`$state`, `$derived`, `$props`) with zero runtime overhead and ultra-lightweight client bundles.
+- **Interactive Academic Schedule Management:** Complete public timetable viewer with cascading academic year/semester/program filters, weekly grid and list views, and a secure admin management portal with live conflict detection.
 - **Seamless Bilingual Localization:** Reactive Thai (`TH`) and English (`EN`) language switching across every layout, page, card, and modal with persistent client state.
 - **Brand-Aligned UI/UX:** Styled with official KMUTNB / ITD orange (`#FF6B00` / `#E8501E`), deep slate dark (`#222222`), clean surfaces (`#F8F9FA`), and the Google Font `Mitr`.
 
@@ -41,30 +44,32 @@ This project is a modern rebuild of the official ITD KMUTNB web portal ([https:/
 
 ```
                       ┌───────────────────────────────────────────────┐
-                      │             Next.js 14 App Router             │
-                      │  (147 Static Pages / Server & Client Comps)   │
+                      │              SvelteKit 2 + Vite               │
+                      │          (Svelte 5 Runes & SSR/SSG)           │
                       └───────────────────────┬───────────────────────┘
                                               │
                     ┌─────────────────────────┴─────────────────────────┐
                     ▼                                                   ▼
        ┌────────────────────────┐                          ┌────────────────────────┐
-       │   Bilingual Context    │                          │   Static Data Layer    │
-       │   (LanguageContext)    │                          │     (src/data/*.ts)    │
-       │   • State: TH | EN     │                          │   • 130+ News Items    │
-       │   • LocalStorage Sync  │                          │   • 56 Faculty Members │
-       └────────────┬───────────┘                          │   • 19 Facility Labs   │
-                    │                                      │   • 7 Hero Banners     │
+       │     Reactive State     │                          │   Static Data Layer    │
+       │  ($lib/state/*.svelte) │                          │     ($lib/data/*.ts)   │
+       │  • languageState       │                          │   • 130+ News Items    │
+       │  • adminPresetsState   │                          │   • 56 Faculty Members │
+       │  • scheduleState       │                          │   • 19 Facility Labs   │
+       └────────────┬───────────┘                          │   • 7 Hero Banners     │
                     │                                      │   • Programs & Courses │
-                    ▼                                      └───────────┬────────────┘
+                    │                                      └───────────┬────────────┘
+                    ▼                                                  │
        ┌───────────────────────────────────────────────────────────────┤
        │                     UI Component Layer                        │
        │  • Layout: TopHeader, MainNavbar, Footer                      │
-       │  • Home: HeroSlider, QuickNav, Programs, NewsSection, Video   │
+       │  • Home: HeroBannerSlider, QuickNavGrid, ProgramsOverview     │
        │  • News: NewsArchive, NewsFilter, NewsCard, NewsDetail        │
        │  • Personnel: Execs, Lecturers, Staff, PersonnelCard          │
        │  • Facilities: Explorer, FacilityCard, FacilityModal (Zoom)   │
        │  • Services & Downloads: E-Services, Forms, Timetables        │
-       │  • Contact: Info Cards, Map, Extension Table, Inquiry Form    │
+       │  • Schedules: FilterBar, WeeklyGrid, DayView, ListView        │
+       │  • Admin: Dashboard, ScheduleModal, GridEditor, ConflictBanner│
        └───────────────────────────────┬───────────────────────────────┘
                                        │
                                        ▼
@@ -91,24 +96,28 @@ This project is a modern rebuild of the official ITD KMUTNB web portal ([https:/
 
 ## Key Features
 
-- 🌐 **Reactive Bilingual Switching:** Instant switching between Thai and English with fallback protection and localStorage persistence.
-- 🖼️ **Hero Banner Carousel:** Swiper-powered interactive hero slider with autoplay, pause-on-hover, custom bullet indicators, and slide captions.
-- 📰 **Complete News Archive (SSG):** Filter by category (*All, Academic, Admissions, Activity, Scholarship, Research*), live keyword search, pagination, and dedicated static detail pages (`/news/[id]`).
+- 🌐 **Reactive Bilingual Switching:** Instant switching between Thai and English with fallback protection and localStorage persistence via Svelte 5 runes (`languageState`).
+- 📅 **Public Class Schedule System:** Interactive timetable exploration (`/schedules`) with automatic filter cascading (Academic Year → Semester → Degree → Program → Year Level), weekly timetable grid view, mobile day view, list view, and conflict indicator.
+- 🔐 **Admin Schedule Management:** Secure admin portal (`/admin/schedules`, `/admin/schedules/[id]`, `/admin/presets`) protected by JWT sessions and SvelteKit `hooks.server.ts` middleware. Features visual drag/drop timetable editing, course preset management, and real-time room/time conflict detection.
+- 🖼️ **Hero Banner Carousel:** Interactive hero slider with autoplay, pause-on-hover, custom bullet indicators, and slide captions.
+- 📰 **Complete News Archive:** Filter by category (*All, Academic, Admissions, Activity, Scholarship, Research*), live keyword search, pagination, and dedicated detail pages (`/news/[id]`).
 - 👨‍🏫 **Faculty & Staff Directory:** Filterable directory of administrators, professors, lecturers, and academic support staff with research expertise, education credentials, emails, and room locations.
-- 🏫 **Facilities & Lab Showcase:** Detailed 3D-like cards and lightbox modal for 19 campus facilities across Building 79, including the **Pearson VUE Authorized Test Center (Room 5A02)** and **High-Performance Computing NOC (Room 5A01)**.
-- 📑 **E-Services & Download Center:** Quick-access portal to 12 KMUTNB digital services (REG, ICIT, Office 365, VPN, Library) and 15 downloadable student/faculty documents with search and format badges.
-- 📍 **Campus Contact & Interactive Map:** Building 79 address, 4 transit routes (MRT, Bus, Boat, Car), searchable internal telephone extension directory, and an interactive contact inquiry form.
+- 🏫 **Facilities & Lab Showcase:** Detailed cards and lightbox modal for 19 campus facilities across Building 79, including the **Pearson VUE Authorized Test Center (Room 5A02)** and **High-Performance Computing NOC (Room 5A01)**.
+- 📑 **E-Services & Download Center:** Quick-access portal to 12 KMUTNB digital services and 15 downloadable documents.
+- 📍 **Campus Contact & Interactive Map:** Building 79 address, 4 transit routes (MRT, Bus, Boat, Car), telephone extension directory, and inquiry form.
 
 ---
 
 ## Tech Stack
 
 - **Runtime & Package Manager:** [Bun](https://bun.sh) (v1.0+)
-- **Framework:** [Next.js 14](https://nextjs.org) (App Router, SSG, TypeScript)
-- **Styling:** [Tailwind CSS 3](https://tailwindcss.com) + PostCSS + Autoprefixer
-- **Icons:** [Lucide React](https://lucide.dev)
-- **Sliders / Carousel:** [Swiper 11](https://swiperjs.com)
-- **Scraping & Data Parsing:** [Cheerio](https://cheerio.js.org)
+- **Framework:** [SvelteKit 2](https://svelte.dev) + [Svelte 5](https://svelte.dev) (Runes)
+- **Bundler & Tooling:** [Vite 6](https://vite.dev) + [Tailwind CSS 4](https://tailwindcss.com)
+- **Database & ORM:** [Prisma](https://www.prisma.io) + SQLite
+- **Authentication:** [jose](https://github.com/panva/jose) (HMAC SHA-256 JWT & Secure Cookies)
+- **Icons:** [Lucide Svelte](https://lucide.dev)
+- **Testing:** [Vitest 3](https://vitest.dev) + [JSDOM](https://github.com/jsdom/jsdom)
+- **Data Scraping:** [Cheerio](https://cheerio.js.org)
 
 ---
 
@@ -116,6 +125,9 @@ This project is a modern rebuild of the official ITD KMUTNB web portal ([https:/
 
 ```
 itd-kmutnb/
+├── prisma/
+│   ├── schema.prisma               # Prisma schema (Schedule, CourseSlot, CoursePreset)
+│   └── seed.ts                     # Database seeder for schedules & presets
 ├── public/
 │   └── assets/                     # Self-hosted media assets (no external hotlinks)
 │       ├── banners/                # 7 homepage banner slides & animated GIFs
@@ -126,56 +138,42 @@ itd-kmutnb/
 ├── scripts/
 │   └── scrape-and-archive.ts       # Automated portal scraper & asset archiver
 ├── src/
-│   ├── app/                        # Next.js 14 App Router routes
-│   │   ├── layout.tsx              # Root HTML wrapper with Mitr font & Header/Footer
-│   │   ├── page.tsx                # Homepage
-│   │   ├── globals.css             # Tailwind base layers, typography, and custom utilities
-│   │   ├── about/
-│   │   │   ├── page.tsx            # /about (Dean's message, Vision, Mission, Values)
-│   │   │   └── history/page.tsx    # /about/history (1996–Present timeline & Building 79 guide)
-│   │   ├── news/
-│   │   │   ├── page.tsx            # /news (Filterable archive with pagination)
-│   │   │   └── [id]/page.tsx       # /news/[id] (Pre-rendered static article detail pages)
-│   │   ├── personnel/
-│   │   │   ├── page.tsx            # /personnel (Full directory overview)
-│   │   │   ├── administrators/page.tsx # /personnel/administrators (Executive board)
-│   │   │   ├── lecturers/page.tsx  # /personnel/lecturers (Department faculty members)
-│   │   │   └── staff/page.tsx      # /personnel/staff (Academic support staff)
-│   │   ├── facilities/
-│   │   │   ├── page.tsx            # /facilities (Filterable campus labs & classrooms)
-│   │   │   ├── classrooms/page.tsx # /facilities/classrooms (Lecture rooms)
-│   │   │   └── computer-rooms/page.tsx # /facilities/computer-rooms (Computing labs)
-│   │   ├── services/page.tsx       # /services (E-Services & Downloadable forms)
-│   │   └── contact/page.tsx        # /contact (Contact info, map, extensions, form)
-│   ├── components/                 # Modular, reusable UI components
-│   │   ├── layout/                 # TopHeader, MainNavbar, Footer
-│   │   ├── home/                   # HeroBannerSlider, QuickNavGrid, ProgramsOverview, NewsSection, VideoHighlight
-│   │   ├── news/                   # NewsArchiveContent, NewsFilter, NewsCard, NewsDetailContent
-│   │   ├── personnel/              # PersonnelDirectoryContent, AdministratorsContent, LecturersContent, StaffContent, PersonnelCard
-│   │   ├── facilities/             # FacilitiesExplorer, FacilityCard, FacilityModal
-│   │   ├── about/                  # AboutOverviewContent, AboutHistoryContent
-│   │   ├── services/               # ServicesContent
-│   │   └── contact/                # ContactContent
-│   ├── context/
-│   │   └── LanguageContext.tsx     # Bilingual state management (TH/EN toggle & hook)
-│   ├── data/                       # Strongly-typed datasets
-│   │   ├── banners.ts              # Hero banners data
-│   │   ├── contact.ts              # Campus address, transit info, phone extensions
-│   │   ├── facilities.ts           # 19 facility rooms, specs, and local asset paths
-│   │   ├── navigation.ts           # Header nav links and mega-menu structure
-│   │   ├── news.ts                 # 130+ scraped news articles with rich metadata
-│   │   ├── personnel.ts            # 56 faculty & staff records with research areas
-│   │   ├── programs.ts             # Bachelor, Master, and Doctoral degree curricula
-│   │   └── services.ts             # 12 e-services & 15 downloadable documents
-│   ├── lib/                        # Helper utilities & data query functions
-│   │   ├── facility-utils.ts       # Facility filtering and floor sorting
-│   │   ├── news-utils.ts           # News search, pagination, and category filters
-│   │   └── personnel-utils.ts      # Personnel grouping and search
-│   └── types/
-│       └── index.ts                # TypeScript interfaces for all entities
-├── package.json
-├── tailwind.config.js
-└── tsconfig.json
+│   ├── app.css                     # Tailwind CSS 4 theme & custom utilities
+│   ├── app.d.ts                    # SvelteKit global TypeScript typings
+│   ├── app.html                    # HTML shell template
+│   ├── hooks.server.ts             # SvelteKit auth & route protection hook
+│   ├── lib/                        # Shared SvelteKit modules
+│   │   ├── components/             # Reusable Svelte 5 components
+│   │   │   ├── admin/              # Admin dashboard, modals, and grid editor
+│   │   │   ├── demo/               # Demo banner and feedback modal
+│   │   │   ├── facilities/         # Explorer, card, and modal
+│   │   │   ├── home/               # HeroSlider, QuickNav, Programs, Video
+│   │   │   ├── layout/             # TopHeader, MainNavbar, Footer
+│   │   │   ├── news/               # Archive, filter, card, detail
+│   │   │   ├── personnel/          # Directory, administrators, lecturers, staff
+│   │   │   └── schedules/          # FilterBar, WeeklyGrid, DayView, ListView
+│   │   ├── data/                   # Strongly-typed datasets (banners, news, etc.)
+│   │   ├── server/                 # Server-only code (auth, prisma client singleton)
+│   │   ├── state/                  # Svelte 5 runes global state (.svelte.ts)
+│   │   ├── types/                  # Shared TypeScript interfaces
+│   │   └── utils/                  # Helper utilities (weekly-grid, schedule-conflict)
+│   └── routes/                     # SvelteKit file-based routing
+│       ├── +layout.svelte          # Root layout with Header/Footer and demo banner
+│       ├── +page.svelte            # Homepage
+│       ├── about/                  # /about and /about/history
+│       ├── admin/                  # Admin login, schedules, and presets
+│       ├── api/                    # REST endpoints (public & admin schedules)
+│       ├── contact/                # Contact page
+│       ├── facilities/             # Campus labs & classrooms
+│       ├── news/                   # News archive and [id] detail page
+│       ├── personnel/              # Faculty and staff directory
+│       ├── schedules/              # Public class schedule viewer
+│       └── services/               # E-services and download center
+├── tests/                          # Vitest comprehensive test suites
+├── svelte.config.js
+├── vite.config.ts
+├── vercel.json
+└── package.json
 ```
 
 ---
@@ -184,7 +182,7 @@ itd-kmutnb/
 
 ### Prerequisites
 - [Bun](https://bun.sh) (version 1.0 or newer)
-- Node.js 18+ (optional, if using Node-based tooling)
+- Node.js 18+ (optional, supported by Bun)
 
 ### 1. Installation
 
@@ -194,39 +192,57 @@ Clone the repository and install dependencies using Bun:
 bun install
 ```
 
-### 2. Development Mode
+### 2. Database Setup
 
-Start the Next.js local development server with hot-reload:
+Generate the Prisma Client and run the database migrations/seeding:
 
 ```bash
-bun dev
+bunx prisma db push
+bunx prisma db seed
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+### 3. Development Server
 
-### 3. Production Build & Static Generation
-
-Compile the production bundle and generate all static pages:
+Start the Vite development server with hot module replacement:
 
 ```bash
+bun run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### 4. Production Build & Preview
+
+Verify types and build the optimized production bundle:
+
+```bash
+# Type check
+bunx svelte-check --tsconfig ./tsconfig.json
+
+# Build production bundle
 bun run build
+
+# Preview locally
+bun run preview
 ```
 
-### 4. Production Server Preview
+---
 
-Serve the optimized production build locally:
+## Testing & Quality Verification
+
+Run the full Vitest suite to execute all component, utility, server API, and state tests:
 
 ```bash
-bun start
+bun run test
 ```
 
-### 5. Code Quality & Linting
-
-Run ESLint to check for code standards and TypeScript adherence:
-
-```bash
-bun run lint
-```
+### Test Coverage Highlights
+- **Server Authentication (`tests/server-auth.test.ts`):** JWT signing/verification, password validation, timing attack resistance, and SvelteKit route protection hooks.
+- **API Endpoints (`tests/api-endpoints.test.ts`):** Public schedules, filter cascading, admin schedule CRUD, and course slot operations.
+- **Weekly Timetable Grid (`tests/weekly-grid.test.ts`):** Timetable layout calculations, slot positioning, and color theme assignment.
+- **Schedule Conflict Detection (`tests/schedule-conflict.test.ts`):** Time-overlap and room-overlap detection logic.
+- **Navigation & Layout (`tests/navigation.test.ts`):** Responsive navbar, mobile navigation, and bilingual link structure.
+- **Public & Admin UI Logic (`tests/public-schedule-ui.test.ts`, `tests/admin-ui.test.ts`):** Filter cascading state, URL sanitization, and modal operations.
 
 ---
 
@@ -234,105 +250,24 @@ bun run lint
 
 The project includes an automated data and asset ingestion pipeline located at `scripts/scrape-and-archive.ts`.
 
-### Running the Scraper Pipeline
-
 ```bash
 bun run scripts/scrape-and-archive.ts
 ```
 
 ### What the Pipeline Does:
 1. **Target:** Scrapes the live portal at `https://itd.kmutnb.ac.th`.
-2. **Asset Archival:** Concurrently downloads all media files with retry logic:
-   - Header & University logos ➡️ `public/assets/logos/`
-   - Hero slider banners & GIFs ➡️ `public/assets/banners/`
-   - News thumbnails & cover art ➡️ `public/assets/news/`
-   - Faculty & personnel portrait photos ➡️ `public/assets/faculty/`
-   - Lab & classroom facility photography ➡️ `public/assets/facilities/`
-3. **Data Generation:** Generates type-safe TypeScript files under `src/data/`:
-   - `src/data/banners.ts`
-   - `src/data/news.ts`
-   - `src/data/personnel.ts`
-   - `src/data/facilities.ts`
-   - `src/data/navigation.ts`
-4. **Fallback Protection:** If an asset fails to download or is missing remotely, placeholder SVG generators create standardized fallback graphics automatically.
-
----
-
-## Feature Walkthrough
-
-### 1. Bilingual System (`useLanguage`)
-- Context provider mounted in the root layout (`src/context/LanguageContext.tsx`).
-- Switch between Thai (`TH`) and English (`EN`) at any time via the top header bar.
-- Automatically stores preference in `localStorage` and applies smooth transitions.
-
-### 2. Homepage Experience (`/`)
-- **Hero Slider:** Full-width Swiper carousel displaying latest announcements, events, and academic notices with pause-on-hover and swipe gesture support.
-- **Quick Nav Grid:** Instant shortcuts to Admissions, E-Services, Curricula, and Research.
-- **Academic Programs:** Tabbed overview for Bachelor (B.Sc.), Master (M.Sc.), and Doctoral (Ph.D.) programs.
-- **News Highlights:** Categorized grid of latest announcements with date badges and direct links.
-- **Faculty Highlight:** Video showcase and dean welcoming quote.
-
-### 3. News & Announcements (`/news` & `/news/[id]`)
-- **Category Filter:** Filter by *All, Academic, Admissions, Activity, Scholarship, Research*.
-- **Search:** Real-time query search matching titles and excerpts in both languages.
-- **Pagination:** Clean page navigation preserving active filters.
-- **Static Article Pages (`/news/[id]`):** 130+ pre-rendered pages with rich metadata, formatted content, and related article recommendations.
-
-### 4. Faculty & Staff Directory (`/personnel/*`)
-- **`/personnel`:** Comprehensive directory with department filters and search.
-- **`/personnel/administrators`:** Executive Board (Dean, Associate Deans, Assistant Deans, Department Heads).
-- **`/personnel/lecturers`:** Full-time professors, associate professors, and lecturers categorized by department.
-- **`/personnel/staff`:** Academic support, administrative, and laboratory staff.
-
-### 5. Facilities Explorer (`/facilities/*`)
-- **`/facilities`:** Interactive grid of all 19 campus facilities on Building 79.
-- **Filter & Room Search:** Filter by floor (3, 4, 5, 7) or room type (Classroom vs. Lab).
-- **Zoom Lightbox Modal:** Fullscreen high-resolution image zoom, room equipment list, capacity, and reservation CTA.
-- **Specialized Centers:** Highlights the Pearson VUE Authorized Test Center (Room 5A02) and High-Performance NOC (Room 5A01).
-
-### 6. Services & Download Center (`/services`)
-- **12 E-Services:** Direct links to REG KMUTNB, K-Admission, ICIT, Microsoft 365, KMUTNB VPN, IEEE/ACM databases, and Pearson VUE.
-- **15 Downloadable Forms:** Organized by category (Undergraduate, Graduate, General, Research) with file format badges and instant mock download simulation.
-
-### 7. Contact & Campus Guide (`/contact`)
-- **Location:** Navamindra Rajini Building (Building 79), Pracharat 1 Rd, Bang Sue, Bangkok.
-- **Transit Guide:** MRT Purple/Blue lines, BMTA buses, Chao Phraya Express Boat (Rama 7 Pier), and vehicle parking instructions.
-- **Internal Telephone Extensions:** Searchable directory of 10 department direct extensions.
-- **Inquiry Form:** Validated client form with category selection and simulated submission.
-
----
-
-## Static Site Generation (SSG) & Build
-
-The project is optimized for speed and reliability. During `bun run build`, Next.js creates static HTML for every route:
-
-```
-Route (app)                              Size     First Load JS
-┌ ○ /                                    42.1 kB         186 kB
-├ ○ /_not-found                          875 B          88.3 kB
-├ ○ /about                               8.63 kB         113 kB
-├ ○ /about/history                       8.47 kB         104 kB
-├ ○ /contact                             11.1 kB         111 kB
-├ ○ /facilities                          141 B           112 kB
-├ ○ /facilities/classrooms               141 B           112 kB
-├ ○ /facilities/computer-rooms           140 B           112 kB
-├ ○ /news                                7.95 kB         151 kB
-├ ● /news/[id] (131 SSG pages)           7.96 kB         108 kB
-├ ○ /personnel                           5.34 kB         115 kB
-├ ○ /personnel/administrators            3.34 kB         113 kB
-├ ○ /personnel/lecturers                 5.14 kB         115 kB
-├ ○ /personnel/staff                     5.43 kB         115 kB
-└ ○ /services                            12.7 kB         108 kB
-```
+2. **Asset Archival:** Concurrently downloads media files with retry logic into `public/assets/`.
+3. **Data Generation:** Generates strongly-typed datasets under `src/lib/data/`.
+4. **Fallback Protection:** Automatically creates standardized fallback graphics if an asset fails to download or is missing remotely.
 
 ---
 
 ## Contributing & Maintenance
 
-1. Ensure code conforms to TypeScript strict mode.
-2. Run `bun run lint` before committing any changes.
-3. Test production builds with `bun run build` to guarantee 0 build errors.
-4. When adding new media, place assets under `public/assets/<category>/` and update the corresponding dataset in `src/data/`.
+1. Ensure code adheres to TypeScript strict mode and Svelte 5 runes conventions.
+2. Run `bun run test` to guarantee all test suites pass.
+3. Run `bunx svelte-check --tsconfig ./tsconfig.json` to verify 0 type errors.
+4. Run `bun run build` to confirm clean production builds.
 
 ---
 

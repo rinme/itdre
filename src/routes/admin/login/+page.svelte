@@ -11,7 +11,7 @@
     ArrowLeft,
     Shield,
   } from "lucide-svelte";
-  import { getSafeRedirect } from "$lib/auth";
+  import { getSafeRedirect } from "$lib/utils/auth";
 
   let username = $state("");
   let password = $state("");

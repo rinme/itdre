@@ -8,7 +8,7 @@
     X,
     Info,
   } from "lucide-svelte";
-  import type { ConflictResult } from "$lib/schedule-conflict";
+  import type { ConflictResult } from "$lib/utils/schedule-conflict";
 
   interface Props {
     conflicts: ConflictResult[];

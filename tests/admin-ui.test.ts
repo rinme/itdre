@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { programs } from "$lib/data/programs";
-import { getSafeRedirect } from "$lib/auth";
+import { getSafeRedirect } from "$lib/utils/auth";
 import type { DegreeLevel, ScheduleStatus } from "@prisma/client";
 
 describe("Admin Schedule UI Helpers & Logic", () => {

@@ -11,7 +11,7 @@
     getPersonName,
     getRoleName,
     getPersonEnglishName
-  } from "$lib/personnel-utils";
+  } from "$lib/utils/personnel-utils";
   import {
     Users,
     Award,

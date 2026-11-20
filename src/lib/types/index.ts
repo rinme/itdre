@@ -56,6 +56,7 @@ export interface FacilityItem {
 
 export interface ProgramItem {
   id: string;
+  code?: string;
   degree: "bachelor" | "master" | "doctor";
   titleTh: string;
   titleEn: string;

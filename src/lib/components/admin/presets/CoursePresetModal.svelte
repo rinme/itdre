@@ -1,6 +1,6 @@
 <script lang="ts">
   import { X, Save, Loader2 } from "lucide-svelte";
-  import { COLOR_THEMES } from "$lib/weekly-grid";
+  import { COLOR_THEMES } from "$lib/utils/weekly-grid";
   import type { CoursePreset } from "$lib/state/admin-presets.svelte";
 
   const COURSE_TYPES = [

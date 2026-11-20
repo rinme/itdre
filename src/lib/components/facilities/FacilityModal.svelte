@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { FacilityItem } from "$lib/types";
   import { languageState } from "$lib/state/language.svelte";
-  import { getCategoryBadge, getRoomFloor } from "$lib/facility-utils";
+  import { getCategoryBadge, getRoomFloor } from "$lib/utils/facility-utils";
   import {
     X,
     Users,

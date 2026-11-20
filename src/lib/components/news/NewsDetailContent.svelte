@@ -8,7 +8,7 @@
     getCategoryIdByName,
     getCategoryStyle,
     getCategoryByName
-  } from "$lib/news-utils";
+  } from "$lib/utils/news-utils";
   import {
     Calendar,
     Eye,

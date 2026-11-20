@@ -7,7 +7,7 @@
     getPersonName,
     getPersonEnglishName,
     getCategoryBadgeStyle
-  } from "$lib/personnel-utils";
+  } from "$lib/utils/personnel-utils";
   import { Mail, Phone, Building2, Award } from "lucide-svelte";
 
   interface Props {

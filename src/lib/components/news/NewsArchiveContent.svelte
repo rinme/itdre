@@ -10,7 +10,7 @@
     parseThaiDateToTimestamp,
     getCategoryById,
     getCategoryByName
-  } from "$lib/news-utils";
+  } from "$lib/utils/news-utils";
   import {
     Newspaper,
     Home,
